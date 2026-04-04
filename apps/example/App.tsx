@@ -1,12 +1,12 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {ScrollView, StatusBar, StyleSheet, useWindowDimensions, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
 import {
-  createDrawerNavigator,
-  type DrawerContentComponentProps,
-} from '@react-navigation/drawer';
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   defaultTheme,
   midnightTheme,
@@ -20,7 +20,6 @@ import {
   BottomSheetProvider,
   Button,
   Checkbox,
-  DrawerContent,
   Dropdown,
   DropdownMenu,
   Input,
@@ -41,6 +40,9 @@ import {
   useTheme,
   useToast,
 } from '@my-ui-lib/core';
+import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
+import type {RootDrawerParamList} from './src/navigation/drawerConstants';
+import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
 
@@ -50,18 +52,6 @@ const themeMap = {
   midnight: midnightTheme,
   rose: roseTheme,
 } as const;
-
-const DRAWER_ITEMS = [
-  {key: 'Showcase', label: 'Showcase'},
-  {key: 'ModalLab', label: 'Modal'},
-  {key: 'SheetLab', label: 'Bottom sheet'},
-  {key: 'ToastLab', label: 'Toasts'},
-  {key: 'TabsLab', label: 'Tabs & tab bar'},
-] as const;
-
-type DrawerRoute = (typeof DRAWER_ITEMS)[number]['key'];
-
-type RootDrawerParamList = Record<DrawerRoute, undefined>;
 
 const dropdownItems = [
   {id: 'one', label: 'First option'},
@@ -358,41 +348,28 @@ function RootDrawer({
   onTheme: (n: ThemeName) => void;
 }) {
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const {width: windowWidth} = useWindowDimensions();
   const statusBarStyle =
     themeName === 'midnight' ? 'light-content' : 'dark-content';
+  const drawerWidth = Math.min(320, Math.round(windowWidth * 0.86));
 
-  const drawerContent = useCallback(
-    (props: DrawerContentComponentProps) => {
-      const active = props.state.routeNames[props.state.index] as DrawerRoute;
-      return (
-        <DrawerContent
-          items={DRAWER_ITEMS.map(({key, label}) => ({key, label}))}
-          activeKey={active}
-          onItemPress={(key: string) => {
-            if (DRAWER_ITEMS.some(item => item.key === key)) {
-              props.navigation.navigate(key as DrawerRoute);
-            }
-          }}
-          header={
-            <Text variant="heading" style={{marginBottom: theme.spacing[2]}}>
-              Planck UI
-            </Text>
-          }
-        />
-      );
-    },
-    [theme],
+  const drawerScreenOptions = useMemo(
+    () =>
+      createRootDrawerScreenOptions({
+        theme,
+        insets,
+        drawerWidth,
+      }),
+    [drawerWidth, insets, theme],
   );
 
   return (
     <>
       <StatusBar barStyle={statusBarStyle} />
       <Drawer.Navigator
-        screenOptions={{
-          headerStyle: {backgroundColor: theme.colors.surface},
-          headerTintColor: theme.colors.textPrimary,
-        }}
-        drawerContent={drawerContent}>
+        screenOptions={drawerScreenOptions}
+        drawerContent={PlanckDrawerContent}>
         <Drawer.Screen name="Showcase">
           {() => <ShowcaseScreen themeName={themeName} onTheme={onTheme} />}
         </Drawer.Screen>

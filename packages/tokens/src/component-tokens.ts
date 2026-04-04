@@ -373,7 +373,7 @@ export function getDrawerContentTokens(theme: SemanticTokens): {
   return {
     bg: colors.surface,
     border: colors.border,
-    itemBg: 'transparent',
+    itemBg: colors.surfaceRaised,
     itemBgActive: colorWithOpacity(colors.primary, 0.1),
     itemLabel: colors.textPrimary,
     itemLabelActive: colors.primary,
