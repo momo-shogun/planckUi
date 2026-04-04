@@ -7,19 +7,20 @@ import { useTheme } from '../../system/ThemeContext';
 import { createButtonStyles } from './Button.styles';
 import type { ButtonProps } from './Button.types';
 
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  loading = false,
-  disabled = false,
-  unstyled = false,
-  slots = {},
-  onPress,
-  children,
-  testID,
-  accessibilityLabel,
-  ...rest
-}: ButtonProps) {
+export function Button(props: ButtonProps) {
+  const {
+    variant = 'primary',
+    size = 'md',
+    loading = false,
+    disabled = false,
+    unstyled = false,
+    slots = {},
+    onPress,
+    children,
+    testID,
+    accessibilityLabel,
+    ...rest
+  } = props;
   if (unstyled) {
     return (
       <Pressable disabled={disabled} onPress={onPress} testID={testID} accessibilityLabel={accessibilityLabel} {...rest}>

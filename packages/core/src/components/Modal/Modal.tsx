@@ -24,12 +24,8 @@ const ENTER_OVERLAY_MS = 220;
 const ENTER_DIALOG_MS = 200;
 const EXIT_MS = 180;
 
-export function ModalHeader({
-  children,
-  unstyled = false,
-  slots = {},
-  testID,
-}: ModalHeaderProps) {
+export function ModalHeader(props: ModalHeaderProps) {
+  const { children, unstyled = false, slots = {}, testID } = props;
   if (unstyled) {
     return (
       <View testID={testID}>
@@ -51,12 +47,8 @@ export function ModalHeader({
   );
 }
 
-export function ModalBody({
-  children,
-  unstyled = false,
-  slots = {},
-  testID,
-}: ModalBodyProps) {
+export function ModalBody(props: ModalBodyProps) {
+  const { children, unstyled = false, slots = {}, testID } = props;
   if (unstyled) {
     return <View testID={testID}>{children}</View>;
   }
@@ -70,12 +62,8 @@ export function ModalBody({
   );
 }
 
-export function ModalFooter({
-  children,
-  unstyled = false,
-  slots = {},
-  testID,
-}: ModalFooterProps) {
+export function ModalFooter(props: ModalFooterProps) {
+  const { children, unstyled = false, slots = {}, testID } = props;
   if (unstyled) {
     return <View testID={testID}>{children}</View>;
   }
@@ -89,17 +77,18 @@ export function ModalFooter({
   );
 }
 
-export function Modal({
-  visible,
-  onClose,
-  closeOnBackdrop = true,
-  closeOnBack = true,
-  size = 'md',
-  children,
-  unstyled = false,
-  slots = {},
-  testID,
-}: ModalProps) {
+export function Modal(props: ModalProps) {
+  const {
+    visible,
+    onClose,
+    closeOnBackdrop = true,
+    closeOnBack = true,
+    size = 'md',
+    children,
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   const handleClose = onClose ?? (() => {});
   const reduceMotion = useReducedMotionRef();
 

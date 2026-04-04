@@ -5,17 +5,18 @@ import { useTheme } from '../../system/ThemeContext';
 import { createBadgeStyles } from './Badge.styles';
 import type { BadgeProps } from './Badge.types';
 
-export function Badge({
-  label,
-  intent = 'default',
-  size = 'md',
-  dot = false,
-  unstyled = false,
-  slots = {},
-  testID,
-  accessibilityLabel,
-  accessibilityHint,
-}: BadgeProps) {
+export function Badge(props: BadgeProps) {
+  const {
+    label,
+    intent = 'default',
+    size = 'md',
+    dot = false,
+    unstyled = false,
+    slots = {},
+    testID,
+    accessibilityLabel,
+    accessibilityHint,
+  } = props;
   const a11y =
     accessibilityLabel ??
     (dot ? `${intent} indicator` : label) ??

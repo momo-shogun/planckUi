@@ -11,12 +11,13 @@ export interface ThemeProviderProps {
   overrides?: Partial<SemanticTokens['colors']>;
 }
 
-export function ThemeProvider({
-  children,
-  theme = defaultTheme,
-  darkTheme,
-  overrides,
-}: ThemeProviderProps) {
+export function ThemeProvider(props: ThemeProviderProps) {
+  const {
+    children,
+    theme = defaultTheme,
+    darkTheme,
+    overrides,
+  } = props;
   const scheme = useColorScheme();
   const isDark = scheme === 'dark';
 

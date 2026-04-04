@@ -5,16 +5,17 @@ import { useTheme } from '../../../system/ThemeContext';
 import { createHeaderStyles } from './Header.styles';
 import type { HeaderProps } from './Header.types';
 
-export function Header({
-  title,
-  subtitle,
-  left,
-  right,
-  variant = 'default',
-  unstyled = false,
-  slots = {},
-  testID,
-}: HeaderProps) {
+export function Header(props: HeaderProps) {
+  const {
+    title,
+    subtitle,
+    left,
+    right,
+    variant = 'default',
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   if (unstyled) {
     return (
       <View testID={testID}>

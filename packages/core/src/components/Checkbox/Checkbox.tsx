@@ -15,20 +15,21 @@ import type { CheckboxProps } from './Checkbox.types';
 
 const SPRING = { friction: 8, tension: 100, useNativeDriver: true as const };
 
-export function Checkbox({
-  checked: checkedProp,
-  defaultChecked = false,
-  onChange,
-  label,
-  description,
-  disabled = false,
-  indeterminate = false,
-  size = 'md',
-  unstyled = false,
-  slots = {},
-  testID,
-  accessibilityLabel,
-}: CheckboxProps) {
+export function Checkbox(props: CheckboxProps) {
+  const {
+    checked: checkedProp,
+    defaultChecked = false,
+    onChange,
+    label,
+    description,
+    disabled = false,
+    indeterminate = false,
+    size = 'md',
+    unstyled = false,
+    slots = {},
+    testID,
+    accessibilityLabel,
+  } = props;
   const [checked, setChecked] = useControlledState(
     checkedProp,
     defaultChecked,

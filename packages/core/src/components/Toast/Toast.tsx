@@ -5,15 +5,16 @@ import { useTheme } from '../../system/ThemeContext';
 import { createToastStyles } from './Toast.styles';
 import type { ToastProps } from './Toast.types';
 
-export function Toast({
-  title,
-  description,
-  intent = 'default',
-  progress,
-  unstyled = false,
-  slots = {},
-  testID,
-}: ToastProps) {
+export function Toast(props: ToastProps) {
+  const {
+    title,
+    description,
+    intent = 'default',
+    progress,
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   if (unstyled) {
     return (
       <View testID={testID}>

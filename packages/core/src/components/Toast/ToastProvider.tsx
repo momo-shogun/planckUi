@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Animated, View } from 'react-native';
 import { Portal } from '@gorhom/portal';
 import { getToastTokens } from '@my-ui-lib/tokens';
@@ -20,8 +13,7 @@ import {
   type ToastProviderProps,
   type ToastShowOptions,
 } from './Toast.types';
-
-const ToastContext = createContext<ToastContextValue | null>(null);
+import { ToastContext } from './ToastContext';
 
 type QueuedToast = ToastShowOptions & {
   id: string;
@@ -67,7 +59,8 @@ function ToastDurationSync({
   return null;
 }
 
-export function ToastProvider({ children }: ToastProviderProps) {
+export function ToastProvider(props: ToastProviderProps) {
+  const { children } = props;
   const [queue, setQueue] = useState<QueuedToast[]>([]);
   const idCounter = useRef(0);
   const theme = useTheme();
@@ -129,12 +122,4 @@ export function ToastProvider({ children }: ToastProviderProps) {
       </Portal>
     </ToastContext.Provider>
   );
-}
-
-export function useToast(): ToastContextValue {
-  const ctx = useContext(ToastContext);
-  if (!ctx) {
-    throw new Error('useToast must be used within ToastProvider');
-  }
-  return ctx;
 }

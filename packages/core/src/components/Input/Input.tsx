@@ -8,20 +8,21 @@ import { useFocusRing } from '../../hooks/useFocusRing';
 import { createInputStyles } from './Input.styles';
 import type { InputProps } from './Input.types';
 
-export function Input({
-  value: valueProp,
-  defaultValue = '',
-  onChangeText,
-  placeholder,
-  label,
-  error,
-  disabled = false,
-  unstyled = false,
-  slots = {},
-  testID,
-  accessibilityLabel,
-  keyboardType,
-}: InputProps) {
+export function Input(props: InputProps) {
+  const {
+    value: valueProp,
+    defaultValue = '',
+    onChangeText,
+    placeholder,
+    label,
+    error,
+    disabled = false,
+    unstyled = false,
+    slots = {},
+    testID,
+    accessibilityLabel,
+    keyboardType,
+  } = props;
   const theme = useTheme();
   const tokens = getInputTokens(theme);
   const [value, setValue] = useControlledState(valueProp, defaultValue, onChangeText);

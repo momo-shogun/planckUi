@@ -12,14 +12,15 @@ export interface TextProps extends RNTextProps {
   weight?: TextStyle['fontWeight'];
 }
 
-export function Text({
-  variant = 'body',
-  color,
-  weight,
-  style,
-  children,
-  ...rest
-}: TextProps) {
+export function Text(props: TextProps) {
+  const {
+    variant = 'body',
+    color,
+    weight,
+    style,
+    children,
+    ...rest
+  } = props;
   const theme = useTheme();
 
   const variantStyle = useMemo((): TextStyle => {

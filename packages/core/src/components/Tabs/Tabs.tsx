@@ -38,24 +38,26 @@ function extractPanel(
   return node;
 }
 
-export function TabPanel({ children }: TabPanelProps) {
+export function TabPanel(props: TabPanelProps) {
+  const { children } = props;
   return <>{children}</>;
 }
 TabPanel.displayName = 'TabPanel';
 
-export function Tabs({
-  tabs,
-  activeKey: activeKeyProp,
-  defaultActiveKey,
-  onChange,
-  variant = 'underline',
-  size = 'md',
-  scrollable = false,
-  children,
-  unstyled = false,
-  slots = {},
-  testID,
-}: TabsProps) {
+export function Tabs(props: TabsProps) {
+  const {
+    tabs,
+    activeKey: activeKeyProp,
+    defaultActiveKey,
+    onChange,
+    variant = 'underline',
+    size = 'md',
+    scrollable = false,
+    children,
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   const first = tabs[0]?.key ?? '';
   const [activeKey, setActiveKey] = useControlledState(
     activeKeyProp,

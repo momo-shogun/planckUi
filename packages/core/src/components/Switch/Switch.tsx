@@ -7,18 +7,19 @@ import { useTheme } from '../../system/ThemeContext';
 import { SWITCH_GEOM, createSwitchStyles } from './Switch.styles';
 import type { SwitchProps } from './Switch.types';
 
-export function Switch({
-  checked: checkedProp,
-  defaultChecked = false,
-  onChange,
-  label,
-  disabled = false,
-  size = 'md',
-  unstyled = false,
-  slots = {},
-  testID,
-  accessibilityLabel,
-}: SwitchProps) {
+export function Switch(props: SwitchProps) {
+  const {
+    checked: checkedProp,
+    defaultChecked = false,
+    onChange,
+    label,
+    disabled = false,
+    size = 'md',
+    unstyled = false,
+    slots = {},
+    testID,
+    accessibilityLabel,
+  } = props;
   const [checked, setChecked] = useControlledState(
     checkedProp,
     defaultChecked,

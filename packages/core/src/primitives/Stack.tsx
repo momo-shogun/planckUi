@@ -9,15 +9,16 @@ export interface StackProps extends ViewProps {
   children?: React.ReactNode;
 }
 
-export function Stack({
-  direction = 'column',
-  gap = 0,
-  align,
-  justify,
-  style,
-  children,
-  ...rest
-}: StackProps) {
+export function Stack(props: StackProps) {
+  const {
+    direction = 'column',
+    gap = 0,
+    align,
+    justify,
+    style,
+    children,
+    ...rest
+  } = props;
   const computed: ViewStyle = {
     flexDirection: direction,
     gap,

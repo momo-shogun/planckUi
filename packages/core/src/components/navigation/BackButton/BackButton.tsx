@@ -5,13 +5,14 @@ import { useTheme } from '../../../system/ThemeContext';
 import { createBackButtonStyles } from './BackButton.styles';
 import type { BackButtonProps } from './BackButton.types';
 
-export function BackButton({
-  onPress,
-  variant = 'default',
-  unstyled = false,
-  slots = {},
-  testID,
-}: BackButtonProps) {
+export function BackButton(props: BackButtonProps) {
+  const {
+    onPress,
+    variant = 'default',
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   if (unstyled) {
     return (
       <Pressable

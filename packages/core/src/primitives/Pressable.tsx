@@ -16,7 +16,8 @@ function asStyleArray(slot: ViewStyle | ViewStyle[] | undefined): StyleProp<View
   return Array.isArray(slot) ? slot : [slot];
 }
 
-export function Pressable({ slots, disabled, style, children, ...rest }: PressableProps) {
+export function Pressable(props: PressableProps) {
+  const { slots, disabled, style, children, ...rest } = props;
   return (
     <RNPressable
       accessibilityState={disabled ? { disabled: true } : undefined}

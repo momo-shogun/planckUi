@@ -5,16 +5,17 @@ import { useTheme } from '../../../system/ThemeContext';
 import { createDrawerContentStyles } from './DrawerContent.styles';
 import type { DrawerContentProps } from './DrawerContent.types';
 
-export function DrawerContent({
-  items,
-  activeKey,
-  onItemPress,
-  header,
-  footer,
-  unstyled = false,
-  slots = {},
-  testID,
-}: DrawerContentProps) {
+export function DrawerContent(props: DrawerContentProps) {
+  const {
+    items,
+    activeKey,
+    onItemPress,
+    header,
+    footer,
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   if (unstyled) {
     return (
       <View testID={testID}>

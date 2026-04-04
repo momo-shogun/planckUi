@@ -1,7 +1,19 @@
 import type { ReactNode } from 'react';
 import type { PressableProps, TextStyle, ViewStyle } from 'react-native';
 
-export interface ButtonProps extends Pick<PressableProps, 'testID' | 'accessibilityLabel'> {
+type ButtonPressablePassthrough = Omit<
+  PressableProps,
+  | 'children'
+  | 'onPress'
+  | 'disabled'
+  | 'style'
+  | 'testID'
+  | 'accessibilityLabel'
+>;
+
+export interface ButtonProps extends ButtonPressablePassthrough {
+  testID?: string;
+  accessibilityLabel?: string;
   variant?: 'primary' | 'outline' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;

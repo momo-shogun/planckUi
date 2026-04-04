@@ -5,15 +5,16 @@ import { useTheme } from '../../../system/ThemeContext';
 import { createTabBarStyles } from './TabBar.styles';
 import type { TabBarProps } from './TabBar.types';
 
-export function TabBar({
-  items,
-  activeKey,
-  onChange,
-  variant = 'default',
-  unstyled = false,
-  slots = {},
-  testID,
-}: TabBarProps) {
+export function TabBar(props: TabBarProps) {
+  const {
+    items,
+    activeKey,
+    onChange,
+    variant = 'default',
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   if (unstyled) {
     return (
       <View testID={testID}>

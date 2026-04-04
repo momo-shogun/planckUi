@@ -61,6 +61,8 @@ const DRAWER_ITEMS = [
 
 type DrawerRoute = (typeof DRAWER_ITEMS)[number]['key'];
 
+type RootDrawerParamList = Record<DrawerRoute, undefined>;
+
 const dropdownItems = [
   {id: 'one', label: 'First option'},
   {id: 'two', label: 'Second option'},
@@ -346,7 +348,7 @@ function TabsLabScreen() {
   );
 }
 
-const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 function RootDrawer({
   themeName,
@@ -366,9 +368,11 @@ function RootDrawer({
         <DrawerContent
           items={DRAWER_ITEMS.map(({key, label}) => ({key, label}))}
           activeKey={active}
-          onItemPress={(key: string) =>
-            props.navigation.navigate(key as never)
-          }
+          onItemPress={(key: string) => {
+            if (DRAWER_ITEMS.some(item => item.key === key)) {
+              props.navigation.navigate(key as DrawerRoute);
+            }
+          }}
           header={
             <Text variant="heading" style={{marginBottom: theme.spacing[2]}}>
               Planck UI

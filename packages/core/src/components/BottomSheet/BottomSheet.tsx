@@ -22,9 +22,9 @@ const DEFAULT_SNAPS: Array<string | number> = ['45%', '80%'];
 
 export type BottomSheetModalRef = React.ElementRef<typeof BottomSheetModal>;
 
-export const BottomSheet = forwardRef<BottomSheetModalRef, BottomSheetProps>(
-  function BottomSheet(
-    {
+const BottomSheetInner = forwardRef<BottomSheetModalRef, BottomSheetProps>(
+  function BottomSheet(props, forwardedRef) {
+    const {
       visible,
       onClose,
       snapPoints = DEFAULT_SNAPS,
@@ -34,9 +34,7 @@ export const BottomSheet = forwardRef<BottomSheetModalRef, BottomSheetProps>(
       slots = {},
       testID,
       modalProps,
-    },
-    forwardedRef
-  ) {
+    } = props;
     const theme = useTheme();
     const tokens = getBottomSheetTokens(theme);
     const styles = useMemo(
@@ -112,4 +110,10 @@ export const BottomSheet = forwardRef<BottomSheetModalRef, BottomSheetProps>(
   }
 );
 
-BottomSheet.displayName = 'BottomSheet';
+BottomSheetInner.displayName = 'BottomSheet';
+
+/** Explicit typing so declaration emit keeps full JSX props (incl. children). */
+export const BottomSheet =
+  BottomSheetInner as React.ForwardRefExoticComponent<
+    BottomSheetProps & React.RefAttributes<BottomSheetModalRef>
+  >;

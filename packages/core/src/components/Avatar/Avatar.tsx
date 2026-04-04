@@ -14,17 +14,18 @@ function initialsFrom(fallback?: string): string {
   return fallback.slice(0, 2).toUpperCase();
 }
 
-export function Avatar({
-  src,
-  alt,
-  fallback,
-  size = 'md',
-  variant = 'circle',
-  badge,
-  unstyled = false,
-  slots = {},
-  testID,
-}: AvatarProps) {
+export function Avatar(props: AvatarProps) {
+  const {
+    src,
+    alt,
+    fallback,
+    size = 'md',
+    variant = 'circle',
+    badge,
+    unstyled = false,
+    slots = {},
+    testID,
+  } = props;
   const [imageFailed, setImageFailed] = useState(false);
   const showImage = Boolean(src) && !imageFailed;
   const initials = useMemo(() => initialsFrom(fallback), [fallback]);
