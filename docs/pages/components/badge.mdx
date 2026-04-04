@@ -1,0 +1,35 @@
+---
+title: Badge
+---
+
+import { Preview } from '../../components/Preview';
+import { Badge } from '@my-ui-lib/core';
+
+# Badge
+
+Pill label with **intent** colors from tokens, optional **dot** mode, and **slots** for `root`, `label`, `dot`.
+
+## Preview
+
+<Preview>
+  <Badge label="Default" />
+  <Badge label="Success" intent="success" />
+  <Badge dot intent="error" />
+</Preview>
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| label | string | Text (omit when using dot) |
+| intent | default \| success \| warning \| error \| info | Color intent |
+| dot | boolean | Dot-only badge |
+| size | sm \| md \| lg | Scale |
+| unstyled | boolean | No library styles |
+| slots | BadgeSlots | Style overrides |
+
+## Install
+
+```bash
+npx my-ui-lib add badge
+```

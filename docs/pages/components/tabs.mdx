@@ -1,0 +1,50 @@
+---
+title: Tabs
+---
+
+import { Preview } from '../../components/Preview';
+import { TabPanel, Tabs, Text } from '@my-ui-lib/core';
+
+# Tabs
+
+Horizontal **Tabs** with **`TabPanel`** children, **Animated** indicator (**spring**), variants **underline \| pill \| bordered**, optional horizontal **ScrollView**.
+
+## Preview
+
+<Preview minHeight={200}>
+  <Tabs
+    tabs={[
+      { key: '1', label: 'First' },
+      { key: '2', label: 'Second', badge: 5 },
+    ]}
+    defaultActiveKey="1"
+    variant="underline"
+  >
+    <TabPanel tabKey="1">
+      <Text variant="body">First panel</Text>
+    </TabPanel>
+    <TabPanel tabKey="2">
+      <Text variant="body">Second panel</Text>
+    </TabPanel>
+  </Tabs>
+</Preview>
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| tabs | TabDef[] | Keys, labels, optional badge |
+| activeKey | string | Controlled selection |
+| defaultActiveKey | string | Uncontrolled |
+| onChange | (key: string) => void | Selection change |
+| variant | underline \| pill \| bordered | Style |
+| size | sm \| md \| lg | Scale |
+| scrollable | boolean | Horizontal scroll row |
+| unstyled | boolean | Plain layout |
+| slots | TabsSlots | Includes `indicator` |
+
+## Install
+
+```bash
+npx my-ui-lib add tabs
+```

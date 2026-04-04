@@ -1,24 +1,26 @@
 import React, { useState } from 'react';
-import { Button, Modal, Text, VStack } from '@my-ui-lib/core';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader, Text, VStack } from '@my-ui-lib/core';
 import { Preview } from './Preview';
 
 export function ModalDocPreview() {
-  const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Preview minHeight={200}>
       <VStack gap={12} align="center">
-        <Button variant="primary" onPress={() => setOpen(true)}>
+        <Button variant="primary" onPress={() => setVisible(true)}>
           Open modal
         </Button>
-        <Modal
-          open={open}
-          title="Example dialog"
-          onRequestClose={() => setOpen(false)}>
-          <Text variant="body">Themed overlay and surface from your active theme.</Text>
-          <Button variant="outline" onPress={() => setOpen(false)}>
-            Close
-          </Button>
+        <Modal visible={visible} onClose={() => setVisible(false)} size="md">
+          <ModalHeader>Example dialog</ModalHeader>
+          <ModalBody>
+            <Text variant="body">Portal + spring/timing animations; backdrop calls onClose.</Text>
+          </ModalBody>
+          <ModalFooter>
+            <Button variant="outline" onPress={() => setVisible(false)}>
+              Close
+            </Button>
+          </ModalFooter>
         </Modal>
       </VStack>
     </Preview>

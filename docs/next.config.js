@@ -28,6 +28,7 @@ const nextConfig = {
   webpack(config) {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      '@gorhom/bottom-sheet': path.join(__dirname, 'mocks/gorhom-bottom-sheet.js'),
       'react-native$': 'react-native-web',
       react: reactDir,
       'react-dom': reactDomDir,

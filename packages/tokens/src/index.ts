@@ -7,6 +7,7 @@ import {
 import type { SemanticTokens } from './semantic';
 
 export type { SemanticTokens } from './semantic';
+export * from './utils';
 export * from './component-tokens';
 
 /** Resolved token tree shared by every generated theme */

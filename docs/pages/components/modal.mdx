@@ -6,7 +6,9 @@ import { ModalDocPreview } from '../../components/ModalDocPreview';
 
 # Modal
 
-Themed dialog with overlay, optional title, backdrop tap to dismiss, and **`onRequestClose`**.
+Themed dialog rendered through **`@gorhom/portal`**, with backdrop + surface **`Animated`** scale/opacity. Use **`visible`**, **`onClose`**, and optional **`ModalHeader`**, **`ModalBody`**, **`ModalFooter`**. Hardware back (Android) and backdrop tap can dismiss when enabled.
+
+Wrap your app with **`PortalProvider`** (re-exported from `@my-ui-lib/core`) above screens that open modals.
 
 ## Preview
 
@@ -16,11 +18,17 @@ Themed dialog with overlay, optional title, backdrop tap to dismiss, and **`onRe
 
 | Prop | Type | Description |
 |------|------|-------------|
-| open | boolean | Shows or hides the modal |
-| onRequestClose | () => void | Backdrop / system back |
-| title | string | Optional heading |
+| visible | boolean | Shows or hides the modal |
+| onClose | () => void | Called on dismiss |
+| closeOnBackdrop | boolean | Backdrop tap closes (default true) |
+| closeOnBack | boolean | Android back closes (default true) |
+| size | 'sm' \| 'md' \| 'lg' \| 'full' | Max width / layout |
 | unstyled | boolean | Raw React Native `Modal` only |
-| slots | object | `overlay`, `surface`, `title`, `body` styles |
+| slots | object | `overlay`, `backdrop`, `surface`, `content` |
+
+## Animation
+
+Entrance uses parallel timing + spring; **reduced motion** (via `AccessibilityInfo`) snaps to the final state.
 
 ## Install
 

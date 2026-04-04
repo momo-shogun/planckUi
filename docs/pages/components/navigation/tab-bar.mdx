@@ -1,0 +1,42 @@
+---
+title: Tab bar
+---
+
+# Tab bar
+
+Bottom **tab bar** shell with **`icon: (active) => ReactNode`**, variants **default \| floating \| minimal**, and **`getTabBarTokens`**. Wire selection to React Navigation’s tab state in your host app.
+
+## Usage with React Navigation
+
+```tsx
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { TabBar } from '@my-ui-lib/core';
+
+const Tab = createBottomTabNavigator();
+
+<Tab.Navigator
+  tabBar={(props) => {
+    const idx = props.state.index;
+    const name = props.state.routes[idx].name;
+    return (
+      <TabBar
+        variant="floating"
+        items={[
+          { key: 'Home', label: 'Home', icon: (a) => <HomeIcon active={a} /> },
+          { key: 'Profile', label: 'Profile', icon: (a) => <UserIcon active={a} /> },
+        ]}
+        activeKey={name}
+        onChange={(key) => props.navigation.navigate(key)}
+      />
+    );
+  }}
+>
+  {/* screens */}
+</Tab.Navigator>
+```
+
+## Install
+
+```bash
+npx my-ui-lib add tab-bar
+```

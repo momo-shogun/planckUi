@@ -1,11 +1,12 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
+import {ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {NavigationContainer} from '@react-navigation/native';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  View,
-} from 'react-native';
+  createDrawerNavigator,
+  type DrawerContentComponentProps,
+} from '@react-navigation/drawer';
 import {
   defaultTheme,
   midnightTheme,
@@ -13,16 +14,32 @@ import {
   roseTheme,
 } from '@my-ui-lib/tokens';
 import {
+  Avatar,
+  Badge,
+  BottomSheet,
+  BottomSheetProvider,
   Button,
+  Checkbox,
+  DrawerContent,
   Dropdown,
   DropdownMenu,
   Input,
   Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   MultiSelect,
+  PortalProvider,
+  Switch,
+  TabBar,
+  TabPanel,
+  Tabs,
   Text,
   ThemeProvider,
+  ToastProvider,
   VStack,
   useTheme,
+  useToast,
 } from '@my-ui-lib/core';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
@@ -33,6 +50,22 @@ const themeMap = {
   midnight: midnightTheme,
   rose: roseTheme,
 } as const;
+
+const DRAWER_ITEMS = [
+  {key: 'Showcase', label: 'Showcase'},
+  {key: 'ModalLab', label: 'Modal'},
+  {key: 'SheetLab', label: 'Bottom sheet'},
+  {key: 'ToastLab', label: 'Toasts'},
+  {key: 'TabsLab', label: 'Tabs & tab bar'},
+] as const;
+
+type DrawerRoute = (typeof DRAWER_ITEMS)[number]['key'];
+
+const dropdownItems = [
+  {id: 'one', label: 'First option'},
+  {id: 'two', label: 'Second option'},
+  {id: 'three', label: 'Third option'},
+];
 
 function ThemeSwitcher({
   active,
@@ -64,9 +97,7 @@ function ThemeSwitcher({
           key={key}
           size="sm"
           variant={active === key ? 'primary' : 'outline'}
-          onPress={() => {
-            onSelect(key);
-          }}>
+          onPress={() => onSelect(key)}>
           {key}
         </Button>
       ))}
@@ -74,152 +105,17 @@ function ThemeSwitcher({
   );
 }
 
-function ModalStory() {
+function ShowcaseScreen({
+  themeName,
+  onTheme,
+}: {
+  themeName: ThemeName;
+  onTheme: (n: ThemeName) => void;
+}) {
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        section: {
-          marginBottom: theme.spacing[4],
-        },
-      }),
-    [theme],
-  );
-
-  return (
-    <View style={styles.section}>
-      <Text variant="label" style={{marginBottom: theme.spacing[2]}}>
-        Modal
-      </Text>
-      <Button onPress={() => setOpen(true)}>Open modal</Button>
-      <Modal
-        open={open}
-        title="Themed dialog"
-        onRequestClose={() => setOpen(false)}>
-        <Text variant="body" color={theme.colors.textPrimary}>
-          Overlay and surface use getModalTokens from the active theme.
-        </Text>
-        <Button onPress={() => setOpen(false)}>Close</Button>
-      </Modal>
-    </View>
-  );
-}
-
-const dropdownItems = [
-  {id: 'one', label: 'First option'},
-  {id: 'two', label: 'Second option'},
-  {id: 'three', label: 'Second option'},
-  {id: 'four', label: 'Second option'},
-  {id: 'five', label: 'Second option'},
-  {id: 'six', label: 'Second option'},
-  {id: 'seven', label: 'Second option'},
-  {id: 'eight', label: 'Second option'},
-  {id: 'nine', label: 'Second option'},
-  {id: 'ten', label: 'Second option'},
-];
-
-function DropdownMenuStory() {
-  const theme = useTheme();
-  const [value, setValue] = useState<string | undefined>();
+  const [checked, setChecked] = useState(false);
+  const [sw, setSw] = useState(false);
   const [multi, setMulti] = useState<string[]>([]);
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        section: {
-          marginBottom: theme.spacing[4],
-        },
-        row: {
-          gap: theme.spacing[3],
-        },
-      }),
-    [theme],
-  );
-
-  return (
-    <View style={styles.section}>
-      <Text variant="label" style={{marginBottom: theme.spacing[2]}}>
-        Dropdown & MultiSelect
-      </Text>
-      <VStack gap={theme.spacing[3]} style={styles.row}>
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          Dropdown alias + controlled. Selected: {value ?? 'none'}
-        </Text>
-        <Dropdown
-          items={dropdownItems}
-          value={value}
-          onChange={setValue}
-          placeholder="Dropdown alias (onChange)"
-          testID="example-dropdown-alias"
-        />
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          Searchable DropdownMenu
-        </Text>
-        <DropdownMenu
-          items={dropdownItems}
-          search
-          searchPlaceholder="Filter…"
-          placeholder="Search enabled"
-          testID="example-dropdown-search"
-        />
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          MultiSelect ({multi.length} selected)
-        </Text>
-        <MultiSelect
-          items={dropdownItems}
-          value={multi}
-          onValueChange={setMulti}
-          placeholder="Pick multiple"
-          testID="example-multiselect"
-        />
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          Custom rows (renderItem)
-        </Text>
-        <DropdownMenu
-          items={dropdownItems}
-          placeholder="Custom UI"
-          renderItem={(item, {selected}) => (
-            <Text variant="body">
-              {selected ? '● ' : '○ '}
-              {item.label}
-            </Text>
-          )}
-          testID="example-dropdown-render"
-        />
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          style + containerStyle
-        </Text>
-        <DropdownMenu
-          items={dropdownItems}
-          placeholder="Accent outline"
-          style={{
-            borderWidth: 2,
-            borderColor: theme.colors.primary,
-            borderRadius: theme.radii.lg,
-            padding: theme.spacing[1],
-          }}
-          containerStyle={{
-            borderWidth: 2,
-            borderColor: theme.colors.borderFocus,
-          }}
-          testID="example-dropdown-style"
-        />
-        <Text variant="caption" color={theme.colors.textSecondary}>
-          Modal presentation
-        </Text>
-        <DropdownMenu
-          mode="modal"
-          items={dropdownItems}
-          placeholder="Modal dropdown"
-          testID="example-dropdown-modal"
-        />
-      </VStack>
-    </View>
-  );
-}
-
-function ThemedDemo() {
-  const theme = useTheme();
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -228,16 +124,7 @@ function ThemedDemo() {
           backgroundColor: theme.colors.background,
           padding: theme.spacing[4],
         },
-        swatch: {
-          width: theme.spacing[12],
-          height: theme.spacing[12],
-          borderRadius: theme.radii.lg,
-          backgroundColor: theme.colors.primary,
-          marginBottom: theme.spacing[4],
-        },
-        block: {
-          marginBottom: theme.spacing[4],
-        },
+        block: {marginBottom: theme.spacing[4]},
       }),
     [theme],
   );
@@ -245,66 +132,299 @@ function ThemedDemo() {
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <VStack gap={theme.spacing[3]}>
-        <View style={styles.swatch} accessibilityLabel="primary swatch" />
-        <Text variant="heading" style={styles.block}>
-          Themed surface
-        </Text>
-        <Text variant="body" color={theme.colors.textPrimary}>
-          Background and swatch track the active theme.
-        </Text>
+        <Text variant="heading">Showcase</Text>
+        <ThemeSwitcher active={themeName} onSelect={onTheme} />
         <View style={styles.block}>
-          <Button onPress={() => {}}>Themed button</Button>
+          <Text variant="label">Badge</Text>
+          <View style={{flexDirection: 'row', gap: 8, flexWrap: 'wrap'}}>
+            <Badge label="Default" />
+            <Badge label="OK" intent="success" />
+            <Badge dot intent="error" />
+          </View>
         </View>
-        <ModalStory />
-        <DropdownMenuStory />
-        <Input label="Themed input" placeholder="Focus for border token" />
+        <View style={styles.block}>
+          <Text variant="label">Avatar</Text>
+          <View style={{flexDirection: 'row', gap: 12}}>
+            <Avatar fallback="Ada Lovelace" size="md" />
+            <Avatar fallback="X" size="sm" badge="online" />
+          </View>
+        </View>
+        <Checkbox
+          checked={checked}
+          onChange={setChecked}
+          label="Checkbox"
+        />
+        <Switch checked={sw} onChange={setSw} label="Switch" />
+        <Input label="Input" placeholder="Themed field" />
+        <Dropdown
+          items={dropdownItems}
+          placeholder="Dropdown"
+          testID="showcase-dd"
+        />
+        <DropdownMenu items={dropdownItems} placeholder="DropdownMenu" />
+        <MultiSelect
+          items={dropdownItems}
+          value={multi}
+          onValueChange={setMulti}
+          placeholder="MultiSelect"
+        />
       </VStack>
     </ScrollView>
   );
 }
 
-function AppContent({
-  themeName,
-  onSelect,
-}: {
-  themeName: ThemeName;
-  onSelect: (name: ThemeName) => void;
-}) {
+function ModalLabScreen() {
   const theme = useTheme();
-  const styles = useMemo(
-    () =>
-      StyleSheet.create({
-        safe: {
-          flex: 1,
-          backgroundColor: theme.colors.background,
-        },
-        headerPad: {
-          paddingHorizontal: theme.spacing[4],
-          paddingTop: theme.spacing[2],
-        },
-      }),
-    [theme],
-  );
-  const statusBarStyle =
-    themeName === 'midnight' ? 'light-content' : 'dark-content';
-
+  const [visible, setVisible] = useState(false);
   return (
-    <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle={statusBarStyle} />
-      <View style={styles.headerPad}>
-        <ThemeSwitcher active={themeName} onSelect={onSelect} />
-      </View>
-      <ThemedDemo />
-    </SafeAreaView>
+    <ScrollView
+      contentContainerStyle={{
+        padding: theme.spacing[4],
+        backgroundColor: theme.colors.background,
+      }}>
+      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
+        Modal (portal)
+      </Text>
+      <Button onPress={() => setVisible(true)}>Open modal</Button>
+      <Modal visible={visible} onClose={() => setVisible(false)} size="md">
+        <ModalHeader>Example</ModalHeader>
+        <ModalBody>
+          <Text variant="body" color={theme.colors.textSecondary}>
+            Uses visible, onClose, and optional header slots.
+          </Text>
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="outline" onPress={() => setVisible(false)}>
+            Close
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </ScrollView>
   );
 }
 
-export default function App() {
+function SheetLabScreen() {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        padding: theme.spacing[4],
+        backgroundColor: theme.colors.background,
+      }}>
+      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
+        Bottom sheet
+      </Text>
+      <Button onPress={() => setOpen(true)}>Open sheet</Button>
+      <BottomSheet
+        visible={open}
+        onClose={() => setOpen(false)}
+        title="Sheet title"
+        snapPoints={['40%', '70%']}>
+        <Text color={theme.colors.textSecondary}>
+          Host apps need Reanimated + Gesture Handler (see docs).
+        </Text>
+      </BottomSheet>
+    </ScrollView>
+  );
+}
+
+function ToastLabScreen() {
+  const theme = useTheme();
+  const {showToast} = useToast();
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        padding: theme.spacing[4],
+        backgroundColor: theme.colors.background,
+        gap: theme.spacing[2],
+      }}>
+      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
+        Toasts (max 3)
+      </Text>
+      <Button
+        onPress={() =>
+          showToast({title: 'Saved', description: 'Default intent', intent: 'default'})
+        }>
+        Default
+      </Button>
+      <Button
+        onPress={() =>
+          showToast({title: 'Done', description: 'Success', intent: 'success'})
+        }>
+        Success
+      </Button>
+      <Button
+        onPress={() =>
+          showToast({title: 'Heads up', description: 'Warning', intent: 'warning'})
+        }>
+        Warning
+      </Button>
+      <Button
+        onPress={() =>
+          showToast({title: 'Error', description: 'Something failed', intent: 'error'})
+        }>
+        Error
+      </Button>
+    </ScrollView>
+  );
+}
+
+function TabsLabScreen() {
+  const theme = useTheme();
+  const [barKey, setBarKey] = useState('home');
+  return (
+    <ScrollView
+      contentContainerStyle={{
+        padding: theme.spacing[4],
+        backgroundColor: theme.colors.background,
+        paddingBottom: theme.spacing[12],
+      }}>
+      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
+        Tabs
+      </Text>
+      <Tabs
+        tabs={[
+          {key: 'a', label: 'Alpha'},
+          {key: 'b', label: 'Beta', badge: 3},
+        ]}
+        defaultActiveKey="a"
+        variant="pill">
+        <TabPanel tabKey="a">
+          <Text>Panel A</Text>
+        </TabPanel>
+        <TabPanel tabKey="b">
+          <Text>Panel B</Text>
+        </TabPanel>
+      </Tabs>
+      <Text variant="label" style={{marginTop: theme.spacing[4]}}>
+        TabBar (floating)
+      </Text>
+      <TabBar
+        variant="floating"
+        items={[
+          {
+            key: 'home',
+            label: 'Home',
+            icon: (isActive: boolean) => (
+              <View
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: 11,
+                  backgroundColor: isActive
+                    ? theme.colors.primary
+                    : theme.colors.border,
+                }}
+              />
+            ),
+          },
+          {
+            key: 'star',
+            label: 'Star',
+            icon: (isActive: boolean) => (
+              <View
+                style={{
+                  width: 22,
+                  height: 22,
+                  borderRadius: 4,
+                  backgroundColor: isActive
+                    ? theme.colors.primary
+                    : theme.colors.border,
+                }}
+              />
+            ),
+          },
+        ]}
+        activeKey={barKey}
+        onChange={setBarKey}
+      />
+      <Text variant="caption" color={theme.colors.textSecondary} style={{marginTop: 8}}>
+        Active tab: {barKey}
+      </Text>
+    </ScrollView>
+  );
+}
+
+const Drawer = createDrawerNavigator();
+
+function RootDrawer({
+  themeName,
+  onTheme,
+}: {
+  themeName: ThemeName;
+  onTheme: (n: ThemeName) => void;
+}) {
+  const theme = useTheme();
+  const statusBarStyle =
+    themeName === 'midnight' ? 'light-content' : 'dark-content';
+
+  const drawerContent = useCallback(
+    (props: DrawerContentComponentProps) => {
+      const active = props.state.routeNames[props.state.index] as DrawerRoute;
+      return (
+        <DrawerContent
+          items={DRAWER_ITEMS.map(({key, label}) => ({key, label}))}
+          activeKey={active}
+          onItemPress={(key: string) =>
+            props.navigation.navigate(key as never)
+          }
+          header={
+            <Text variant="heading" style={{marginBottom: theme.spacing[2]}}>
+              Planck UI
+            </Text>
+          }
+        />
+      );
+    },
+    [theme],
+  );
+
+  return (
+    <>
+      <StatusBar barStyle={statusBarStyle} />
+      <Drawer.Navigator
+        screenOptions={{
+          headerStyle: {backgroundColor: theme.colors.surface},
+          headerTintColor: theme.colors.textPrimary,
+        }}
+        drawerContent={drawerContent}>
+        <Drawer.Screen name="Showcase">
+          {() => <ShowcaseScreen themeName={themeName} onTheme={onTheme} />}
+        </Drawer.Screen>
+        <Drawer.Screen name="ModalLab" component={ModalLabScreen} />
+        <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
+        <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
+        <Drawer.Screen name="TabsLab" component={TabsLabScreen} />
+      </Drawer.Navigator>
+    </>
+  );
+}
+
+function ThemedAppTree() {
   const [themeName, setThemeName] = useState<ThemeName>('default');
 
   return (
     <ThemeProvider theme={themeMap[themeName]}>
-      <AppContent themeName={themeName} onSelect={setThemeName} />
+      <ToastProvider>
+        <NavigationContainer>
+          <RootDrawer themeName={themeName} onTheme={setThemeName} />
+        </NavigationContainer>
+      </ToastProvider>
     </ThemeProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SafeAreaProvider>
+        <BottomSheetProvider>
+          <PortalProvider>
+            <ThemedAppTree />
+          </PortalProvider>
+        </BottomSheetProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

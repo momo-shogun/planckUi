@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ThemeProvider } from '@my-ui-lib/core';
+import { PortalProvider, ThemeProvider, ToastProvider } from '@my-ui-lib/core';
 import {
   defaultTheme,
   midnightTheme,
@@ -123,7 +123,11 @@ export function Preview({
           backgroundColor: theme.colors.background,
         }}
       >
-        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+        <PortalProvider>
+          <ThemeProvider theme={theme}>
+            <ToastProvider>{children}</ToastProvider>
+          </ThemeProvider>
+        </PortalProvider>
       </div>
     </div>
   );

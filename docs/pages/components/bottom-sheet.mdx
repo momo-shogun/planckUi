@@ -1,0 +1,27 @@
+---
+title: Bottom Sheet
+---
+
+# Bottom Sheet
+
+Themed wrapper around **`BottomSheetModal`** from `@gorhom/bottom-sheet` with **`BottomSheetProvider`** (re-export of **`BottomSheetModalProvider`**).
+
+Host apps must install and configure **`react-native-reanimated`**, **`react-native-gesture-handler`**, and the **Reanimated Babel plugin** (see React Native docs). Pass **`visible`** to sync **`present` / `dismiss`** on the underlying modal ref.
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| visible | boolean | Present / dismiss |
+| onClose | () => void | Maps to `onDismiss` |
+| snapPoints | (string \| number)[] | Default `['45%','80%']` |
+| title | string | Optional heading |
+| modalProps | object | Extra `BottomSheetModal` props |
+| unstyled | boolean | Skip theme surface styles |
+| slots | BottomSheetSlots | `sheet`, `content` |
+
+## Install
+
+```bash
+npx my-ui-lib add bottom-sheet
+```

@@ -1,0 +1,37 @@
+---
+title: Drawer content
+---
+
+# Drawer content
+
+Presentational **drawer** list: **`items`**, **`activeKey`**, **`onItemPress`**, optional **`header`** / **`footer`**. No `@react-navigation/*` import inside core — compose with React Navigation in your app.
+
+## Usage with React Navigation
+
+```tsx
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContent } from '@my-ui-lib/core';
+
+const Drawer = createDrawerNavigator();
+
+<Drawer.Navigator
+  drawerContent={(props) => (
+    <DrawerContent
+      items={[
+        { key: 'Home', label: 'Home' },
+        { key: 'Settings', label: 'Settings' },
+      ]}
+      activeKey={props.state.routeNames[props.state.index]}
+      onItemPress={(key) => props.navigation.navigate(key as never)}
+    />
+  )}
+>
+  {/* screens */}
+</Drawer.Navigator>
+```
+
+## Install
+
+```bash
+npx my-ui-lib add drawer-content
+```
