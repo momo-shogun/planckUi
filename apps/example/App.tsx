@@ -14,6 +14,7 @@ import {
 } from '@my-ui-lib/tokens';
 import {
   Button,
+  DropdownMenu,
   Input,
   Modal,
   Text,
@@ -103,6 +104,60 @@ function ModalStory() {
   );
 }
 
+const dropdownItems = [
+  {id: 'one', label: 'First option'},
+  {id: 'two', label: 'Second option'},
+  {id: 'three', label: 'Third (disabled)', disabled: true},
+];
+
+function DropdownMenuStory() {
+  const theme = useTheme();
+  const [value, setValue] = useState<string | undefined>();
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        section: {
+          marginBottom: theme.spacing[4],
+        },
+        row: {
+          gap: theme.spacing[3],
+        },
+      }),
+    [theme],
+  );
+
+  return (
+    <View style={styles.section}>
+      <Text variant="label" style={{marginBottom: theme.spacing[2]}}>
+        Dropdown menu
+      </Text>
+      <VStack gap={theme.spacing[3]} style={styles.row}>
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Anchored to trigger (default). Selected: {value ?? 'none'}
+        </Text>
+        <DropdownMenu
+          items={dropdownItems}
+          value={value}
+          onValueChange={setValue}
+          placeholder="Choose an option"
+          search
+          searchPlaceholder="Filter…"
+          testID="example-dropdown-anchored"
+        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Modal presentation
+        </Text>
+        <DropdownMenu
+          mode="modal"
+          items={dropdownItems}
+          placeholder="Modal dropdown"
+          testID="example-dropdown-modal"
+        />
+      </VStack>
+    </View>
+  );
+}
+
 function ThemedDemo() {
   const theme = useTheme();
   const styles = useMemo(
@@ -141,6 +196,7 @@ function ThemedDemo() {
           <Button onPress={() => {}}>Themed button</Button>
         </View>
         <ModalStory />
+        <DropdownMenuStory />
         <Input label="Themed input" placeholder="Focus for border token" />
       </VStack>
     </ScrollView>

@@ -1,0 +1,28 @@
+This is **planckUi**, a headless React Native UI library shipped as a **pnpm monorepo** with **Turborepo**. The codebase enforces token-driven styling, fixed component file layout, and strict lint rules. Before implementing a new component, read `.cursor/skills/build-component.md`. Before adding a named theme to the token pipeline, read `.cursor/skills/add-theme.md`. Before adding a hook under `packages/core`, read `.cursor/skills/add-hook.md`. Before authoring or updating Nextra docs, read `.cursor/skills/write-docs-page.md`.
+
+Hard rules:
+- Never hardcode hex, `rgb()`, `hsl()`, or named CSS colors in `packages/core` (use `get{Name}Tokens` + theme scales only).
+- Never use Expo, NativeWind, or Tailwind in this library.
+- Never use the `any` type.
+- Never import another workspace package via relative paths (always `@my-ui-lib/tokens`, `@my-ui-lib/core`, etc.).
+- Never hand-edit `packages/tokens/src/generated/`; regenerate via the tokens package build.
+- Before reporting a task complete, run `pnpm typecheck` and `pnpm lint` from the repo root (or the relevant package) and fix failures.
+- At the start of a scoped task, read the matching skill file end-to-end and follow it literally.
+
+Package names:
+- Tokens: `@my-ui-lib/tokens`
+- Core: `@my-ui-lib/core`
+- CLI: `@my-ui-lib/cli`
+- Docs app: `@planckui/docs`
+- Example app: `apps/example`
+
+Key paths:
+- Component token helpers → `packages/tokens/src/component-tokens.ts`
+- `SemanticTokens` → `packages/tokens/src/semantic.ts`
+- Theme JSON overrides → `packages/tokens/src/tokens.input/themes/`
+- Core components → `packages/core/src/components/`
+- Core hooks → `packages/core/src/hooks/`
+- Core public API → `packages/core/src/index.ts`
+- Docs MDX → `docs/pages/`
+- Docs live preview shell → `docs/components/Preview.tsx`
+- Plop templates → `plop-templates/`

@@ -9,6 +9,15 @@ export type { TextProps } from './primitives/Text';
 export { Pressable } from './primitives/Pressable';
 export type { PressableProps } from './primitives/Pressable';
 export { Button } from './components/Button';
+export { DropdownMenu } from './components/DropdownMenu';
+export type {
+  DropdownMenuItem,
+  DropdownMenuMode,
+  DropdownMenuPosition,
+  DropdownMenuProps,
+  DropdownMenuRenderItemContext,
+  DropdownMenuSlots,
+} from './components/DropdownMenu';
 export { Input } from './components/Input';
 export { Modal } from './components/Modal';
 export type { ModalProps } from './components/Modal';

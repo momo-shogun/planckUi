@@ -55,6 +55,39 @@ export function getInputTokens(theme: SemanticTokens): {
   };
 }
 
+export function getDropdownMenuTokens(theme: SemanticTokens): {
+  overlay: string;
+  triggerBg: string;
+  triggerText: string;
+  triggerBorder: string;
+  menuBg: string;
+  menuBorder: string;
+  itemText: string;
+  itemDisabledText: string;
+  itemPressedBg: string;
+  itemSelectedBg: string;
+  searchText: string;
+  searchPlaceholder: string;
+  searchSeparator: string;
+} {
+  const { colors } = theme;
+  return {
+    overlay: colors.overlay,
+    triggerBg: colors.surface,
+    triggerText: colors.textPrimary,
+    triggerBorder: colors.border,
+    menuBg: colors.surfaceRaised,
+    menuBorder: colors.border,
+    itemText: colors.textPrimary,
+    itemDisabledText: colors.textDisabled,
+    itemPressedBg: colors.surface,
+    itemSelectedBg: colors.surface,
+    searchText: colors.textPrimary,
+    searchPlaceholder: colors.textDisabled,
+    searchSeparator: colors.border,
+  };
+}
+
 export function getModalTokens(theme: SemanticTokens): {
   overlay: string;
   surface: string;

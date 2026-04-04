@@ -2,6 +2,7 @@ import pc from 'picocolors';
 
 const REGISTRY: Record<string, { deps: string[] }> = {
   button: { deps: ['@my-ui-lib/core'] },
+  'dropdown-menu': { deps: ['@my-ui-lib/core'] },
   input: { deps: ['@my-ui-lib/core'] },
   modal: { deps: ['@my-ui-lib/core'] },
   checkbox: { deps: ['@my-ui-lib/core'] },

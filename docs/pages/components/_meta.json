@@ -1,6 +1,7 @@
 {
   "index": "Overview",
   "button": "Button",
+  "dropdown-menu": "Dropdown menu",
   "input": "Input",
   "modal": "Modal",
   "pressable": "Pressable",

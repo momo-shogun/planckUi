@@ -1,0 +1,52 @@
+---
+title: Dropdown menu
+---
+
+import { DropdownMenuDocPreview } from '../../components/DropdownMenuDocPreview';
+
+# Dropdown menu
+
+Select-style control with **anchored** or **modal** presentation, backdrop dismiss, optional **search**, and theming. The default is an anchored panel aligned to the trigger (not full viewport width), inspired by patterns in [react-native-element-dropdown](https://github.com/hoaphantn7604/react-native-element-dropdown).
+
+## Preview
+
+<DropdownMenuDocPreview />
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| items | `DropdownMenuItem[]` | Options (`id`, `label`, optional `disabled`) |
+| value | string | Controlled selected id |
+| defaultValue | string | Uncontrolled initial id |
+| onValueChange | `(id: string) => void` | Called when selection changes |
+| placeholder | string | Label when nothing selected (default `Select`) |
+| disabled | boolean | Disables the trigger |
+| mode | `anchored` / `modal` | `anchored` (default): list under/over trigger; `modal`: centered card |
+| dropdownPosition | `auto` / `top` / `bottom` | Anchored only; `auto` picks the side with more space |
+| maxHeight | number | Max height of the scrollable list (search row excluded) |
+| menuMinWidth | number | Anchored only; minimum menu width (defaults to trigger width) |
+| modalMaxWidth | number | Modal only; panel max width (default `360`) |
+| search | boolean | Show search field and filter by label |
+| searchPlaceholder | string | Search placeholder |
+| onChangeSearchText | `(text: string) => void` | Search text changes |
+| filterItem | `(keyword, item) => boolean` | Custom filter when `search` is on |
+| renderItem | `(item, { selected, disabled }) => ReactNode` | Custom row content |
+| showsVerticalScrollIndicator | boolean | Scroll indicator (default `true`) |
+| onOpen | `() => void` | Menu opened |
+| onClose | `() => void` | Menu closed |
+| searchInputProps | `TextInput` props | Extra props for the search field |
+| unstyled | boolean | Minimal layout, no theme tokens |
+| slots | `DropdownMenuSlots` | Style overrides per region |
+| testID | string | Root id; trigger, backdrop, search, items use suffixes |
+| accessibilityLabel | string | Trigger label override |
+
+## Slots
+
+`root`, `trigger`, `triggerText`, `backdrop`, `menuContainer`, `menu`, `menuItem`, `menuItemText`, `menuItemSelected`, `searchInput`.
+
+## Install
+
+```bash
+npx my-ui-lib add dropdown-menu
+```
