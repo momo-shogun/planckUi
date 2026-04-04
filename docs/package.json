@@ -1,12 +1,28 @@
 {
-  "name": "docs",
+  "name": "@my-ui-lib/docs",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node -e \"console.log('docs: Nextra scaffold (Phase 2)')\"",
-    "dev": "node -e \"console.log('docs: Nextra scaffold (Phase 2)')\"",
-    "test": "node -e \"process.exit(0)\"",
-    "lint": "node -e \"process.exit(0)\"",
-    "typecheck": "node -e \"process.exit(0)\"",
-    "clean": "node -e \"process.exit(0)\""
+    "dev": "next dev -p 3001",
+    "build": "next build",
+    "start": "next start -p 3001",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf .next out"
+  },
+  "dependencies": {
+    "@my-ui-lib/core": "workspace:*",
+    "@my-ui-lib/tokens": "workspace:*",
+    "next": "^14.2.0",
+    "nextra": "^2.13.0",
+    "nextra-theme-docs": "^2.13.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-native-web": "^0.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.4.0"
   }
 }

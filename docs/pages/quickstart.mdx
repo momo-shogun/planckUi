@@ -1,0 +1,63 @@
+---
+title: Quick start
+---
+
+import { Steps, Callout } from 'nextra/components'
+
+# Quick start
+
+<Steps>
+
+### Install packages
+
+```bash
+npm install @my-ui-lib/tokens @my-ui-lib/core
+```
+
+```bash
+yarn add @my-ui-lib/tokens @my-ui-lib/core
+```
+
+```bash
+pnpm add @my-ui-lib/tokens @my-ui-lib/core
+```
+
+### Wrap your app with ThemeProvider
+
+```tsx
+import { ThemeProvider } from '@my-ui-lib/core';
+import { defaultTheme } from '@my-ui-lib/tokens';
+
+export default function App() {
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      {/* your app */}
+    </ThemeProvider>
+  );
+}
+```
+
+### Add your first component
+
+```bash
+npx my-ui-lib add button
+```
+
+This copies `Button.tsx`, `Button.styles.ts`, `Button.types.ts`
+into `./src/components/ui/Button/`. You own the files.
+
+### Use it
+
+```tsx
+import { Button } from './components/ui/Button';
+
+export function Example() {
+  return <Button variant="primary" onPress={() => {}}>Save</Button>;
+}
+```
+
+</Steps>
+
+<Callout type="warning">
+  Peer deps: react >= 18, react-native >= 0.73
+</Callout>

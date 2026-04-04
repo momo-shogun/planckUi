@@ -1,0 +1,81 @@
+---
+title: Token system
+---
+
+# Token system
+
+## Style Dictionary pipeline
+
+1. **JSON sources** live under `packages/tokens/src/tokens.input/` (e.g. `primitive.json` and theme files).
+2. **`build.ts`** runs Style Dictionary and writes compiled output into `packages/tokens/src/generated/`.
+3. **Generated files are never hand-edited** — re-run `pnpm build` in `@my-ui-lib/tokens` after changing inputs.
+4. **TypeScript types** (e.g. `GeneratedTokens`) are derived from the compiled output so tokens and types stay aligned.
+
+## SemanticTokens
+
+Full public contract for a theme object:
+
+```ts
+export interface SemanticTokens {
+  colors: {
+    background: string;
+    surface: string;
+    surfaceRaised: string;
+    overlay: string;
+    primary: string;
+    primaryHover: string;
+    primaryForeground: string;
+    textPrimary: string;
+    textSecondary: string;
+    textDisabled: string;
+    border: string;
+    borderFocus: string;
+    destructive: string;
+    destructiveForeground: string;
+    success: string;
+    warning: string;
+  };
+  spacing: Record<string, number>;
+  radii: Record<string, number>;
+  fontSizes: Record<string, number>;
+  fontWeights: Record<string, string>;
+}
+```
+
+## Spacing scale
+
+| Token | px |
+|-------|-----|
+| 0 | 0 |
+| 1 | 4 |
+| 2 | 8 |
+| 3 | 12 |
+| 4 | 16 |
+| 5 | 20 |
+| 6 | 24 |
+| 8 | 32 |
+| 10 | 40 |
+| 12 | 48 |
+
+## Radii
+
+| Token | px |
+|-------|-----|
+| none | 0 |
+| sm | 4 |
+| md | 8 |
+| lg | 12 |
+| xl | 16 |
+| full | 9999 |
+
+## Font sizes
+
+| Token | px |
+|-------|-----|
+| xs | 11 |
+| sm | 13 |
+| md | 15 |
+| lg | 17 |
+| xl | 20 |
+| 2xl | 24 |
+| 3xl | 30 |

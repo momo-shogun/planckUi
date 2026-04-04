@@ -1,0 +1,35 @@
+---
+title: Introduction
+---
+
+import { Callout } from 'nextra/components'
+
+# my-ui-lib
+
+A headless, copy-paste React Native UI library for CLI apps.
+No Expo. No Tailwind. Full ownership.
+
+<Callout type="info">
+  Targets React Native CLI projects only. Not compatible with
+  Expo Go (works with Expo bare workflow).
+</Callout>
+
+## Why this exists
+
+Cover: copy-paste model (you own the source), token-first theming
+(one object swap = full theme change), headless by default
+(unstyled prop), slot-based overrides (slots prop).
+
+## Packages table
+
+| Package | Description |
+|---|---|
+| @my-ui-lib/tokens | Token definitions, themes, Style Dictionary pipeline |
+| @my-ui-lib/core | ThemeProvider, primitives, components, hooks |
+| @my-ui-lib/cli | Component scaffolding CLI |
+
+## Quick install
+```bash
+npm install @my-ui-lib/tokens @my-ui-lib/core
+npx my-ui-lib add button
+```

@@ -1,0 +1,47 @@
+---
+title: Dark mode
+---
+
+# Dark mode
+
+`ThemeProvider` accepts an optional **`darkTheme`** prop. When the system color scheme is dark (via `useColorScheme()` from `react-native`) and `darkTheme` is provided, that theme is used automatically.
+
+```tsx
+import { ThemeProvider } from '@my-ui-lib/core';
+import { defaultTheme, midnightTheme } from '@my-ui-lib/tokens';
+
+export function App() {
+  return (
+    <ThemeProvider theme={defaultTheme} darkTheme={midnightTheme}>
+      {/* ... */}
+    </ThemeProvider>
+  );
+}
+```
+
+No manual toggle is required for this path: the app follows the OS light/dark setting.
+
+## Custom dark palette
+
+You can build a dark theme with `createTheme` by overriding background and surface colors (and any other semantic colors) while keeping spacing and type scales aligned with the default:
+
+```tsx
+import { ThemeProvider, createTheme } from '@my-ui-lib/core';
+
+const darkTheme = createTheme({
+  colors: {
+    background: '#0f172a',
+    surface: '#1e293b',
+    surfaceRaised: '#334155',
+    textPrimary: '#f8fafc',
+    textSecondary: '#cbd5e1',
+    textDisabled: '#64748b',
+    border: '#334155',
+    primary: '#38bdf8',
+    primaryHover: '#0ea5e9',
+    primaryForeground: '#0f172a',
+  },
+});
+
+// Use as darkTheme={darkTheme} alongside a light `theme`, or as the only `theme`.
+```

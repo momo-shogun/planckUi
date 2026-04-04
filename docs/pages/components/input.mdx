@@ -1,0 +1,47 @@
+---
+title: Input
+---
+
+import { Preview } from '../../components/Preview';
+import { Input } from '@my-ui-lib/core';
+
+# Input
+
+## Preview
+
+<Preview minHeight={180}>
+  <Input label="Email" placeholder="you@example.com" />
+</Preview>
+
+## Error state
+
+<Preview themeSwitcher={false} minHeight={180}>
+  <Input
+    label="Email"
+    placeholder="you@example.com"
+    error="Please enter a valid email address"
+    value="not-an-email"
+  />
+</Preview>
+
+## Props table
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| value | string | — | Controlled value |
+| defaultValue | string | '' | Uncontrolled initial value |
+| onChangeText | (v: string) => void | — | Change handler |
+| label | string | — | Label text |
+| placeholder | string | — | Placeholder |
+| error | string | — | Error message |
+| disabled | boolean | false | Disables interaction |
+| unstyled | boolean | false | Strips all styles |
+| slots.root | ViewStyle | — | Outer container |
+| slots.label | TextStyle | — | Label text |
+| slots.input | ViewStyle & TextStyle | — | Input field |
+| slots.errorText | TextStyle | — | Error message text |
+
+## Install
+```bash
+npx my-ui-lib add input
+```

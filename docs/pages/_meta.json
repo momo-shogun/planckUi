@@ -1,0 +1,13 @@
+{
+  "index": "Introduction",
+  "quickstart": "Quick start",
+  "theming": {
+    "title": "Theming",
+    "type": "folder"
+  },
+  "components": {
+    "title": "Components",
+    "type": "folder"
+  },
+  "changelog": "Changelog"
+}

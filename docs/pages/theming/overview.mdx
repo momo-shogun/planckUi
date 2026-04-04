@@ -1,0 +1,68 @@
+---
+title: Theming overview
+---
+
+# Theming overview
+
+The design system uses three layers. Only layer 2 is swapped when you change themes.
+
+## Layer 1 — Primitive tokens
+
+Raw hex values live in `primitive.json` under `packages/tokens/src/tokens.input/`.
+They are the single source of truth for palette ramps. **Never reference these names in component code** — they are compiled into semantic tokens by Style Dictionary.
+
+```json
+{
+  "color": {
+    "blue": {
+      "600": "#2563eb"
+    }
+  }
+}
+```
+
+## Layer 2 — Semantic tokens
+
+`SemanticTokens` is the public theme shape: meaning-bearing names like `background`, `primary`, and `textPrimary`. This is the **only** object `ThemeProvider` swaps.
+
+```ts
+interface SemanticTokens {
+  colors: {
+    background: string;
+    surface: string;
+    surfaceRaised: string;
+    overlay: string;
+    primary: string;
+    primaryHover: string;
+    primaryForeground: string;
+    textPrimary: string;
+    textSecondary: string;
+    textDisabled: string;
+    border: string;
+    borderFocus: string;
+    destructive: string;
+    destructiveForeground: string;
+    success: string;
+    warning: string;
+  };
+  spacing: Record<string, number>;
+  radii: Record<string, number>;
+  fontSizes: Record<string, number>;
+  fontWeights: Record<string, string>;
+}
+```
+
+## Layer 3 — Component tokens
+
+Helper functions map semantic colors to component roles, e.g. `getButtonTokens` and `getInputTokens` in `@my-ui-lib/tokens`. Components call these helpers instead of reading `theme.colors` directly for their visual recipe.
+
+```ts
+import { getButtonTokens } from '@my-ui-lib/tokens';
+
+const tokens = getButtonTokens(theme, 'primary');
+// { bg, bgPress, text, border }
+```
+
+## What happens when you switch themes
+
+Replacing the layer 2 object (e.g. passing `oceanTheme` instead of `defaultTheme` to `ThemeProvider`) updates every consumer of `useTheme()`. Everything re-renders. You do not change imports or component code.

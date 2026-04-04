@@ -1,0 +1,61 @@
+---
+title: Text
+---
+
+import { Preview } from '../../components/Preview';
+import { Text, VStack } from '@my-ui-lib/core';
+import { defaultTheme } from '@my-ui-lib/tokens';
+
+# Text
+
+**Text** is the typography primitive. It reads font size, weight, and default color from the active theme via the **`variant`** prop.
+
+## Variants
+
+| variant | Default size | Default weight | Default color |
+|---------|--------------|----------------|---------------|
+| `heading` | `theme.fontSizes.xl` | bold | `theme.colors.textPrimary` |
+| `body` | `theme.fontSizes.md` | regular | `theme.colors.textPrimary` |
+| `label` | `theme.fontSizes.sm` | medium | `theme.colors.textSecondary` |
+| `caption` | `theme.fontSizes.xs` | regular | `theme.colors.textDisabled` |
+
+## Live preview
+
+<Preview minHeight={200}>
+  <VStack gap={8}>
+    <Text variant="heading">Heading</Text>
+    <Text variant="body">Body copy for paragraphs and UI copy.</Text>
+    <Text variant="label">Label</Text>
+    <Text variant="caption">Caption or helper text</Text>
+  </VStack>
+</Preview>
+
+## Overrides
+
+Use **`color`** for any CSS color string and **`weight`** for `fontWeight` overrides:
+
+```tsx
+<Text variant="body" color="#7c3aed" weight="700">
+  Emphasized body
+</Text>
+```
+
+<Preview themeSwitcher={false}>
+  <Text
+    variant="body"
+    color={defaultTheme.colors.primary}
+    weight="700"
+  >
+    Emphasized body
+  </Text>
+</Preview>
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | `'heading'` \| `'body'` \| `'label'` \| `'caption'` | `'body'` | Preset typography |
+| color | string | — | Overrides variant text color |
+| weight | TextStyle['fontWeight'] | — | Overrides variant font weight |
+
+Additional `Text` props from React Native (`numberOfLines`, `onPress`, etc.) are forwarded.

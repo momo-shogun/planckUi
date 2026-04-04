@@ -1,0 +1,78 @@
+---
+title: Button
+---
+
+import { Preview } from '../../components/Preview';
+import { Button } from '@my-ui-lib/core';
+
+# Button
+
+## Preview
+
+<Preview>
+  <Button variant="primary"  onPress={() => {}}>Primary</Button>
+  <Button variant="outline"  onPress={() => {}}>Outline</Button>
+  <Button variant="ghost"    onPress={() => {}}>Ghost</Button>
+</Preview>
+
+## Sizes
+
+<Preview themeSwitcher={false}>
+  <Button size="sm" variant="primary" onPress={() => {}}>Small</Button>
+  <Button size="md" variant="primary" onPress={() => {}}>Medium</Button>
+  <Button size="lg" variant="primary" onPress={() => {}}>Large</Button>
+</Preview>
+
+## States
+
+<Preview themeSwitcher={false}>
+  <Button variant="primary" loading  onPress={() => {}}>Loading</Button>
+  <Button variant="primary" disabled onPress={() => {}}>Disabled</Button>
+</Preview>
+
+## Props table
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| variant | 'primary' \| 'outline' \| 'ghost' | 'primary' | Visual style |
+| size | 'sm' \| 'md' \| 'lg' | 'md' | Padding and radius |
+| loading | boolean | false | Shows spinner |
+| disabled | boolean | false | Disables interaction |
+| unstyled | boolean | false | Strips all styles |
+| slots.root | ViewStyle | — | Container override |
+| slots.text | TextStyle | — | Label override |
+| slots.loader | ViewStyle | — | Spinner override |
+| onPress | () => void | — | Press handler |
+
+## Slots override example
+
+```tsx
+<Button
+  variant="primary"
+  onPress={() => {}}
+  slots={{
+    root: { borderRadius: 0 },
+    text: { letterSpacing: 2, textTransform: 'uppercase' },
+  }}
+>
+  Custom label
+</Button>
+```
+
+## Unstyled example
+
+```tsx
+import { View, Text } from 'react-native';
+import { Button } from '@my-ui-lib/core';
+
+<Button unstyled onPress={() => {}}>
+  <View style={{ padding: 12, backgroundColor: '#eee' }}>
+    <Text>Custom layout</Text>
+  </View>
+</Button>
+```
+
+## Install
+```bash
+npx my-ui-lib add button
+```

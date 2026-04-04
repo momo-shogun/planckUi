@@ -1,0 +1,100 @@
+---
+title: Custom themes
+---
+
+import { Callout } from 'nextra/components'
+
+# Custom themes
+
+## 1. `createTheme` (quickest path)
+
+Merge partial overrides onto the default theme. Pass the result to `ThemeProvider`.
+
+```tsx
+import { ThemeProvider, createTheme } from '@my-ui-lib/core';
+
+const violetTheme = createTheme({
+  colors: {
+    primary: '#7c3aed',
+    primaryHover: '#6d28d9',
+    primaryForeground: '#ffffff',
+  },
+});
+
+export function App() {
+  return <ThemeProvider theme={violetTheme}>{/* ... */}</ThemeProvider>;
+}
+```
+
+## 2. Dynamic switching
+
+Keep themes in a record and drive `ThemeProvider` with state:
+
+```tsx
+import { useState } from 'react';
+import { ThemeProvider } from '@my-ui-lib/core';
+import {
+  defaultTheme,
+  oceanTheme,
+  midnightTheme,
+  roseTheme,
+} from '@my-ui-lib/tokens';
+
+const THEMES = {
+  default: defaultTheme,
+  ocean: oceanTheme,
+  midnight: midnightTheme,
+  rose: roseTheme,
+} as const;
+
+type ThemeName = keyof typeof THEMES;
+
+export function App() {
+  const [active, setActive] = useState<ThemeName>('default');
+  return (
+    <ThemeProvider theme={THEMES[active]}>
+      {/* ... */}
+    </ThemeProvider>
+  );
+}
+```
+
+## 3. Full custom theme from scratch
+
+Implement every required `colors` key. You can spread `defaultTheme` for spacing, radii, and typography, then replace `colors` entirely with a warm palette:
+
+```tsx
+import type { SemanticTokens } from '@my-ui-lib/tokens';
+import { defaultTheme } from '@my-ui-lib/tokens';
+import { ThemeProvider } from '@my-ui-lib/core';
+
+const warmTheme: SemanticTokens = {
+  ...defaultTheme,
+  colors: {
+    background: '#fffbeb',
+    surface: '#fef3c7',
+    surfaceRaised: '#fde68a',
+    overlay: 'rgba(0,0,0,0.5)',
+    primary: '#d97706',
+    primaryHover: '#b45309',
+    primaryForeground: '#ffffff',
+    textPrimary: '#451a03',
+    textSecondary: '#92400e',
+    textDisabled: '#a8a29e',
+    border: '#fcd34d',
+    borderFocus: '#f59e0b',
+    destructive: '#dc2626',
+    destructiveForeground: '#ffffff',
+    success: '#16a34a',
+    warning: '#ca8a04',
+  },
+};
+
+export function App() {
+  return <ThemeProvider theme={warmTheme}>{/* ... */}</ThemeProvider>;
+}
+```
+
+<Callout>
+  TypeScript errors immediately if any required color key is missing.
+</Callout>
