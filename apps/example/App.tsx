@@ -15,6 +15,7 @@ import {
 import {
   Button,
   Input,
+  Modal,
   Text,
   ThemeProvider,
   VStack,
@@ -70,6 +71,38 @@ function ThemeSwitcher({
   );
 }
 
+function ModalStory() {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        section: {
+          marginBottom: theme.spacing[4],
+        },
+      }),
+    [theme],
+  );
+
+  return (
+    <View style={styles.section}>
+      <Text variant="label" style={{marginBottom: theme.spacing[2]}}>
+        Modal
+      </Text>
+      <Button onPress={() => setOpen(true)}>Open modal</Button>
+      <Modal
+        open={open}
+        title="Themed dialog"
+        onRequestClose={() => setOpen(false)}>
+        <Text variant="body" color={theme.colors.textPrimary}>
+          Overlay and surface use getModalTokens from the active theme.
+        </Text>
+        <Button onPress={() => setOpen(false)}>Close</Button>
+      </Modal>
+    </View>
+  );
+}
+
 function ThemedDemo() {
   const theme = useTheme();
   const styles = useMemo(
@@ -107,6 +140,7 @@ function ThemedDemo() {
         <View style={styles.block}>
           <Button onPress={() => {}}>Themed button</Button>
         </View>
+        <ModalStory />
         <Input label="Themed input" placeholder="Focus for border token" />
       </VStack>
     </ScrollView>

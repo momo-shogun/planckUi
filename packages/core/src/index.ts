@@ -10,6 +10,8 @@ export { Pressable } from './primitives/Pressable';
 export type { PressableProps } from './primitives/Pressable';
 export { Button } from './components/Button';
 export { Input } from './components/Input';
+export { Modal } from './components/Modal';
+export type { ModalProps } from './components/Modal';
 export { useControlledState } from './hooks/useControlledState';
 export { useToggle } from './hooks/useToggle';
 export { useFocusRing } from './hooks/useFocusRing';
