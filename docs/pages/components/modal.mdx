@@ -1,0 +1,29 @@
+---
+title: Modal
+---
+
+import { ModalDocPreview } from '../../components/ModalDocPreview';
+
+# Modal
+
+Themed dialog with overlay, optional title, backdrop tap to dismiss, and **`onRequestClose`**.
+
+## Preview
+
+<ModalDocPreview />
+
+## Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| open | boolean | Shows or hides the modal |
+| onRequestClose | () => void | Backdrop / system back |
+| title | string | Optional heading |
+| unstyled | boolean | Raw React Native `Modal` only |
+| slots | object | `overlay`, `surface`, `title`, `body` styles |
+
+## Install
+
+```bash
+npx my-ui-lib add modal
+```

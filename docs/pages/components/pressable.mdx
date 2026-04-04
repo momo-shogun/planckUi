@@ -1,0 +1,30 @@
+---
+title: Pressable
+---
+
+import { Preview } from '../../components/Preview';
+import { Pressable, Text, VStack } from '@my-ui-lib/core';
+
+# Pressable
+
+Wrapper around React Native **`Pressable`** with optional **`slots.root`** and disabled opacity handling.
+
+## Preview
+
+<Preview minHeight={140}>
+  <VStack gap={12} align="center">
+    <Pressable
+      onPress={() => {}}
+      style={({ pressed }) => ({
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        backgroundColor: pressed ? 'rgba(37,99,235,0.85)' : '#2563eb',
+      })}
+    >
+      <Text style={{ color: '#fff', fontWeight: '600' }}>Tap me</Text>
+    </Pressable>
+  </VStack>
+</Preview>
+
+Use **Button** for standard actions; use **Pressable** for fully custom hit targets.

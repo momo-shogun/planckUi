@@ -1,6 +1,9 @@
 {
+  "index": "Overview",
   "button": "Button",
   "input": "Input",
+  "modal": "Modal",
+  "pressable": "Pressable",
   "stack": "Stack",
   "text": "Text"
 }
