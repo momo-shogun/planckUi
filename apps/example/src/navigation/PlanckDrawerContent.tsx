@@ -6,7 +6,14 @@ import {Avatar, DrawerContent, Text, useTheme} from '@my-ui-lib/core';
 import {colorWithOpacity} from '@my-ui-lib/tokens';
 import {type DrawerItem} from '@my-ui-lib/core';
 import {DRAWER_ITEMS, type DrawerRoute} from './drawerConstants';
-import {GridIcon, ModalIcon, SheetIcon, TabsIcon, ToastIcon} from './NavIcons';
+import {
+  BottomTabsIcon,
+  GridIcon,
+  ModalIcon,
+  SheetIcon,
+  TabsIcon,
+  ToastIcon,
+} from './NavIcons';
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
@@ -24,7 +31,8 @@ function iconForRoute(key: DrawerRoute, color: string): React.ReactNode {
     case 'ModalLab':    return <ModalIcon color={color} size={16} />;
     case 'SheetLab':    return <SheetIcon color={color} size={16} />;
     case 'ToastLab':    return <ToastIcon color={color} size={16} />;
-    case 'TabsLab':     return <TabsIcon  color={color} size={16} />;
+    case 'TabsLab':        return <TabsIcon       color={color} size={16} />;
+    case 'BottomTabsLab':  return <BottomTabsIcon color={color} size={16} />;
   }
 }
 

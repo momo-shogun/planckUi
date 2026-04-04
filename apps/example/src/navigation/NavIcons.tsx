@@ -98,6 +98,49 @@ export function ToastIcon({color, size = 16}: IconProps) {
   );
 }
 
+/** Bottom bar with three items — React Navigation bottom tabs */
+export function BottomTabsIcon({color, size = 16}: IconProps) {
+  const dot = size * 0.2;
+  const barH = Math.max(3, size * 0.22);
+  return (
+    <View style={{width: size, height: size, justifyContent: 'flex-end'}}>
+      <View
+        style={{
+          width: size,
+          height: size * 0.55,
+          borderWidth: 1.5,
+          borderColor: color,
+          borderRadius: 3,
+          marginBottom: 2,
+        }}
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          height: barH,
+          borderTopWidth: 1.5,
+          borderTopColor: color,
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          paddingHorizontal: 2,
+        }}>
+        {[0, 1, 2].map(i => (
+          <View
+            key={i}
+            style={{
+              width: dot,
+              height: dot,
+              borderRadius: dot / 2,
+              backgroundColor: color,
+              opacity: i === 0 ? 1 : 0.45,
+            }}
+          />
+        ))}
+      </View>
+    </View>
+  );
+}
+
 /** Tab strip with raised active tab — represents "Tabs" */
 export function TabsIcon({color, size = 16}: IconProps) {
   const tabW = (size - 2) / 3;

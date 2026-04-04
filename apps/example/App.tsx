@@ -30,9 +30,6 @@ import {
   MultiSelect,
   PortalProvider,
   Switch,
-  TabBar,
-  TabPanel,
-  Tabs,
   Text,
   ThemeProvider,
   ToastProvider,
@@ -42,7 +39,9 @@ import {
 } from '@my-ui-lib/core';
 import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
 import type {RootDrawerParamList} from './src/navigation/drawerConstants';
+import {BottomTabsLabNavigator} from './src/navigation/BottomTabsLabNavigator';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
+import {TabsLabScreen} from './src/screens/TabsLabScreen';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
 
@@ -262,82 +261,6 @@ function ToastLabScreen() {
   );
 }
 
-function TabsLabScreen() {
-  const theme = useTheme();
-  const [barKey, setBarKey] = useState('home');
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: theme.spacing[4],
-        backgroundColor: theme.colors.background,
-        paddingBottom: theme.spacing[12],
-      }}>
-      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
-        Tabs
-      </Text>
-      <Tabs
-        tabs={[
-          {key: 'a', label: 'Alpha'},
-          {key: 'b', label: 'Beta', badge: 3},
-        ]}
-        defaultActiveKey="a"
-        variant="pill">
-        <TabPanel tabKey="a">
-          <Text>Panel A</Text>
-        </TabPanel>
-        <TabPanel tabKey="b">
-          <Text>Panel B</Text>
-        </TabPanel>
-      </Tabs>
-      <Text variant="label" style={{marginTop: theme.spacing[4]}}>
-        TabBar (floating)
-      </Text>
-      <TabBar
-        variant="floating"
-        items={[
-          {
-            key: 'home',
-            label: 'Home',
-            icon: (isActive: boolean) => (
-              <View
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: 11,
-                  backgroundColor: isActive
-                    ? theme.colors.primary
-                    : theme.colors.border,
-                }}
-              />
-            ),
-          },
-          {
-            key: 'star',
-            label: 'Star',
-            icon: (isActive: boolean) => (
-              <View
-                style={{
-                  width: 22,
-                  height: 22,
-                  borderRadius: 4,
-                  backgroundColor: isActive
-                    ? theme.colors.primary
-                    : theme.colors.border,
-                }}
-              />
-            ),
-          },
-        ]}
-        activeKey={barKey}
-        onChange={setBarKey}
-      />
-      <Text variant="caption" color={theme.colors.textSecondary} style={{marginTop: 8}}>
-        Active tab: {barKey}
-      </Text>
-    </ScrollView>
-  );
-}
-
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 function RootDrawer({
@@ -377,6 +300,7 @@ function RootDrawer({
         <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
         <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
         <Drawer.Screen name="TabsLab" component={TabsLabScreen} />
+        <Drawer.Screen name="BottomTabsLab" component={BottomTabsLabNavigator} />
       </Drawer.Navigator>
     </>
   );

@@ -7,6 +7,7 @@ export const DRAWER_ITEMS = [
   {key: 'SheetLab', label: 'Bottom sheet'},
   {key: 'ToastLab', label: 'Toasts'},
   {key: 'TabsLab', label: 'Tabs & tab bar'},
+  {key: 'BottomTabsLab', label: 'Bottom tabs (RN)'},
 ] as const;
 
 export type DrawerRoute = (typeof DRAWER_ITEMS)[number]['key'];
