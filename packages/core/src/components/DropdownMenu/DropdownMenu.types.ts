@@ -34,7 +34,10 @@ export interface DropdownMenuProps {
   items: DropdownMenuItem[];
   value?: string;
   defaultValue?: string;
+  /** Called when the selected id changes (controlled usage). */
   onValueChange?: (id: string) => void;
+  /** Alias for `onValueChange` (familiar from picker-style APIs). Both may be set; both fire. */
+  onChange?: (id: string) => void;
   placeholder?: string;
   disabled?: boolean;
   unstyled?: boolean;
@@ -64,6 +67,8 @@ export interface DropdownMenuProps {
     item: DropdownMenuItem,
     context: DropdownMenuRenderItemContext
   ) => ReactNode;
+  /** When using the default row, show a leading checkmark for the selected item (default `true`). */
+  showSelectedCheckmark?: boolean;
   showsVerticalScrollIndicator?: boolean;
   onOpen?: () => void;
   onClose?: () => void;
@@ -71,6 +76,10 @@ export interface DropdownMenuProps {
     TextInputProps,
     'value' | 'onChangeText' | 'placeholder' | 'style'
   >;
+  /** Applied to the outer root view (merged after `slots.root`). Like element-dropdown `style`. */
+  style?: ViewStyle;
+  /** Applied to the floating list container (merged after `slots.menuContainer`). Like `containerStyle`. */
+  containerStyle?: ViewStyle;
   slots?: DropdownMenuSlots;
   testID?: string;
   accessibilityLabel?: string;

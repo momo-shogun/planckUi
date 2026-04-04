@@ -57,6 +57,8 @@ export function getInputTokens(theme: SemanticTokens): {
 
 export function getDropdownMenuTokens(theme: SemanticTokens): {
   overlay: string;
+  /** Light scrim for anchored dropdown (non-modal); keeps focus on the list. */
+  anchoredBackdrop: string;
   triggerBg: string;
   triggerText: string;
   triggerBorder: string;
@@ -66,6 +68,7 @@ export function getDropdownMenuTokens(theme: SemanticTokens): {
   itemDisabledText: string;
   itemPressedBg: string;
   itemSelectedBg: string;
+  checkmark: string;
   searchText: string;
   searchPlaceholder: string;
   searchSeparator: string;
@@ -73,6 +76,7 @@ export function getDropdownMenuTokens(theme: SemanticTokens): {
   const { colors } = theme;
   return {
     overlay: colors.overlay,
+    anchoredBackdrop: 'rgba(0,0,0,0.12)',
     triggerBg: colors.surface,
     triggerText: colors.textPrimary,
     triggerBorder: colors.border,
@@ -82,6 +86,7 @@ export function getDropdownMenuTokens(theme: SemanticTokens): {
     itemDisabledText: colors.textDisabled,
     itemPressedBg: colors.surface,
     itemSelectedBg: colors.surface,
+    checkmark: colors.primary,
     searchText: colors.textPrimary,
     searchPlaceholder: colors.textDisabled,
     searchSeparator: colors.border,

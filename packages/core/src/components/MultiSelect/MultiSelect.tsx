@@ -22,12 +22,12 @@ import { useTheme } from '../../system/ThemeContext';
 import {
   createDropdownMenuStyles,
   getDefaultMenuListMaxHeight,
-} from './DropdownMenu.styles';
-import type { DropdownMenuProps } from './DropdownMenu.types';
+} from '../DropdownMenu/DropdownMenu.styles';
+import type { MultiSelectProps } from './MultiSelect.types';
 
 const SEARCH_ROW_HEIGHT = 48;
 
-export function DropdownMenu({
+export function MultiSelect({
   items,
   value: valueProp,
   defaultValue,
@@ -46,7 +46,7 @@ export function DropdownMenu({
   onChangeSearchText,
   filterItem,
   renderItem,
-  showSelectedCheckmark = true,
+  maxSelections,
   showsVerticalScrollIndicator = true,
   onOpen,
   onClose,
@@ -56,7 +56,7 @@ export function DropdownMenu({
   slots = {},
   testID,
   accessibilityLabel,
-}: DropdownMenuProps) {
+}: MultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [anchorRect, setAnchorRect] = useState({
@@ -68,16 +68,16 @@ export function DropdownMenu({
   const triggerRef = useRef<View>(null);
 
   const emitSelection = useCallback(
-    (id: string) => {
-      onValueChangeProp?.(id);
-      onChangeProp?.(id);
+    (ids: string[]) => {
+      onValueChangeProp?.(ids);
+      onChangeProp?.(ids);
     },
     [onValueChangeProp, onChangeProp]
   );
 
-  const [selectedId, setSelectedId] = useControlledState(
+  const [selectedIds, setSelectedIds] = useControlledState(
     valueProp,
-    defaultValue ?? '',
+    defaultValue ?? [],
     emitSelection
   );
 
@@ -110,16 +110,28 @@ export function DropdownMenu({
   }, [disabled, open, close, mode, openAnchored, onOpen]);
 
   const selectedLabel = useMemo(() => {
-    const item = items.find((i) => i.id === selectedId);
-    return item?.label ?? placeholder;
-  }, [items, selectedId, placeholder]);
+    if (selectedIds.length === 0) return placeholder;
+    const labels = selectedIds
+      .map((id) => items.find((i) => i.id === id)?.label)
+      .filter((x): x is string => Boolean(x));
+    return labels.join(', ');
+  }, [items, selectedIds, placeholder]);
 
-  const onPick = useCallback(
+  const toggleItem = useCallback(
     (id: string) => {
-      setSelectedId(id);
-      close();
+      const item = items.find((i) => i.id === id);
+      if (item?.disabled) return;
+      const nextSet = new Set(selectedIds);
+      if (nextSet.has(id)) {
+        nextSet.delete(id);
+      } else if (maxSelections == null || nextSet.size < maxSelections) {
+        nextSet.add(id);
+      } else {
+        return;
+      }
+      setSelectedIds(Array.from(nextSet));
     },
-    [setSelectedId, close]
+    [items, maxSelections, selectedIds, setSelectedIds]
   );
 
   const onSearchChange = useCallback(
@@ -174,14 +186,20 @@ export function DropdownMenu({
               />
             ) : null}
             <ScrollView keyboardShouldPersistTaps="handled">
-              {filteredItems.map((item) => (
-                <RNPressable
-                  key={item.id}
-                  disabled={item.disabled}
-                  onPress={() => !item.disabled && onPick(item.id)}>
-                  <Text>{item.label}</Text>
-                </RNPressable>
-              ))}
+              {filteredItems.map((item) => {
+                const selected = selectedIds.includes(item.id);
+                return (
+                  <RNPressable
+                    key={item.id}
+                    disabled={item.disabled}
+                    onPress={() => !item.disabled && toggleItem(item.id)}>
+                    <Text>
+                      {selected ? '☑ ' : '☐ '}
+                      {item.label}
+                    </Text>
+                  </RNPressable>
+                );
+              })}
             </ScrollView>
           </View>
         </RNModal>
@@ -196,9 +214,7 @@ export function DropdownMenu({
     maxHeightProp ?? getDefaultMenuListMaxHeight(theme);
 
   const win = Dimensions.get('window');
-  /** Screen edge inset for horizontal clamp (not the gap under the trigger). */
   const screenPad = theme.spacing[2];
-  /** Tight offset under/over the trigger — matches react-native-element-dropdown (~2px). */
   const dropdownGap = 2;
 
   const menuWidth = Math.max(
@@ -234,14 +250,14 @@ export function DropdownMenu({
 
   const renderRows = () =>
     filteredItems.map((item, index) => {
-      const selected = item.id === selectedId;
+      const selected = selectedIds.includes(item.id);
       const dis = Boolean(item.disabled);
       const isLast = index === filteredItems.length - 1;
       return (
         <RNPressable
           key={item.id}
           disabled={dis}
-          onPress={() => !dis && onPick(item.id)}
+          onPress={() => !dis && toggleItem(item.id)}
           style={({ pressed }) => [
             styles.menuItem,
             isLast && styles.menuItemLast,
@@ -257,17 +273,11 @@ export function DropdownMenu({
             renderItem(item, { selected, disabled: dis })
           ) : (
             <View style={styles.menuItemRow}>
-              {showSelectedCheckmark ? (
-                <Text
-                  style={[
-                    styles.itemLeading,
-                    !selected && styles.itemLeadingEmpty,
-                  ]}
-                  accessibilityElementsHidden
-                  importantForAccessibility="no">
-                  {selected ? '✓' : ' '}
-                </Text>
-              ) : null}
+              <View style={[styles.checkbox, selected && styles.checkboxOn]}>
+                {selected ? (
+                  <Text style={styles.checkboxMark}>✓</Text>
+                ) : null}
+              </View>
               <Text
                 numberOfLines={1}
                 style={[
@@ -369,7 +379,7 @@ export function DropdownMenu({
           slots={{ root: triggerSlotRoot }}
           testID={testID ? `${testID}-trigger` : undefined}>
           <Text
-            numberOfLines={1}
+            numberOfLines={2}
             style={[styles.triggerText, slots.triggerText]}>
             {selectedLabel}
           </Text>

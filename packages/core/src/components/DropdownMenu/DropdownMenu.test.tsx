@@ -55,17 +55,20 @@ describe('DropdownMenu', () => {
 
   it('opens the menu and selects an item', () => {
     const onValueChange = jest.fn();
+    const onChange = jest.fn();
     const { getByTestId } = render(
       <DropdownMenu
         testID="dd"
         items={items}
         onValueChange={onValueChange}
+        onChange={onChange}
       />,
       { wrapper }
     );
     fireEvent.press(getByTestId('dd-trigger'));
     fireEvent.press(getByTestId('dd-item-b'));
     expect(onValueChange).toHaveBeenCalledWith('b');
+    expect(onChange).toHaveBeenCalledWith('b');
   });
 
   it('filters items when search is enabled', async () => {

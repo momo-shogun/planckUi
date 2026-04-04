@@ -1,7 +1,7 @@
 {
   "index": "Overview",
   "button": "Button",
-  "dropdown-menu": "Dropdown menu",
+  "dropdown-menu": "Dropdown & MultiSelect",
   "input": "Input",
   "modal": "Modal",
   "pressable": "Pressable",

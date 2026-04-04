@@ -14,9 +14,11 @@ import {
 } from '@my-ui-lib/tokens';
 import {
   Button,
+  Dropdown,
   DropdownMenu,
   Input,
   Modal,
+  MultiSelect,
   Text,
   ThemeProvider,
   VStack,
@@ -107,12 +109,20 @@ function ModalStory() {
 const dropdownItems = [
   {id: 'one', label: 'First option'},
   {id: 'two', label: 'Second option'},
-  {id: 'three', label: 'Third (disabled)', disabled: true},
+  {id: 'three', label: 'Second option'},
+  {id: 'four', label: 'Second option'},
+  {id: 'five', label: 'Second option'},
+  {id: 'six', label: 'Second option'},
+  {id: 'seven', label: 'Second option'},
+  {id: 'eight', label: 'Second option'},
+  {id: 'nine', label: 'Second option'},
+  {id: 'ten', label: 'Second option'},
 ];
 
 function DropdownMenuStory() {
   const theme = useTheme();
   const [value, setValue] = useState<string | undefined>();
+  const [multi, setMulti] = useState<string[]>([]);
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -129,20 +139,70 @@ function DropdownMenuStory() {
   return (
     <View style={styles.section}>
       <Text variant="label" style={{marginBottom: theme.spacing[2]}}>
-        Dropdown menu
+        Dropdown & MultiSelect
       </Text>
       <VStack gap={theme.spacing[3]} style={styles.row}>
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Anchored to trigger (default). Selected: {value ?? 'none'}
+          Dropdown alias + controlled. Selected: {value ?? 'none'}
+        </Text>
+        <Dropdown
+          items={dropdownItems}
+          value={value}
+          onChange={setValue}
+          placeholder="Dropdown alias (onChange)"
+          testID="example-dropdown-alias"
+        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Searchable DropdownMenu
         </Text>
         <DropdownMenu
           items={dropdownItems}
-          value={value}
-          onValueChange={setValue}
-          placeholder="Choose an option"
           search
           searchPlaceholder="Filter…"
-          testID="example-dropdown-anchored"
+          placeholder="Search enabled"
+          testID="example-dropdown-search"
+        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          MultiSelect ({multi.length} selected)
+        </Text>
+        <MultiSelect
+          items={dropdownItems}
+          value={multi}
+          onValueChange={setMulti}
+          placeholder="Pick multiple"
+          testID="example-multiselect"
+        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Custom rows (renderItem)
+        </Text>
+        <DropdownMenu
+          items={dropdownItems}
+          placeholder="Custom UI"
+          renderItem={(item, {selected}) => (
+            <Text variant="body">
+              {selected ? '● ' : '○ '}
+              {item.label}
+            </Text>
+          )}
+          testID="example-dropdown-render"
+        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          style + containerStyle
+        </Text>
+        <DropdownMenu
+          items={dropdownItems}
+          placeholder="Accent outline"
+          style={{
+            borderWidth: 2,
+            borderColor: theme.colors.primary,
+            borderRadius: theme.radii.lg,
+            padding: theme.spacing[1],
+          }}
+          containerStyle={{
+            borderWidth: 2,
+            borderColor: theme.colors.borderFocus,
+          }}
+          testID="example-dropdown-style"
         />
         <Text variant="caption" color={theme.colors.textSecondary}>
           Modal presentation
