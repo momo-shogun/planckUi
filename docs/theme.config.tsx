@@ -5,18 +5,18 @@ import { useRouter } from 'next/router';
 const config: DocsThemeConfig = {
   logo: (
     <span style={{ fontWeight: 700, fontSize: 18, letterSpacing: '-0.02em' }}>
-      my-ui-lib
+      planckUi
     </span>
   ),
   project: {
-    link: 'https://github.com/your-org/my-ui-lib',
+    link: 'https://github.com/your-org/planckUi',
   },
   docsRepositoryBase:
-    'https://github.com/your-org/my-ui-lib/tree/main/docs',
+    'https://github.com/your-org/planckUi/tree/main/docs',
   useNextSeoProps() {
     const { asPath } = useRouter();
     return {
-      titleTemplate: asPath === '/' ? 'my-ui-lib' : '%s – my-ui-lib',
+      titleTemplate: asPath === '/' ? 'planckUi' : '%s – planckUi',
     };
   },
   head: (
@@ -24,7 +24,7 @@ const config: DocsThemeConfig = {
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta
         name="description"
-        content="Headless React Native UI library for CLI apps"
+        content="planckUi — headless React Native UI library for CLI apps"
       />
     </>
   ),
@@ -38,11 +38,11 @@ const config: DocsThemeConfig = {
       <span style={{ fontSize: 14 }}>
         MIT {new Date().getFullYear()} ©{' '}
         <a
-          href="https://github.com/your-org/my-ui-lib"
+          href="https://github.com/your-org/planckUi"
           target="_blank"
           rel="noreferrer"
         >
-          my-ui-lib
+          planckUi
         </a>
       </span>
     ),
