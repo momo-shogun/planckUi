@@ -1,4 +1,6 @@
 rootProject.name = 'example'
-apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+// Monorepo + pnpm: RN tooling is hoisted to the repo root, not apps/example/node_modules.
+def monorepoRoot = file("../../..")
+apply from: new File(monorepoRoot, "node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
 include ':app'
-includeBuild('../node_modules/@react-native/gradle-plugin')
+includeBuild(new File(monorepoRoot, "node_modules/@react-native/gradle-plugin"))

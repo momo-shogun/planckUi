@@ -3,6 +3,9 @@
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "scripts": {
+    "start": "pnpm --filter example start",
+    "android": "pnpm --filter example android",
+    "ios": "pnpm --filter example ios",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "typecheck": "turbo run typecheck",
