@@ -10,42 +10,67 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
   return StyleSheet.create({
     root: {
       flex: 1,
-      flexDirection: 'column',
-      gap: spacing[2],
       backgroundColor: tokens.bg,
       borderRightWidth: StyleSheet.hairlineWidth,
       borderColor: tokens.border,
-      paddingHorizontal: spacing[4],
+      paddingHorizontal: spacing[3],
       paddingTop: spacing[4],
       paddingBottom: spacing[6],
     },
+
+    // ─── Header (brand area) ─────────────────────────────────────────────────
     header: {
-      paddingBottom: spacing[3],
+      paddingHorizontal: spacing[1],
+      paddingBottom: spacing[4],
       marginBottom: spacing[2],
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: tokens.border,
     },
-    footer: {
-      paddingTop: spacing[4],
-      marginTop: 'auto',
-    },
+
+    // ─── Nav items ───────────────────────────────────────────────────────────
     item: {
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
+      gap: spacing[3],
       paddingVertical: spacing[3],
-      paddingHorizontal: spacing[4],
-      borderRadius: radii.md,
+      paddingLeft: spacing[2] + 3, // 3 = activeBar width so label stays aligned
+      paddingRight: spacing[3],
+      borderRadius: radii.lg,
       backgroundColor: tokens.itemBg,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: tokens.border,
+      marginBottom: spacing[1],
       minHeight: 48,
     },
     itemActive: {
       backgroundColor: tokens.itemBgActive,
-      borderColor: colorWithOpacity(theme.colors.primary, 0.45),
     },
+
+    /** Animated left pill – 3 px wide, absolutely positioned inside the row. */
+    activeBar: {
+      position: 'absolute',
+      left: 0,
+      top: 10,
+      bottom: 10,
+      width: 3,
+      borderRadius: 2,
+      backgroundColor: tokens.activeBar,
+    },
+
+    // ─── Icon container ───────────────────────────────────────────────────────
+    iconContainer: {
+      width: 36,
+      height: 36,
+      borderRadius: radii.md,
+      backgroundColor: colorWithOpacity(theme.colors.textSecondary, 0.06),
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    iconContainerActive: {
+      backgroundColor: colorWithOpacity(theme.colors.primary, 0.12),
+    },
+
+    // ─── Labels ───────────────────────────────────────────────────────────────
     itemLabel: {
+      flex: 1,
       fontSize: fontSizes.md,
       fontWeight: fontWeights.medium as '500',
       color: tokens.itemLabel,
@@ -54,6 +79,8 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
       color: tokens.itemLabelActive,
       fontWeight: fontWeights.semibold as '600',
     },
+
+    // ─── Badge pill ───────────────────────────────────────────────────────────
     badge: {
       minWidth: spacing[5],
       paddingHorizontal: spacing[2],
@@ -66,6 +93,14 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
       fontSize: fontSizes.xs,
       fontWeight: fontWeights.semibold as '600',
       color: tokens.badgeText,
+    },
+
+    // ─── Footer ───────────────────────────────────────────────────────────────
+    footer: {
+      marginTop: 'auto',
+      paddingTop: spacing[4],
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: tokens.border,
     },
   });
 }

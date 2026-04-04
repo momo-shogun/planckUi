@@ -5,6 +5,8 @@ export interface DrawerItem {
   key: string;
   label: string;
   badge?: string | number;
+  /** Optional icon rendered to the left of the label. */
+  icon?: ReactNode;
 }
 
 export interface DrawerContentSlots {
@@ -15,6 +17,8 @@ export interface DrawerContentSlots {
   itemActive?: ViewStyle;
   itemLabel?: TextStyle;
   itemLabelActive?: TextStyle;
+  iconContainer?: ViewStyle;
+  iconContainerActive?: ViewStyle;
   badge?: ViewStyle;
   badgeText?: TextStyle;
 }

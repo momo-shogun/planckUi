@@ -366,6 +366,9 @@ export function getDrawerContentTokens(theme: SemanticTokens): {
   itemBgActive: string;
   itemLabel: string;
   itemLabelActive: string;
+  itemIcon: string;
+  itemIconActive: string;
+  activeBar: string;
   badgeBg: string;
   badgeText: string;
 } {
@@ -373,10 +376,13 @@ export function getDrawerContentTokens(theme: SemanticTokens): {
   return {
     bg: colors.surface,
     border: colors.border,
-    itemBg: colors.surfaceRaised,
-    itemBgActive: colorWithOpacity(colors.primary, 0.1),
-    itemLabel: colors.textPrimary,
+    itemBg: 'transparent',
+    itemBgActive: colorWithOpacity(colors.primary, 0.08),
+    itemLabel: colors.textSecondary,
     itemLabelActive: colors.primary,
+    itemIcon: colors.textSecondary,
+    itemIconActive: colors.primary,
+    activeBar: colors.primary,
     badgeBg: colors.primary,
     badgeText: colors.primaryForeground,
   };
