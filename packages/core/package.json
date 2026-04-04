@@ -1,0 +1,48 @@
+{
+  "name": "@my-ui-lib/core",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "jest",
+    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@my-ui-lib/tokens": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.73"
+  },
+  "devDependencies": {
+    "@my-ui-lib/eslint-config": "workspace:*",
+    "@my-ui-lib/eslint-plugin": "workspace:*",
+    "@babel/core": "^7.24.0",
+    "@react-native/babel-preset": "^0.73.0",
+    "@testing-library/react-native": "^12.4.0",
+    "@types/jest": "^29.5.0",
+    "@types/react": "^18.0.0",
+    "babel-jest": "^29.7.0",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "jest": "^29.7.0",
+    "react": "^18.2.0",
+    "react-native": "^0.73.0",
+    "react-test-renderer": "^18.2.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

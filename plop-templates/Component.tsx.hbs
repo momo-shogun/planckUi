@@ -1,0 +1,25 @@
+import React from 'react';
+import { Pressable } from 'react-native';
+import { useTheme } from '../../system/ThemeContext';
+import { create{{name}}Styles } from './{{name}}.styles';
+import type { {{name}}Props } from './{{name}}.types';
+
+export function {{name}}({
+  unstyled = false,
+  slots = {},
+  children,
+  ...props
+}: {{name}}Props) {
+  const theme = useTheme();
+  const styles = create{{name}}Styles(theme);
+
+  if (unstyled) {
+    return <Pressable {...props}>{children}</Pressable>;
+  }
+
+  return (
+    <Pressable style={[styles.root, slots.root]} {...props}>
+      {children}
+    </Pressable>
+  );
+}

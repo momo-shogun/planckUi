@@ -1,0 +1,22 @@
+{
+  "semantic": {
+    "color": {
+      "background": { "value": "{color.white}", "$type": "color" },
+      "surface": { "value": "{color.gray.50}", "$type": "color" },
+      "surfaceRaised": { "value": "{color.gray.100}", "$type": "color" },
+      "overlay": { "value": "rgba(0,0,0,0.5)", "$type": "color" },
+      "primary": { "value": "{color.blue.600}", "$type": "color" },
+      "primaryHover": { "value": "{color.blue.700}", "$type": "color" },
+      "primaryForeground": { "value": "{color.white}", "$type": "color" },
+      "textPrimary": { "value": "{color.gray.900}", "$type": "color" },
+      "textSecondary": { "value": "{color.gray.700}", "$type": "color" },
+      "textDisabled": { "value": "{color.gray.400}", "$type": "color" },
+      "border": { "value": "{color.gray.200}", "$type": "color" },
+      "borderFocus": { "value": "{color.blue.400}", "$type": "color" },
+      "destructive": { "value": "{color.red.500}", "$type": "color" },
+      "destructiveForeground": { "value": "{color.white}", "$type": "color" },
+      "success": { "value": "{color.green.500}", "$type": "color" },
+      "warning": { "value": "#f59e0b", "$type": "color" }
+    }
+  }
+}

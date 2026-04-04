@@ -1,0 +1,17 @@
+{
+  "semantic": {
+    "color": {
+      "background": { "value": "#0f172a", "$type": "color" },
+      "surface": { "value": "#1e293b", "$type": "color" },
+      "surfaceRaised": { "value": "#334155", "$type": "color" },
+      "primary": { "value": "#818cf8", "$type": "color" },
+      "primaryHover": { "value": "#6366f1", "$type": "color" },
+      "primaryForeground": { "value": "#0f172a", "$type": "color" },
+      "textPrimary": { "value": "#f1f5f9", "$type": "color" },
+      "textSecondary": { "value": "#94a3b8", "$type": "color" },
+      "textDisabled": { "value": "#475569", "$type": "color" },
+      "border": { "value": "#334155", "$type": "color" },
+      "borderFocus": { "value": "#818cf8", "$type": "color" }
+    }
+  }
+}

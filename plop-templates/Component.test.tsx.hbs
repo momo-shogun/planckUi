@@ -1,0 +1,26 @@
+import React from 'react';
+import { render } from '@testing-library/react-native';
+import { ThemeProvider } from '../../system/ThemeProvider';
+import { {{name}} } from './{{name}}';
+
+const wrapper = ({ children }: { children: React.ReactNode }) => (
+  <ThemeProvider>{children}</ThemeProvider>
+);
+
+describe('{{name}}', () => {
+  it('renders without crashing', () => {
+    const { getByTestId } = render(
+      <{{name}} testID="{{name}}-root">children</{{name}}>,
+      { wrapper }
+    );
+    expect(getByTestId('{{name}}-root')).toBeTruthy();
+  });
+
+  it('renders unstyled when unstyled=true', () => {
+    const { getByTestId } = render(
+      <{{name}} testID="{{name}}-root" unstyled>children</{{name}}>,
+      { wrapper }
+    );
+    expect(getByTestId('{{name}}-root')).toBeTruthy();
+  });
+});

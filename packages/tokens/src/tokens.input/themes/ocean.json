@@ -1,0 +1,9 @@
+{
+  "semantic": {
+    "color": {
+      "primary": { "value": "#0891b2", "$type": "color" },
+      "primaryHover": { "value": "#0e7490", "$type": "color" },
+      "borderFocus": { "value": "#22d3ee", "$type": "color" }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+import type { PressableProps, ViewStyle } from 'react-native';
+
+export interface {{name}}Props extends PressableProps {
+  unstyled?: boolean;
+  slots?: {
+    root?: ViewStyle;
+  };
+  children?: React.ReactNode;
+}

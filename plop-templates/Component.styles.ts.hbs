@@ -1,0 +1,12 @@
+import { StyleSheet } from 'react-native';
+import type { SemanticTokens } from '@my-ui-lib/tokens';
+
+export function create{{name}}Styles(theme: SemanticTokens) {
+  return StyleSheet.create({
+    root: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: theme.radii.md,
+      padding: theme.spacing[4],
+    },
+  });
+}

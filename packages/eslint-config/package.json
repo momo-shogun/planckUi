@@ -1,0 +1,20 @@
+{
+  "name": "@my-ui-lib/eslint-config",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node -e \"process.exit(0)\"",
+    "test": "node -e \"process.exit(0)\"",
+    "lint": "node -e \"process.exit(0)\"",
+    "typecheck": "node -e \"process.exit(0)\"",
+    "clean": "node -e \"process.exit(0)\""
+  },
+  "dependencies": {
+    "@my-ui-lib/eslint-plugin": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0"
+  },
+  "peerDependencies": {
+    "eslint": ">=8"
+  }
+}

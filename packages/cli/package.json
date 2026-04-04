@@ -1,0 +1,30 @@
+{
+  "name": "@my-ui-lib/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "my-ui-lib": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "node -e \"process.exit(0)\"",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "fs-extra": "^11.2.0",
+    "picocolors": "^1.0.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.0",
+    "@types/prompts": "^2.4.9",
+    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0"
+  }
+}

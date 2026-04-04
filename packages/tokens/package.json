@@ -1,0 +1,35 @@
+{
+  "name": "@my-ui-lib/tokens",
+  "version": "0.1.0",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "generate:tokens": "tsx src/build.ts",
+    "build": "pnpm generate:tokens && tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "node -e \"process.exit(0)\"",
+    "lint": "eslint \"src/**/*.ts\" --ignore-pattern \"src/build.ts\"",
+    "clean": "rm -rf dist src/generated"
+  },
+  "devDependencies": {
+    "@my-ui-lib/eslint-config": "workspace:*",
+    "@my-ui-lib/eslint-plugin": "workspace:*",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "@types/node": "^20.0.0",
+    "style-dictionary": "^4.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "tsx": "^4.0.0"
+  }
+}
