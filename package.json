@@ -20,7 +20,8 @@
   "pnpm": {
     "overrides": {
       "react-native-reanimated": "3.16.7",
-      "react-native-screens": "3.31.1"
+      "react-native-screens": "3.31.1",
+      "react-native-svg": "15.9.0"
     }
   },
   "devDependencies": {
