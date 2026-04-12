@@ -8,15 +8,6 @@ import type {BottomTabsLabStackParamList} from './types';
 
 const TITLES: Record<keyof BottomTabsLabStackParamList, string> = {
   BottomTabsMenu: 'Bottom tabs lab',
-  PresetDefault: 'Default',
-  PresetIconsOnly: 'Icons only',
-  PresetBadges: 'Badges',
-  PresetBesideIcon: 'Label beside icon',
-  PresetStyledBar: 'Styled bar',
-  PresetActiveBackground: 'Active background',
-  PresetHideKeyboard: 'Hide with keyboard',
-  PresetEager: 'Eager tabs',
-  PresetPlanckBar: 'Planck tabBar',
   PresetPlankBarV1: 'Plank Bar V1',
 };
 
