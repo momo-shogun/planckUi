@@ -28,6 +28,8 @@ for (const name of [
   'react-native-reanimated',
   'react-native-screens',
   'react-native-safe-area-context',
+  'react-native-svg',
+  'lucide-react-native',
 ]) {
   const dir = resolvePackageDir(name);
   if (dir) {

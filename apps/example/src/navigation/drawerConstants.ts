@@ -1,3 +1,6 @@
+import type {NavigatorScreenParams} from '@react-navigation/native';
+import type {BottomTabsLabStackParamList} from './bottomTabsLab/types';
+
 /**
  * Single source for drawer route keys used with React Navigation and Planck DrawerContent.
  */
@@ -7,9 +10,16 @@ export const DRAWER_ITEMS = [
   {key: 'SheetLab', label: 'Bottom sheet'},
   {key: 'ToastLab', label: 'Toasts'},
   {key: 'TabsLab', label: 'Tabs & tab bar'},
-  {key: 'BottomTabsLab', label: 'Bottom tabs (RN)'},
+  {key: 'BottomTabsLab', label: 'Bottom tabs lab'},
 ] as const;
 
 export type DrawerRoute = (typeof DRAWER_ITEMS)[number]['key'];
 
-export type RootDrawerParamList = Record<DrawerRoute, undefined>;
+export type RootDrawerParamList = {
+  Showcase: undefined;
+  ModalLab: undefined;
+  SheetLab: undefined;
+  ToastLab: undefined;
+  TabsLab: undefined;
+  BottomTabsLab: NavigatorScreenParams<BottomTabsLabStackParamList> | undefined;
+};

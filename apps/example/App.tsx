@@ -5,8 +5,9 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import {NavigationContainer} from '@react-navigation/native';
+import type {DrawerScreenProps} from '@react-navigation/drawer';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {NavigationContainer} from '@react-navigation/native';
 import {
   defaultTheme,
   midnightTheme,
@@ -37,9 +38,13 @@ import {
   useTheme,
   useToast,
 } from '@my-ui-lib/core';
+import {
+  BottomTabsLabDrawerHeaderLeft,
+  bottomTabsLabDrawerTitle,
+} from './src/navigation/bottomTabsLab/bottomTabsLabDrawerChrome';
+import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsLabNavigator';
 import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
 import type {RootDrawerParamList} from './src/navigation/drawerConstants';
-import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsLabNavigator';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
 
@@ -300,7 +305,23 @@ function RootDrawer({
         <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
         <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
         <Drawer.Screen name="TabsLab" component={TabsLabScreen} />
-        <Drawer.Screen name="BottomTabsLab" component={BottomTabsLabNavigator} />
+        <Drawer.Screen
+          name="BottomTabsLab"
+          component={BottomTabsLabNavigator}
+          options={({
+            route,
+            navigation,
+          }: DrawerScreenProps<RootDrawerParamList, 'BottomTabsLab'>) => ({
+            title: bottomTabsLabDrawerTitle(route),
+            headerLeft: () => (
+              <BottomTabsLabDrawerHeaderLeft
+                route={route}
+                navigation={navigation}
+                barColor={theme.colors.textPrimary}
+              />
+            ),
+          })}
+        />
       </Drawer.Navigator>
     </>
   );
