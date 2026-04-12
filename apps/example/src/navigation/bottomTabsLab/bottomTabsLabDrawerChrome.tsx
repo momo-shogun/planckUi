@@ -4,12 +4,10 @@ import React from 'react';
 import {Pressable, StyleSheet, Text} from 'react-native';
 import type {RootDrawerParamList} from '../drawerConstants';
 import {DrawerMenuButton} from '../DrawerMenuButton';
+import {bottomTabsLabDrawerTitles} from './presets/registry';
 import type {BottomTabsLabStackParamList} from './types';
 
-const TITLES: Record<keyof BottomTabsLabStackParamList, string> = {
-  BottomTabsMenu: 'Bottom tabs lab',
-  PresetPlankBarV1: 'Plank Bar V1',
-};
+const TITLES = bottomTabsLabDrawerTitles();
 
 export function bottomTabsLabDrawerTitle(
   route: RouteProp<RootDrawerParamList, 'BottomTabsLab'>,

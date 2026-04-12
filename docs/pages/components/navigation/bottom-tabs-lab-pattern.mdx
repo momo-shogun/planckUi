@@ -1,0 +1,29 @@
+---
+title: Bottom tabs lab pattern
+---
+
+import { Callout } from 'nextra/components';
+import { BottomTabsLabPatternTabsSection } from '../../../components/BottomTabsLabPatternTabsSection';
+
+# Bottom tabs lab pattern
+
+Use **Planck `TabBar`** (here **plankBarV1**) with **React Navigation** bottom tabs. The example app splits each bar into its own folder and registers presets in one place—similar to how shadcn groups **UI + code** next to each other.
+
+<Callout type="info">
+  The **live preview** below runs on **react-native-web** in the docs site. Your real app uses the same `TabBar` from **`@my-ui-lib/core`** inside **`apps/example/`** on iOS/Android.
+</Callout>
+
+## Preview and code
+
+<BottomTabsLabPatternTabsSection />
+
+## Copy into your project
+
+1. Copy **`shared/PlanckBridgedTabBar.tsx`** (or keep your own `tabBar` that maps `BottomTabBarProps` → `TabBar`).
+2. Copy a `presets/<name>/` folder (navigator, types, icons, styles) and rename exports.
+3. Append the stack route string to **`presetKeys.ts`**, then add one object to **`registry.ts`**.
+4. Point your stack at **`bottomTabsLabPresets`** the same way as **`BottomTabsLabNavigator`**.
+
+## See also
+
+- [Tab bar](/components/navigation/tab-bar) — `TabBar` props and minimal React Navigation snippet.

@@ -2,24 +2,14 @@ import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Text as PlanckText, useTheme} from '@my-ui-lib/core';
+import {bottomTabsLabMenuItems} from '../../navigation/bottomTabsLab/presets/registry';
 import type {BottomTabsLabStackParamList} from '../../navigation/bottomTabsLab/types';
 
 type Props = NativeStackScreenProps<BottomTabsLabStackParamList, 'BottomTabsMenu'>;
 
-const PRESETS: Array<{
-  key: keyof BottomTabsLabStackParamList;
-  title: string;
-  subtitle: string;
-}> = [
-  {
-    key: 'PresetPlankBarV1',
-    title: 'Plank Bar V1',
-    subtitle: 'Planck TabBar variant with dock-style icons.',
-  },
-];
-
 export function BottomTabsMenuScreen({navigation}: Props) {
   const theme = useTheme();
+  const presets = bottomTabsLabMenuItems();
 
   return (
     <ScrollView
@@ -28,10 +18,11 @@ export function BottomTabsMenuScreen({navigation}: Props) {
         Bottom tabs lab
       </PlanckText>
       <PlanckText color={theme.colors.textSecondary} style={{marginBottom: theme.spacing[4]}}>
-        Open the Plank Bar V1 preset. More custom bars can be listed here later.
+        Pick a preset to open its tab navigator. Add folders under `src/navigation/bottomTabsLab/presets/`,
+        add the route key to `presetKeys.ts`, then register the preset in `presets/registry.ts`.
       </PlanckText>
 
-      {PRESETS.map(row => (
+      {presets.map(row => (
         <Pressable
           key={row.key}
           accessibilityRole="button"
@@ -53,7 +44,6 @@ export function BottomTabsMenuScreen({navigation}: Props) {
           <Text style={[styles.chevron, {color: theme.colors.textSecondary}]}>›</Text>
         </Pressable>
       ))}
-
     </ScrollView>
   );
 }

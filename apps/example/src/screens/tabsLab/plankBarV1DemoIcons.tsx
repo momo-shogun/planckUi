@@ -1,7 +1,7 @@
 import React from 'react';
 import {PLANK_BAR_V1} from '@my-ui-lib/core';
-import type {PlankTabIconKind} from '../../navigation/bottomTabsLab/RnPlankTabIcons';
-import {rnPlankTabBarIcon} from '../../navigation/bottomTabsLab/RnPlankTabIcons';
+import type {PlankTabIconKind} from '../../navigation/bottomTabsLab/presets/plankBarV1/plankBarV1.icons';
+import {rnPlankTabBarIcon} from '../../navigation/bottomTabsLab/presets/plankBarV1/plankBarV1.icons';
 
 export function makePlankBarV1DemoIcon(kind: PlankTabIconKind) {
   return (active: boolean) =>

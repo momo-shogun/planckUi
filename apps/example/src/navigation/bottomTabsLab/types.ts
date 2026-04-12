@@ -1,11 +1,7 @@
-export type PlankBarV1TabParamList = {
-  Home: undefined;
-  Search: undefined;
-  Chat: undefined;
-  Menu: undefined;
-};
+import type {BottomTabsLabPresetRouteKey} from './presets/presetKeys';
+
+export type {BottomTabsLabPresetRouteKey} from './presets/presetKeys';
 
 export type BottomTabsLabStackParamList = {
   BottomTabsMenu: undefined;
-  PresetPlankBarV1: undefined;
-};
+} & Record<BottomTabsLabPresetRouteKey, undefined>;
