@@ -6,13 +6,6 @@ import {
   oceanTheme,
   roseTheme,
 } from '@my-ui-lib/tokens';
-
-const chrome = {
-  border: defaultTheme.colors.border,
-  panelBg: defaultTheme.colors.surface,
-  activeBg: defaultTheme.colors.background,
-  inactiveText: defaultTheme.colors.textSecondary,
-} as const;
 import type { SemanticTokens } from '@my-ui-lib/tokens';
 
 const THEMES: Record<string, SemanticTokens> = {
@@ -52,6 +45,12 @@ export function Preview({
 }: PreviewProps) {
   const [active, setActive] = useState<ThemeName>('default');
   const theme = THEMES[active];
+  const chrome = {
+    border: theme.colors.border,
+    panelBg: theme.colors.surface,
+    activeBg: theme.colors.background,
+    inactiveText: theme.colors.textSecondary,
+  } as const;
 
   return (
     <div

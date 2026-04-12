@@ -6,8 +6,10 @@ import { BottomTabsLabSourceExplorer } from './BottomTabsLabSourceExplorer';
 const INSTALL_SNIPPET = [
   'pnpm add @react-navigation/native @react-navigation/bottom-tabs',
   'pnpm add @my-ui-lib/core @my-ui-lib/tokens',
-  '# icons (example app)',
-  'pnpm add lucide-react-native react-native-svg',
+  '# icons (RN CLI — same font families as react-native-vector-icons)',
+  'pnpm add react-native-vector-icons react-native-svg',
+  '# link fonts once: npx react-native-asset',
+  '# (see apps/example/react-native.config.js)',
 ].join('\n');
 
 /**
@@ -20,10 +22,11 @@ export function BottomTabsLabPatternTabsSection() {
       <Tab>
         <div>
           <BottomTabsLabPatternPreview />
-          <div className="nx-mt-4 nx-text-sm nx-text-gray-600 dark:nx-text-gray-400">
-            Tap tabs to change selection — same plankBarV1 variant as the example preset. Open{' '}
-            <strong>Bottom tabs lab</strong> in the RN example app for the full stack (drawer + registry).
-          </div>
+      <div className="nx-mt-4 nx-text-sm nx-text-gray-600 dark:nx-text-gray-400">
+        Tap tabs to change selection. Use the theme chips above — the plank rail and icons follow
+        the active semantic theme (ocean / midnight / rose / default). Open{' '}
+        <strong>Bottom tabs lab</strong> in the RN example app for the full stack (drawer + registry).
+      </div>
         </div>
       </Tab>
       <Tab>

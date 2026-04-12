@@ -1,31 +1,39 @@
 import React from 'react';
-import {Cog, House, UserRound} from 'lucide-react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type IconProps = {color: string; size: number};
+type IconProps = {color: string; size: number; focused: boolean};
 
-const stroke = 2;
-
-export function RnBottomTabHomeIcon({color, size}: IconProps) {
-  return <House color={color} size={size} strokeWidth={stroke} />;
+export function RnBottomTabHomeIcon({color, size, focused}: IconProps) {
+  return (
+    <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} color={color} size={size} />
+  );
 }
 
-export function RnBottomTabProfileIcon({color, size}: IconProps) {
-  return <UserRound color={color} size={size} strokeWidth={stroke} />;
+export function RnBottomTabProfileIcon({color, size, focused}: IconProps) {
+  return (
+    <MaterialCommunityIcons
+      name={focused ? 'account' : 'account-outline'}
+      color={color}
+      size={size}
+    />
+  );
 }
 
-export function RnBottomTabSettingsIcon({color, size}: IconProps) {
-  return <Cog color={color} size={size} strokeWidth={stroke} />;
+export function RnBottomTabSettingsIcon({color, size, focused}: IconProps) {
+  return (
+    <MaterialCommunityIcons name={focused ? 'cog' : 'cog-outline'} color={color} size={size} />
+  );
 }
 
 export function rnTabBarIcon(route: 'Home' | 'Profile' | 'Settings') {
-  return ({color, size}: {focused: boolean; color: string; size: number}) => {
+  return ({focused, color, size}: {focused: boolean; color: string; size: number}) => {
     switch (route) {
       case 'Home':
-        return <RnBottomTabHomeIcon color={color} size={size} />;
+        return <RnBottomTabHomeIcon color={color} size={size} focused={focused} />;
       case 'Profile':
-        return <RnBottomTabProfileIcon color={color} size={size} />;
+        return <RnBottomTabProfileIcon color={color} size={size} focused={focused} />;
       case 'Settings':
-        return <RnBottomTabSettingsIcon color={color} size={size} />;
+        return <RnBottomTabSettingsIcon color={color} size={size} focused={focused} />;
     }
   };
 }

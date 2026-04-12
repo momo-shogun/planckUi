@@ -8,6 +8,57 @@ export type ToastIntent = 'default' | 'success' | 'warning' | 'error' | 'info';
 export type TabBarVariant = 'default' | 'floating' | 'minimal' | 'plankBarV1';
 export type HeaderVariant = 'default' | 'transparent' | 'blurred';
 
+/** Rough sRGB luminance (0 = black, 1 = white) for picking light vs dark chrome. */
+function srgbLuminance01(hex: string): number {
+  const raw = hex.trim().replace(/^#/, '');
+  let r: number;
+  let g: number;
+  let b: number;
+  if (raw.length === 3) {
+    r = parseInt(raw[0] + raw[0], 16);
+    g = parseInt(raw[1] + raw[1], 16);
+    b = parseInt(raw[2] + raw[2], 16);
+  } else if (raw.length === 6) {
+    r = parseInt(raw.slice(0, 2), 16);
+    g = parseInt(raw.slice(2, 4), 16);
+    b = parseInt(raw.slice(4, 6), 16);
+  } else {
+    return 1;
+  }
+  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
+    return 1;
+  }
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+}
+
+/**
+ * Theme-aware colors for **TabBar** `plankBarV1`: saturated rail on light pages,
+ * elevated slate rail on dark pages (e.g. midnight), so previews follow `ThemeProvider`.
+ */
+export function getPlankBarV1Chrome(theme: SemanticTokens): {
+  barBg: string;
+  pillBg: string;
+  inactiveIcon: string;
+  activeFg: string;
+} {
+  const { colors } = theme;
+  const darkPage = srgbLuminance01(colors.background) < 0.45;
+  if (darkPage) {
+    return {
+      barBg: colors.surface,
+      pillBg: colors.textPrimary,
+      inactiveIcon: colors.textSecondary,
+      activeFg: colors.background,
+    };
+  }
+  return {
+    barBg: colors.primaryHover,
+    pillBg: colors.background,
+    inactiveIcon: colorWithOpacity('#ffffff', 0.72),
+    activeFg: colors.textPrimary,
+  };
+}
+
 export function getButtonTokens(
   theme: SemanticTokens,
   variant: 'primary' | 'outline' | 'ghost'
@@ -429,15 +480,17 @@ export function getTabBarTokens(
         bg: 'transparent',
         border: 'transparent',
       };
-    case 'plankBarV1':
+    case 'plankBarV1': {
+      const plank = getPlankBarV1Chrome(theme);
       return {
         ...base,
-        bg: '#000000',
+        bg: plank.barBg,
         border: 'transparent',
-        itemLabel: '#A2A2B5',
-        itemLabelActive: '#000000',
+        itemLabel: plank.inactiveIcon,
+        itemLabelActive: plank.activeFg,
         indicator: 'transparent',
       };
+    }
     default: {
       const _exhaustive: never = variant;
       return _exhaustive;

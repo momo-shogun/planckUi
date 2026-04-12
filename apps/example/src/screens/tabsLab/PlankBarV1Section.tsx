@@ -7,19 +7,20 @@ export function PlankBarV1Section() {
   const [activeKey, setActiveKey] = useState('home');
   const items = useMemo(
     () => [
-      {key: 'home', label: 'Home', icon: makePlankBarV1DemoIcon('home')},
-      {key: 'search', label: 'Search', icon: makePlankBarV1DemoIcon('search')},
-      {key: 'chat', label: 'Chat', icon: makePlankBarV1DemoIcon('chat')},
-      {key: 'menu', label: 'Menu', icon: makePlankBarV1DemoIcon('menu')},
+      {key: 'home', label: 'Home', icon: makePlankBarV1DemoIcon('home', theme)},
+      {key: 'search', label: 'Search', icon: makePlankBarV1DemoIcon('search', theme)},
+      {key: 'chat', label: 'Chat', icon: makePlankBarV1DemoIcon('chat', theme)},
+      {key: 'menu', label: 'Menu', icon: makePlankBarV1DemoIcon('menu', theme)},
     ],
-    [],
+    [theme],
   );
 
   return (
     <VStack gap={theme.spacing[2]}>
       <Text variant="label">TabBar: Plank Bar V1</Text>
       <Text variant="caption" color={theme.colors.textSecondary}>
-        Dark bar, white pill on the active tab, label only when active, muted icons otherwise.
+        Themed rail (primary family on light pages, slate on dark), pill on the active tab, label
+        only when active, muted icons otherwise.
       </Text>
       <TabBar variant="plankBarV1" items={items} activeKey={activeKey} onChange={setActiveKey} testID="plank-bar-v1" />
       <Text variant="caption" color={theme.colors.textSecondary}>

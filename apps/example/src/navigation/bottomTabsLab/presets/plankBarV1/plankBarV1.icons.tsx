@@ -1,39 +1,53 @@
 import React from 'react';
-import {House, Menu, MessageCircle, Search} from 'lucide-react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-type P = {color: string; size: number};
+type P = {color: string; size: number; focused: boolean};
 
-const stroke = 2;
-
-function PlankHomeIcon({color, size}: P) {
-  return <House color={color} size={size} strokeWidth={stroke} />;
+function PlankHomeIcon({color, size, focused}: P) {
+  return (
+    <MaterialCommunityIcons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
+  );
 }
 
-function PlankSearchIcon({color, size}: P) {
-  return <Search color={color} size={size} strokeWidth={stroke} />;
+function PlankSearchIcon({color, size, focused}: P) {
+  return (
+    <MaterialCommunityIcons
+      name={focused ? 'magnify' : 'text-box-search-outline'}
+      size={size}
+      color={color}
+    />
+  );
 }
 
-function PlankChatIcon({color, size}: P) {
-  return <MessageCircle color={color} size={size} strokeWidth={stroke} />;
+function PlankChatIcon({color, size, focused}: P) {
+  return (
+    <MaterialCommunityIcons
+      name={focused ? 'chat' : 'chat-outline'}
+      size={size}
+      color={color}
+    />
+  );
 }
 
-function PlankMenuIcon({color, size}: P) {
-  return <Menu color={color} size={size} strokeWidth={stroke} />;
+function PlankMenuIcon({color, size, focused}: P) {
+  return (
+    <MaterialCommunityIcons name={focused ? 'menu' : 'menu-open'} size={size} color={color} />
+  );
 }
 
 export type PlankTabIconKind = 'home' | 'search' | 'chat' | 'menu';
 
 export function rnPlankTabBarIcon(kind: PlankTabIconKind) {
-  return ({color, size}: {focused: boolean; color: string; size: number}) => {
+  return ({focused, color, size}: {focused: boolean; color: string; size: number}) => {
     switch (kind) {
       case 'home':
-        return <PlankHomeIcon color={color} size={size} />;
+        return <PlankHomeIcon color={color} size={size} focused={focused} />;
       case 'search':
-        return <PlankSearchIcon color={color} size={size} />;
+        return <PlankSearchIcon color={color} size={size} focused={focused} />;
       case 'chat':
-        return <PlankChatIcon color={color} size={size} />;
+        return <PlankChatIcon color={color} size={size} focused={focused} />;
       case 'menu':
-        return <PlankMenuIcon color={color} size={size} />;
+        return <PlankMenuIcon color={color} size={size} focused={focused} />;
     }
   };
 }

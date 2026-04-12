@@ -1,46 +1,38 @@
 /**
- * Lucide-based icons for the example app drawer. Uses `react-native-svg` under the hood.
+ * Drawer icons via **react-native-vector-icons** (MaterialCommunityIcons) — standard for RN CLI
+ * (no Expo native modules such as ExpoFontLoader).
  */
 import React from 'react';
-import {
-  AppWindow,
-  Bell,
-  Grid2x2,
-  LayoutList,
-  PanelBottomOpen,
-  PanelsLeftBottom,
-} from 'lucide-react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type IconProps = {color: string; size?: number};
 
-const stroke = 2;
-
 /** 2×2 grid — "Showcase / Overview" */
 export function GridIcon({color, size = 16}: IconProps) {
-  return <Grid2x2 color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="view-grid-outline" color={color} size={size} />;
 }
 
 /** Window — "Modal" */
 export function ModalIcon({color, size = 16}: IconProps) {
-  return <AppWindow color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="window-maximize" color={color} size={size} />;
 }
 
 /** Panel from bottom — "Bottom sheet" */
 export function SheetIcon({color, size = 16}: IconProps) {
-  return <PanelBottomOpen color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="arrow-collapse-up" color={color} size={size} />;
 }
 
 /** Bell — "Toasts" / notifications */
 export function ToastIcon({color, size = 16}: IconProps) {
-  return <Bell color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="bell-outline" color={color} size={size} />;
 }
 
 /** Composite layout — React Navigation bottom tabs */
 export function BottomTabsIcon({color, size = 16}: IconProps) {
-  return <PanelsLeftBottom color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="view-carousel-outline" color={color} size={size} />;
 }
 
 /** Horizontal list layout — "Tabs" */
 export function TabsIcon({color, size = 16}: IconProps) {
-  return <LayoutList color={color} size={size} strokeWidth={stroke} />;
+  return <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />;
 }

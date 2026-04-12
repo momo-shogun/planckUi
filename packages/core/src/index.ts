@@ -64,6 +64,7 @@ export {
   PLANK_BAR_V1,
   TabBar,
 } from './components/navigation';
+export { getPlankBarV1Chrome } from '@my-ui-lib/tokens';
 export type {
   BackButtonProps,
   BackButtonSlots,

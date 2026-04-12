@@ -2,7 +2,8 @@ import React from 'react';
 import {View} from 'react-native';
 import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import type {TabBarVariant} from '@my-ui-lib/tokens';
-import {PLANK_BAR_V1, TabBar, useTheme} from '@my-ui-lib/core';
+import {getPlankBarV1Chrome} from '@my-ui-lib/tokens';
+import {TabBar, useTheme} from '@my-ui-lib/core';
 
 export type PlanckBridgedTabBarProps = BottomTabBarProps & {
   /** Planck `TabBar` visual variant (e.g. `plankBarV1` for the Plank Bar design). */
@@ -19,6 +20,7 @@ export function PlanckBridgedTabBar({
   tabBarVariant = 'default',
 }: PlanckBridgedTabBarProps) {
   const theme = useTheme();
+  const plankChrome = getPlankBarV1Chrome(theme);
   const activeName = state.routes[state.index]?.name;
 
   const items = state.routes.map(route => {
@@ -36,8 +38,8 @@ export function PlanckBridgedTabBar({
         const color =
           tabBarVariant === 'plankBarV1'
             ? active
-              ? PLANK_BAR_V1.activeFg
-              : PLANK_BAR_V1.inactiveIcon
+              ? plankChrome.activeFg
+              : plankChrome.inactiveIcon
             : active
               ? theme.colors.primary
               : theme.colors.textSecondary;

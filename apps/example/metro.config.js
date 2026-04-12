@@ -24,17 +24,70 @@ function resolvePackageDir(packageName) {
 
 const extraNodeModules = {};
 for (const name of [
+  'react-native-vector-icons',
   'react-native-gesture-handler',
   'react-native-reanimated',
   'react-native-screens',
   'react-native-safe-area-context',
   'react-native-svg',
-  'lucide-react-native',
 ]) {
   const dir = resolvePackageDir(name);
   if (dir) {
-    extraNodeModules[name] = dir;
+    try {
+      extraNodeModules[name] = fs.realpathSync(dir);
+    } catch {
+      extraNodeModules[name] = dir;
+    }
   }
+}
+
+/**
+ * Metro's file map `exists()` can miss real files under pnpm's `.pnpm` tree even
+ * when `extraNodeModules` points at the right folder. Resolve icon entry files
+ * with Node so subpath imports like `react-native-vector-icons/MaterialCommunityIcons`
+ * always map to a concrete path.
+ */
+function resolveReactNativeVectorIconsFile(moduleName) {
+  if (!moduleName.startsWith('react-native-vector-icons/')) {
+    return null;
+  }
+  const sub = moduleName.slice('react-native-vector-icons/'.length);
+  if (!sub || sub.includes('..')) {
+    return null;
+  }
+  let root;
+  try {
+    root = path.dirname(
+      require.resolve('react-native-vector-icons/package.json', {
+        paths: [__dirname],
+      }),
+    );
+  } catch {
+    return null;
+  }
+  const candidates = [
+    path.join(root, `${sub}.js`),
+    path.join(root, `${sub}.tsx`),
+    path.join(root, `${sub}.ts`),
+    path.join(root, sub),
+  ];
+  for (const fp of candidates) {
+    try {
+      const st = fs.statSync(fp);
+      if (st.isFile()) {
+        return fp;
+      }
+      if (st.isDirectory()) {
+        const indexJs = path.join(fp, 'index.js');
+        if (fs.existsSync(indexJs)) {
+          return indexJs;
+        }
+      }
+    } catch {
+      // try next candidate
+    }
+  }
+  return null;
 }
 
 /**
@@ -43,9 +96,13 @@ for (const name of [
  *
  * @type {import('metro-config').MetroConfig}
  */
+const defaultConfig = getDefaultConfig(__dirname);
+
 const config = {
   watchFolders: [workspaceRoot],
   resolver: {
+    // pnpm links deps through `node_modules/.pnpm/...`; Metro must follow symlinks.
+    unstable_enableSymlinks: true,
     nodeModulesPaths: [
       path.resolve(__dirname, 'node_modules'),
       path.resolve(workspaceRoot, 'node_modules'),
@@ -53,7 +110,14 @@ const config = {
     ...(Object.keys(extraNodeModules).length > 0
       ? {extraNodeModules}
       : {}),
+    resolveRequest(context, moduleName, platform) {
+      const direct = resolveReactNativeVectorIconsFile(moduleName);
+      if (direct) {
+        return {type: 'sourceFile', filePath: direct};
+      }
+      return context.resolveRequest(context, moduleName, platform);
+    },
   },
 };
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+module.exports = mergeConfig(defaultConfig, config);

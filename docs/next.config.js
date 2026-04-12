@@ -1,5 +1,17 @@
 const path = require('path');
 
+// Next 14.2+ lazily initializes `next/dist/compiled/webpack/webpack` via `init()`.
+// Nextra 2.13 reads `webpack.Compilation` when its module loads; without init first,
+// `webpack` is undefined → "Cannot read properties of undefined (reading 'Compilation')".
+try {
+  const nextWebpack = require('next/dist/compiled/webpack/webpack');
+  if (typeof nextWebpack.init === 'function') {
+    nextWebpack.init();
+  }
+} catch {
+  /* ignore if resolution fails in an unusual layout */
+}
+
 const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx',

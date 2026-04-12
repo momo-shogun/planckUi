@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
 import type { SemanticTokens } from '@my-ui-lib/tokens';
+import { getPlankBarV1Chrome } from '@my-ui-lib/tokens';
 
-/** Plank Bar V1 — dark bar, white pill on active, label only when active (design spec). */
+/**
+ * Original fixed plank palette (pre-theme-aware). Prefer `getPlankBarV1Chrome(theme)` for new code.
+ * @deprecated Kept for rare cases that need the launch-spec hex values.
+ */
 export const PLANK_BAR_V1 = {
   barBg: '#000000',
   pillBg: '#FFFFFF',
@@ -10,13 +14,14 @@ export const PLANK_BAR_V1 = {
 } as const;
 
 export function createPlankBarV1Styles(theme: SemanticTokens) {
+  const chrome = getPlankBarV1Chrome(theme);
   const bottomRadius = Math.max(theme.radii.xl ?? theme.radii.lg ?? 16, 24);
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      backgroundColor: PLANK_BAR_V1.barBg,
+      backgroundColor: chrome.barBg,
       paddingHorizontal: theme.spacing[3],
       paddingVertical: theme.spacing[2],
       borderBottomLeftRadius: bottomRadius,
@@ -35,7 +40,7 @@ export function createPlankBarV1Styles(theme: SemanticTokens) {
       justifyContent: 'center',
       alignSelf: 'center',
       flexShrink: 0,
-      backgroundColor: PLANK_BAR_V1.pillBg,
+      backgroundColor: chrome.pillBg,
       borderRadius: 999,
       paddingHorizontal: theme.spacing[3],
       paddingVertical: theme.spacing[2],
@@ -44,12 +49,15 @@ export function createPlankBarV1Styles(theme: SemanticTokens) {
     iconWrap: {
       alignItems: 'center',
       justifyContent: 'center',
+      width: 28,
+      height: 28,
+      flexShrink: 0,
     },
     labelActive: {
       marginLeft: theme.spacing[2],
       fontSize: theme.fontSizes.sm,
       fontWeight: theme.fontWeights.bold as '700',
-      color: PLANK_BAR_V1.activeFg,
+      color: chrome.activeFg,
     },
   });
 }

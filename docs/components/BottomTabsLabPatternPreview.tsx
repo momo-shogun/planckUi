@@ -1,33 +1,32 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { View } from 'react-native';
-import { PLANK_BAR_V1, TabBar } from '@my-ui-lib/core';
+import { TabBar, useTheme } from '@my-ui-lib/core';
+import { getPlankBarV1Chrome } from '@my-ui-lib/tokens';
 import { Preview } from './Preview';
-
-function PlankIcon({ active }: { active: boolean }) {
-  return (
-    <View
-      style={{
-        width: 22,
-        height: 22,
-        borderRadius: 11,
-        backgroundColor: active ? PLANK_BAR_V1.activeFg : PLANK_BAR_V1.inactiveIcon,
-        opacity: active ? 1 : 0.9,
-      }}
-    />
-  );
-}
-
-const items = [
-  { key: 'Home', label: 'Home', icon: (active: boolean) => <PlankIcon active={active} /> },
-  { key: 'Search', label: 'Search', icon: (active: boolean) => <PlankIcon active={active} /> },
-  { key: 'Chat', label: 'Chat', icon: (active: boolean) => <PlankIcon active={active} /> },
-  { key: 'Menu', label: 'Menu', icon: (active: boolean) => <PlankIcon active={active} /> },
-] as const;
+import { PlankBarV1PreviewIcon, type PlankPreviewIconKind } from './plankBarV1PreviewIcons';
 
 /**
- * Web preview of Planck `TabBar` **plankBarV1** — same variant the example app uses with React Navigation.
+ * Web preview of Planck `TabBar` **plankBarV1** (react-native-web).
+ * Icons are inline SVG data-URIs so Next.js does not bundle `react-native-svg` codegen.
+ * The example app uses **react-native-vector-icons** (MaterialCommunityIcons) for the same tabs on device.
  */
 export function BottomTabsLabPatternPreview() {
+  const theme = useTheme();
+  const chrome = useMemo(() => getPlankBarV1Chrome(theme), [theme]);
+  const items = useMemo(
+    () =>
+      (['Home', 'Search', 'Chat', 'Menu'] as const).map(name => ({
+        key: name,
+        label: name,
+        icon: (active: boolean) => (
+          <PlankBarV1PreviewIcon
+            kind={name.toLowerCase() as PlankPreviewIconKind}
+            stroke={active ? chrome.activeFg : chrome.inactiveIcon}
+          />
+        ),
+      })),
+    [chrome],
+  );
   const [activeKey, setActiveKey] = useState<string>('Home');
 
   return (
@@ -45,7 +44,7 @@ export function BottomTabsLabPatternPreview() {
             variant="plankBarV1"
             activeKey={activeKey}
             onChange={setActiveKey}
-            items={[...items]}
+            items={items}
           />
         </View>
       </View>
