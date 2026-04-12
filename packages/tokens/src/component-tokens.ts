@@ -5,7 +5,7 @@ export type TabsVariant = 'underline' | 'pill' | 'bordered';
 export type BadgeIntent = 'default' | 'success' | 'warning' | 'error' | 'info';
 export type AvatarVariant = 'circle' | 'rounded' | 'square';
 export type ToastIntent = 'default' | 'success' | 'warning' | 'error' | 'info';
-export type TabBarVariant = 'default' | 'floating' | 'minimal';
+export type TabBarVariant = 'default' | 'floating' | 'minimal' | 'plankBarV1';
 export type HeaderVariant = 'default' | 'transparent' | 'blurred';
 
 export function getButtonTokens(
@@ -428,6 +428,15 @@ export function getTabBarTokens(
         ...base,
         bg: 'transparent',
         border: 'transparent',
+      };
+    case 'plankBarV1':
+      return {
+        ...base,
+        bg: '#000000',
+        border: 'transparent',
+        itemLabel: '#A2A2B5',
+        itemLabelActive: '#000000',
+        indicator: 'transparent',
       };
     default: {
       const _exhaustive: never = variant;

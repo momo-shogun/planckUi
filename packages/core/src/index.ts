@@ -61,6 +61,7 @@ export {
   BackButton,
   DrawerContent,
   Header,
+  PLANK_BAR_V1,
   TabBar,
 } from './components/navigation';
 export type {

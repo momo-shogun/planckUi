@@ -39,7 +39,7 @@ import {
 } from '@my-ui-lib/core';
 import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
 import type {RootDrawerParamList} from './src/navigation/drawerConstants';
-import {BottomTabsLabNavigator} from './src/navigation/BottomTabsLabNavigator';
+import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsLabNavigator';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
 

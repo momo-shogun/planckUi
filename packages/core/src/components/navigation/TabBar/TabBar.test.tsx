@@ -45,4 +45,20 @@ describe('TabBar', () => {
     );
     expect(getByTestId('tabbar')).toBeTruthy();
   });
+
+  it('plankBarV1 calls onChange', () => {
+    const onChange = jest.fn();
+    const { getByTestId } = render(
+      <TabBar
+        variant="plankBarV1"
+        items={items}
+        activeKey="a"
+        onChange={onChange}
+        testID="plank"
+      />,
+      { wrapper }
+    );
+    fireEvent.press(getByTestId('plank-b'));
+    expect(onChange).toHaveBeenCalledWith('b');
+  });
 });
