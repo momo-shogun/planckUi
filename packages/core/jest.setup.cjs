@@ -2,6 +2,12 @@
 const React = require('react');
 const { View } = require('react-native');
 
+jest.mock('react-native-reanimated', () => {
+  const Reanimated = require('react-native-reanimated/mock');
+  Reanimated.default.callNative = () => {};
+  return Reanimated;
+});
+
 jest.mock('@gorhom/portal', () => ({
   Portal: ({ children }) => children,
   PortalHost: () => null,

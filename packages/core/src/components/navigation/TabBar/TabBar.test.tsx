@@ -61,4 +61,35 @@ describe('TabBar', () => {
     fireEvent.press(getByTestId('plank-b'));
     expect(onChange).toHaveBeenCalledWith('b');
   });
+
+  it('plankBarV2 renders and calls onChange', () => {
+    const onChange = jest.fn();
+    const { getByTestId } = render(
+      <TabBar
+        variant="plankBarV2"
+        items={items}
+        activeKey="a"
+        onChange={onChange}
+        testID="plankv2"
+      />,
+      { wrapper }
+    );
+    fireEvent.press(getByTestId('plankv2-b'));
+    expect(onChange).toHaveBeenCalledWith('b');
+  });
+
+  it('plankBarV2 shows active and inactive labels', () => {
+    const { getByText } = render(
+      <TabBar
+        variant="plankBarV2"
+        items={items}
+        activeKey="a"
+        onChange={jest.fn()}
+        testID="plankv2-active"
+      />,
+      { wrapper }
+    );
+    expect(getByText('A')).toBeTruthy();
+    expect(getByText('B')).toBeTruthy();
+  });
 });

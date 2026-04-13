@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from 'react-native';
 import type {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import type {TabBarVariant} from '@my-ui-lib/tokens';
-import {getPlankBarV1Chrome} from '@my-ui-lib/tokens';
+import {getPlankBarV1Chrome, getPlankBarV2Chrome} from '@my-ui-lib/tokens';
 import {TabBar, useTheme} from '@my-ui-lib/core';
 
 export type PlanckBridgedTabBarProps = BottomTabBarProps & {
@@ -20,7 +20,8 @@ export function PlanckBridgedTabBar({
   tabBarVariant = 'default',
 }: PlanckBridgedTabBarProps) {
   const theme = useTheme();
-  const plankChrome = getPlankBarV1Chrome(theme);
+  const plankV1Chrome = getPlankBarV1Chrome(theme);
+  const plankV2Chrome = getPlankBarV2Chrome(theme);
   const activeName = state.routes[state.index]?.name;
 
   const items = state.routes.map(route => {
@@ -35,14 +36,14 @@ export function PlanckBridgedTabBar({
         if (!render) {
           return <View style={{width: 22, height: 22}} />;
         }
-        const color =
-          tabBarVariant === 'plankBarV1'
-            ? active
-              ? plankChrome.activeFg
-              : plankChrome.inactiveIcon
-            : active
-              ? theme.colors.primary
-              : theme.colors.textSecondary;
+        let color: string;
+        if (tabBarVariant === 'plankBarV1') {
+          color = active ? plankV1Chrome.activeFg : plankV1Chrome.inactiveIcon;
+        } else if (tabBarVariant === 'plankBarV2') {
+          color = active ? plankV2Chrome.activeFg : plankV2Chrome.inactiveIcon;
+        } else {
+          color = active ? theme.colors.primary : theme.colors.textSecondary;
+        }
         return render({
           focused: active,
           color,

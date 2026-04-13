@@ -16,6 +16,10 @@ export interface TabBarSlots {
   labelActive?: TextStyle;
   iconWrap?: ViewStyle;
   indicator?: ViewStyle;
+  /** plankBarV2 only — override the concave notch disc (e.g. set backgroundColor to match your screen). */
+  notch?: ViewStyle;
+  /** plankBarV2 only — override the floating active-icon bubble. */
+  bubble?: ViewStyle;
 }
 
 export interface TabBarProps {

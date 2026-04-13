@@ -2,6 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {Text, useTheme} from '@my-ui-lib/core';
 import {PlankBarV1Section} from './tabsLab/PlankBarV1Section';
+import {PlankBarV2Section} from './tabsLab/PlankBarV2Section';
 import {TabBarVariantsSection} from './tabsLab/TabBarVariantsSection';
 import {TabsControlledSection} from './tabsLab/TabsControlledSection';
 import {TabsScrollableSection} from './tabsLab/TabsScrollableSection';
@@ -45,6 +46,8 @@ export function TabsLabScreen() {
       <TabBarVariantsSection />
       <SectionDivider />
       <PlankBarV1Section />
+      <SectionDivider />
+      <PlankBarV2Section />
     </ScrollView>
   );
 }

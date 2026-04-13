@@ -2,6 +2,7 @@ import type {ComponentType} from 'react';
 import type {BottomTabsLabStackParamList} from '../types';
 import type {BottomTabsLabPresetRouteKey} from './presetKeys';
 import {PlankBarV1TabNavigator} from './plankBarV1/PlankBarV1TabNavigator';
+import {PlankBarV2TabNavigator} from './plankBarV2/PlankBarV2TabNavigator';
 
 export const bottomTabsLabPresets = [
   {
@@ -10,6 +11,13 @@ export const bottomTabsLabPresets = [
     menuSubtitle: 'Planck TabBar variant with dock-style icons.',
     drawerTitle: 'Plank Bar V1',
     Navigator: PlankBarV1TabNavigator satisfies ComponentType<Record<string, never>>,
+  },
+  {
+    routeKey: 'PresetPlankBarV2' satisfies BottomTabsLabPresetRouteKey,
+    menuTitle: 'Plank Bar V2',
+    menuSubtitle: 'Floating bubble tab bar with animated notch and spring transition.',
+    drawerTitle: 'Plank Bar V2',
+    Navigator: PlankBarV2TabNavigator satisfies ComponentType<Record<string, never>>,
   },
 ] as const;
 

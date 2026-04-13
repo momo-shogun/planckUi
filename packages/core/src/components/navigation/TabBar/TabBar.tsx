@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import { getTabBarTokens } from '@my-ui-lib/tokens';
 import { useTheme } from '../../../system/ThemeContext';
 import { createPlankBarV1Styles } from './TabBar.plankBarV1.styles';
+import { PlankBarV2 } from './TabBar.plankBarV2';
 import { createTabBarStyles } from './TabBar.styles';
 import type { TabBarProps } from './TabBar.types';
 
@@ -27,6 +28,10 @@ export function TabBar(props: TabBarProps) {
         ))}
       </View>
     );
+  }
+
+  if (variant === 'plankBarV2') {
+    return <PlankBarV2 {...props} />;
   }
 
   const theme = useTheme();

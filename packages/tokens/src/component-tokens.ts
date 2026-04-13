@@ -5,7 +5,7 @@ export type TabsVariant = 'underline' | 'pill' | 'bordered';
 export type BadgeIntent = 'default' | 'success' | 'warning' | 'error' | 'info';
 export type AvatarVariant = 'circle' | 'rounded' | 'square';
 export type ToastIntent = 'default' | 'success' | 'warning' | 'error' | 'info';
-export type TabBarVariant = 'default' | 'floating' | 'minimal' | 'plankBarV1';
+export type TabBarVariant = 'default' | 'floating' | 'minimal' | 'plankBarV1' | 'plankBarV2';
 export type HeaderVariant = 'default' | 'transparent' | 'blurred';
 
 /** Rough sRGB luminance (0 = black, 1 = white) for picking light vs dark chrome. */
@@ -56,6 +56,44 @@ export function getPlankBarV1Chrome(theme: SemanticTokens): {
     pillBg: colors.background,
     inactiveIcon: colorWithOpacity('#ffffff', 0.72),
     activeFg: colors.textPrimary,
+  };
+}
+
+/**
+ * Theme-aware colors for **TabBar** `plankBarV2`: floating bubble tab bar
+ * with an animated SVG notch and a raised icon circle.
+ */
+export function getPlankBarV2Chrome(theme: SemanticTokens): {
+  barBg: string;
+  bubbleBg: string;
+  /** Colour of the concave notch — should match the screen background. */
+  notchBg: string;
+  inactiveIcon: string;
+  activeFg: string;
+  activeLabel: string;
+  inactiveLabel: string;
+} {
+  const { colors } = theme;
+  const darkPage = srgbLuminance01(colors.background) < 0.45;
+  if (darkPage) {
+    return {
+      barBg: colors.surface,
+      bubbleBg: colors.primary,
+      notchBg: colors.background,
+      inactiveIcon: colors.textSecondary,
+      activeFg: colors.primaryForeground,
+      activeLabel: colors.primary,
+      inactiveLabel: colors.textSecondary,
+    };
+  }
+  return {
+    barBg: colors.background,
+    bubbleBg: colors.primary,
+    notchBg: colors.background,
+    inactiveIcon: colors.textSecondary,
+    activeFg: colors.primaryForeground,
+    activeLabel: colors.primary,
+    inactiveLabel: colors.textSecondary,
   };
 }
 
@@ -488,6 +526,17 @@ export function getTabBarTokens(
         border: 'transparent',
         itemLabel: plank.inactiveIcon,
         itemLabelActive: plank.activeFg,
+        indicator: 'transparent',
+      };
+    }
+    case 'plankBarV2': {
+      const v2 = getPlankBarV2Chrome(theme);
+      return {
+        ...base,
+        bg: v2.barBg,
+        border: 'transparent',
+        itemLabel: v2.inactiveLabel,
+        itemLabelActive: v2.activeLabel,
         indicator: 'transparent',
       };
     }
