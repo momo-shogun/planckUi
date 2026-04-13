@@ -29,6 +29,13 @@ const FILES = [
   ['presets/plankBarV1/plankBarV1.types.ts', path.join(LAB, 'presets', 'plankBarV1', 'plankBarV1.types.ts')],
   ['presets/plankBarV1/plankBarV1.icons.tsx', path.join(LAB, 'presets', 'plankBarV1', 'plankBarV1.icons.tsx')],
   ['presets/plankBarV1/plankBarV1.styles.ts', path.join(LAB, 'presets', 'plankBarV1', 'plankBarV1.styles.ts')],
+  [
+    'presets/plankBarV2/PlankBarV2TabNavigator.tsx',
+    path.join(LAB, 'presets', 'plankBarV2', 'PlankBarV2TabNavigator.tsx'),
+  ],
+  ['presets/plankBarV2/plankBarV2.types.ts', path.join(LAB, 'presets', 'plankBarV2', 'plankBarV2.types.ts')],
+  ['presets/plankBarV2/plankBarV2.icons.tsx', path.join(LAB, 'presets', 'plankBarV2', 'plankBarV2.icons.tsx')],
+  ['presets/plankBarV2/plankBarV2.styles.ts', path.join(LAB, 'presets', 'plankBarV2', 'plankBarV2.styles.ts')],
   ['BottomTabsLabNavigator.tsx', path.join(LAB, 'BottomTabsLabNavigator.tsx')],
   ['types.ts', path.join(LAB, 'types.ts')],
   ['bottomTabsLabDrawerChrome.tsx', path.join(LAB, 'bottomTabsLabDrawerChrome.tsx')],

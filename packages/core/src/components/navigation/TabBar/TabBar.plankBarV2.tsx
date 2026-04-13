@@ -11,7 +11,7 @@ const BUBBLE_R = BUBBLE_D / 2;
 const NOTCH_D = 72;
 const NOTCH_R = NOTCH_D / 2;
 /** How many px the bubble centre sits above the bar's top edge. */
-const LIFT = 12;
+const LIFT = 1;
 /** Height of the coloured bar strip (without the bubble lift). */
 const BAR_HEIGHT = 64;
 /** Total component height = bar + lift + bubble radius. */
@@ -130,6 +130,7 @@ function createStyles(chrome: ReturnType<typeof getPlankBarV2Chrome>) {
   return StyleSheet.create({
     wrapper: {
       height: WRAPPER_H,
+      backgroundColor: chrome.notchBg,
     },
     bar: {
       position: 'absolute',

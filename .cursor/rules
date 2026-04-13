@@ -8,6 +8,8 @@ Hard rules:
 - Never hand-edit `packages/tokens/src/generated/`; regenerate via the tokens package build.
 - Before reporting a task complete, run `pnpm typecheck` and `pnpm lint` from the repo root (or the relevant package) and fix failures.
 - At the start of a scoped task, read the matching skill file end-to-end and follow it literally.
+- When adding a new component, variant, or navigator pattern, integrate it into docs in the same task: add/update the docs page, menu entry, live preview, and install/setup guidance.
+- If the docs page offers copyable implementation code, update the docs source explorer / generated source sync so the new files are copyable too; docs preview-only support is not enough.
 
 Package names:
 - Tokens: `@my-ui-lib/tokens`

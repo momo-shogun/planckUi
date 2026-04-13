@@ -89,6 +89,33 @@ const TREE: TreeNode[] = [
               },
             ],
           },
+          {
+            kind: 'folder',
+            label: 'plankBarV2',
+            defaultOpen: true,
+            children: [
+              {
+                kind: 'file',
+                id: 'presets/plankBarV2/PlankBarV2TabNavigator.tsx',
+                label: 'PlankBarV2TabNavigator.tsx',
+              },
+              {
+                kind: 'file',
+                id: 'presets/plankBarV2/plankBarV2.types.ts',
+                label: 'plankBarV2.types.ts',
+              },
+              {
+                kind: 'file',
+                id: 'presets/plankBarV2/plankBarV2.icons.tsx',
+                label: 'plankBarV2.icons.tsx',
+              },
+              {
+                kind: 'file',
+                id: 'presets/plankBarV2/plankBarV2.styles.ts',
+                label: 'plankBarV2.styles.ts',
+              },
+            ],
+          },
         ],
       },
       {

@@ -1,0 +1,24 @@
+---
+title: Bottom Tabs Navigator
+---
+
+import { BottomTabsNavigatorTabsSection } from '../../components/BottomTabsNavigatorTabsSection'
+
+# Bottom Tabs Navigator
+
+Use the same bottom-tabs doc flow as the lab pattern page, but with both Planck variants in one
+place.
+
+- `plankBarV1`: dock-style active pill with a themed rail
+- `plankBarV2`: floating bubble tab with a moving notch
+
+## Preview and code
+
+<BottomTabsNavigatorTabsSection />
+
+## Copy into your project
+
+1. Copy **`shared/PlanckBridgedTabBar.tsx`** so your React Navigation `tabBar` maps `BottomTabBarProps` to Planck `TabBar`.
+2. Copy one or both preset folders: **`presets/plankBarV1/`** and **`presets/plankBarV2/`**.
+3. Append the stack route string to **`presetKeys.ts`**, then add one object to **`registry.ts`**.
+4. Keep the docs source sync updated whenever a new preset is added so preview, code-copy, and install instructions stay in sync.
