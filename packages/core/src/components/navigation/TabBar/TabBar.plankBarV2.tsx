@@ -1,10 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
 import { getPlankBarV2Chrome } from '@my-ui-lib/tokens';
 import { useTheme } from '../../../system/ThemeContext';
 import type { TabBarProps } from './TabBar.types';
@@ -16,13 +11,13 @@ const BUBBLE_R = BUBBLE_D / 2;
 const NOTCH_D = 72;
 const NOTCH_R = NOTCH_D / 2;
 /** How many px the bubble centre sits above the bar's top edge. */
-const LIFT = 22;
+const LIFT = 12;
 /** Height of the coloured bar strip (without the bubble lift). */
 const BAR_HEIGHT = 64;
 /** Total component height = bar + lift + bubble radius. */
 const WRAPPER_H = BAR_HEIGHT + LIFT + BUBBLE_R;
 
-const SPRING_CFG = { damping: 22, stiffness: 200, mass: 0.8 } as const;
+const SPRING_CFG = { friction: 8, tension: 110 } as const;
 
 export function PlankBarV2({
   items,
@@ -42,24 +37,21 @@ export function PlankBarV2({
   const [barWidth, setBarWidth] = useState(0);
   const tabWidth = barWidth > 0 ? barWidth / items.length : 0;
 
-  // Shared value: X centre of the currently active tab slot
-  const centreX = useSharedValue(0);
+  // Animated X centre of the currently active tab slot
+  const centreX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    if (tabWidth === 0) return;
+    if (tabWidth === 0) {
+      return;
+    }
     const target = (activeIndex + 0.5) * tabWidth;
-    centreX.value = withSpring(target, SPRING_CFG);
+    centreX.stopAnimation();
+    Animated.spring(centreX, {
+      toValue: target,
+      useNativeDriver: true,
+      ...SPRING_CFG,
+    }).start();
   }, [activeIndex, tabWidth]);
-
-  // Notch disc: `left` is pre-offset by its radius so `translateX = centreX` lands on its visual centre.
-  const notchAnimStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: centreX.value - NOTCH_R }],
-  }));
-
-  // Bubble: same trick, offset by bubble radius.
-  const bubbleAnimStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: centreX.value - BUBBLE_R }],
-  }));
 
   const styles = createStyles(chrome);
 
@@ -110,13 +102,21 @@ export function PlankBarV2({
       {/*   Same colour as the screen background — visually cuts into the bar */}
       <Animated.View
         pointerEvents="none"
-        style={[styles.notch, slots.notch, notchAnimStyle]}
+        style={[
+          styles.notch,
+          slots.notch,
+          { transform: [{ translateX: Animated.add(centreX, -NOTCH_R) }] },
+        ]}
       />
 
       {/* ── Floating icon bubble ──────────────────────────────────────────── */}
       <Animated.View
         pointerEvents="none"
-        style={[styles.bubble, slots.bubble, bubbleAnimStyle]}
+        style={[
+          styles.bubble,
+          slots.bubble,
+          { transform: [{ translateX: Animated.add(centreX, -BUBBLE_R) }] },
+        ]}
       >
         {items.find((i) => i.key === activeKey)?.icon(true)}
       </Animated.View>
