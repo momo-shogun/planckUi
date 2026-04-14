@@ -40,6 +40,7 @@ const iconTabColors = ['#F4F4F5', '#EFF6FF', '#FEF3C7'];
 export function ZeptoTabsSection() {
   const theme = useTheme();
   const [ix, setIx] = useState(0);
+  const [q, setQ] = useState('');
 
   return (
     <VStack gap={theme.spacing[2]}>
@@ -55,6 +56,10 @@ export function ZeptoTabsSection() {
         tabs={zeptoTabs}
         tabBackgroundColors={zeptoColors}
         defaultActiveIndex={0}
+        showSearch
+        searchValue={q}
+        onSearchChange={setQ}
+        searchPlaceholder="Search for “Iphone”"
       />
       <Text variant="caption" color={theme.colors.textSecondary}>
         Controlled with icons

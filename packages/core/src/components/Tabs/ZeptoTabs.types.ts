@@ -21,6 +21,11 @@ export interface ZeptoTabsProps {
    * Per-tab colors for the animated outer track, same order as `tabs` or keyed by `id`.
    */
   tabBackgroundColors: ZeptoTabBackgroundColors;
+  /** Show a search bar below the tabs (Zepto-style). */
+  showSearch?: boolean;
+  searchPlaceholder?: string;
+  searchValue?: string;
+  onSearchChange?: (text: string) => void;
   testID?: string;
   style?: StyleProp<ViewStyle>;
   contentContainerStyle?: StyleProp<ViewStyle>;

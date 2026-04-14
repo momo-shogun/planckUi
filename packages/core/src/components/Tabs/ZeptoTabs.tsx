@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -15,6 +15,25 @@ import { ZEPTO, zeptoTabsStyles } from './ZeptoTabs.styles';
 import type { ZeptoTabsProps } from './ZeptoTabs.types';
 
 type Layout = { x: number; width: number };
+
+function darkenHex(hex: string, amount01: number): string {
+  const m = /^#?([0-9a-fA-F]{6})$/.exec(hex.trim());
+  if (!m) return hex;
+  const s = m[1];
+  const r = parseInt(s.slice(0, 2), 16);
+  const g = parseInt(s.slice(2, 4), 16);
+  const b = parseInt(s.slice(4, 6), 16);
+  const f = Math.max(0, Math.min(1, 1 - amount01));
+  const rr = Math.round(r * f);
+  const gg = Math.round(g * f);
+  const bb = Math.round(b * f);
+  const out =
+    '#' +
+    rr.toString(16).padStart(2, '0') +
+    gg.toString(16).padStart(2, '0') +
+    bb.toString(16).padStart(2, '0');
+  return out.toUpperCase();
+}
 
 function resolveTabColors(
   tabs: ZeptoTabsProps['tabs'],
@@ -36,12 +55,16 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     defaultActiveIndex = 0,
     onChange,
     tabBackgroundColors,
+    showSearch = false,
+    searchPlaceholder = 'Search for “Iphone”',
+    searchValue,
+    onSearchChange,
     testID,
     style,
     contentContainerStyle,
   } = props;
 
-  const fallbackTrack = '#ECECEF';
+  const fallbackTrack = '#E6C8A4';
   const resolvedColors = useMemo(
     () =>
       tabs.length
@@ -49,6 +72,10 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
         : [fallbackTrack],
     [tabs, tabBackgroundColors, fallbackTrack]
   );
+  const resolvedColorsDarker = useMemo(() => {
+    // Slightly darker strip behind the tab tiles (like the reference UI)
+    return resolvedColors.map((c) => darkenHex(c, 0.08));
+  }, [resolvedColors]);
 
   const maxIndex = tabs.length > 0 ? tabs.length - 1 : 0;
   const safeDefault = Math.min(Math.max(0, defaultActiveIndex), maxIndex);
@@ -117,10 +144,21 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
         return;
       }
       const dur = instant || reduceMotion.current ? 0 : 260;
-      pillX.value = withTiming(L.x, { duration: dur });
-      pillW.value = withTiming(L.width, { duration: dur });
+      // Zepto-style: when the edge tab is active, the highlight becomes edge-to-edge
+      // (no left/right inset from the content padding).
+      const pad = ZEPTO.scrollPadH;
+      let x = L.x;
+      let w = L.width;
+      if (index === 0) {
+        x = 0;
+        w = L.x + L.width; // include the left padding area
+      } else if (index === tabs.length - 1) {
+        w = L.width + pad; // include the right padding area
+      }
+      pillX.value = withTiming(x, { duration: dur });
+      pillW.value = withTiming(w, { duration: dur });
     },
-    [pillW, pillX, reduceMotion]
+    [pillW, pillX, reduceMotion, tabs.length]
   );
 
   const bumpPillScale = useCallback(() => {
@@ -190,6 +228,33 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     };
   }, [colorInputRange, colorOutputRange]);
 
+  const tabsBgAnimatedStyle = useAnimatedStyle(() => {
+    const outRange =
+      resolvedColorsDarker.length <= 1
+        ? [resolvedColorsDarker[0] ?? fallbackTrack, resolvedColorsDarker[0] ?? fallbackTrack]
+        : resolvedColorsDarker;
+    return {
+      backgroundColor: interpolateColor(
+        activeProgress.value,
+        colorInputRange,
+        outRange,
+        'RGB'
+      ),
+    };
+  }, [colorInputRange, resolvedColorsDarker, fallbackTrack]);
+
+  const highlightBgAnimatedStyle = useAnimatedStyle(() => {
+    // Active pill uses the same color as the search background (original tab colors).
+    return {
+      backgroundColor: interpolateColor(
+        activeProgress.value,
+        colorInputRange,
+        colorOutputRange,
+        'RGB'
+      ),
+    };
+  }, [colorInputRange, colorOutputRange]);
+
   const highlightAnimatedStyle = useAnimatedStyle(() => {
     return {
       width: pillW.value,
@@ -203,50 +268,75 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
 
   return (
     <Animated.View
-      style={[zeptoTabsStyles.outer, containerAnimatedStyle, style]}
+      style={[zeptoTabsStyles.outer, style]}
       testID={testID}>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        style={zeptoTabsStyles.scroll}
-        contentContainerStyle={[zeptoTabsStyles.row, contentContainerStyle]}>
-        <Animated.View
-          pointerEvents="none"
-          style={[zeptoTabsStyles.highlight, highlightAnimatedStyle]}
-        />
-        {tabs.map((tab, index) => {
-          const active = index === clampedIndex;
-          return (
-            <Pressable
-              key={tab.id}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: active }}
-              onPress={() => selectTab(index)}
-              onLayout={onTabLayout(index)}
-              style={zeptoTabsStyles.pressable}
-              collapsable={false}>
-              <View
-                style={[
-                  zeptoTabsStyles.tabInner,
-                  active && zeptoTabsStyles.tabInnerActive,
-                ]}>
-                {tab.icon != null ? (
-                  <View style={zeptoTabsStyles.iconWrap}>{tab.icon}</View>
-                ) : null}
-                <Text
+      <Animated.View style={[zeptoTabsStyles.tabsBg, tabsBgAnimatedStyle]}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={zeptoTabsStyles.scroll}
+          contentContainerStyle={[zeptoTabsStyles.row, contentContainerStyle]}>
+          <Animated.View
+            pointerEvents="none"
+            style={[
+              zeptoTabsStyles.highlight,
+              highlightAnimatedStyle,
+              highlightBgAnimatedStyle,
+            ]}
+          />
+          {tabs.map((tab, index) => {
+            const active = index === clampedIndex;
+            return (
+              <Pressable
+                key={tab.id}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: active }}
+                onPress={() => selectTab(index)}
+                onLayout={onTabLayout(index)}
+                style={zeptoTabsStyles.pressable}
+                collapsable={false}>
+                <View
                   style={[
-                    zeptoTabsStyles.label,
-                    active
-                      ? zeptoTabsStyles.labelActive
-                      : zeptoTabsStyles.labelInactive,
+                    zeptoTabsStyles.tabInner,
+                    active && zeptoTabsStyles.tabInnerActive,
                   ]}>
-                  {tab.label}
-                </Text>
+                  {tab.icon != null ? (
+                    <View style={zeptoTabsStyles.iconWrap}>{tab.icon}</View>
+                  ) : null}
+                  <Text
+                    style={[
+                      zeptoTabsStyles.label,
+                      active
+                        ? zeptoTabsStyles.labelActive
+                        : zeptoTabsStyles.labelInactive,
+                    ]}>
+                    {tab.label}
+                  </Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </Animated.View>
+      {showSearch ? (
+        <Animated.View style={[zeptoTabsStyles.searchBg, containerAnimatedStyle]}>
+          <View style={zeptoTabsStyles.searchWrap}>
+            <View style={zeptoTabsStyles.searchBar}>
+              <View style={zeptoTabsStyles.searchIcon}>
+                  <View style={zeptoTabsStyles.searchIconCircle} />
+                  <View style={zeptoTabsStyles.searchIconHandle} />
               </View>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
+              <TextInput
+                value={searchValue}
+                onChangeText={onSearchChange}
+                placeholder={searchPlaceholder}
+                  placeholderTextColor="rgba(17,24,39,0.55)"
+                  style={zeptoTabsStyles.searchInput}
+              />
+            </View>
+          </View>
+        </Animated.View>
+      ) : null}
     </Animated.View>
   );
 }

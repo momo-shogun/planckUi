@@ -1,14 +1,14 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import {Text, useTheme} from '@my-ui-lib/core';
-import {PlankBarV1Section} from './tabsLab/PlankBarV1Section';
-import {PlankBarV2Section} from './tabsLab/PlankBarV2Section';
-import {TabBarVariantsSection} from './tabsLab/TabBarVariantsSection';
-import {TabsControlledSection} from './tabsLab/TabsControlledSection';
-import {TabsScrollableSection} from './tabsLab/TabsScrollableSection';
-import {TabsSizesSection} from './tabsLab/TabsSizesSection';
-import {TabsVariantsSection} from './tabsLab/TabsVariantsSection';
-import {ZeptoTabsSection} from './tabsLab/ZeptoTabsSection';
+import { ScrollView, StyleSheet, View } from 'react-native';
+import { Text, useTheme } from '@my-ui-lib/core';
+import { PlankBarV1Section } from './tabsLab/PlankBarV1Section';
+import { PlankBarV2Section } from './tabsLab/PlankBarV2Section';
+import { TabBarVariantsSection } from './tabsLab/TabBarVariantsSection';
+import { TabsControlledSection } from './tabsLab/TabsControlledSection';
+import { TabsScrollableSection } from './tabsLab/TabsScrollableSection';
+import { TabsSizesSection } from './tabsLab/TabsSizesSection';
+import { TabsVariantsSection } from './tabsLab/TabsVariantsSection';
+import { ZeptoTabsSection } from './tabsLab/ZeptoTabsSection';
 
 function SectionDivider() {
   const theme = useTheme();
@@ -27,30 +27,22 @@ function SectionDivider() {
 export function TabsLabScreen() {
   const theme = useTheme();
   return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: theme.spacing[4],
-        backgroundColor: theme.colors.background,
-        paddingBottom: theme.spacing[12],
-      }}>
-      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
-        Planck Tabs and TabBar
-      </Text>
-      <ZeptoTabsSection />
-      <SectionDivider />
-      <TabsVariantsSection />
-      <SectionDivider />
-      <TabsSizesSection />
-      <SectionDivider />
-      <TabsScrollableSection />
-      <SectionDivider />
-      <TabsControlledSection />
-      <SectionDivider />
-      <TabBarVariantsSection />
-      <SectionDivider />
-      <PlankBarV1Section />
-      <SectionDivider />
-      <PlankBarV2Section />
-    </ScrollView>
+    <>
+      <ScrollView
+        contentContainerStyle={{
+          backgroundColor: theme.colors.background,
+          paddingBottom: theme.spacing[12],
+        }}>
+        {/* <Text variant="heading" style={{ marginBottom: theme.spacing[3] }}>
+          Planck Tabs and TabBar
+        </Text> */}
+        <ZeptoTabsSection />
+
+        <SectionDivider />
+        <View style={{ padding: theme.spacing[4] }}>
+          <TabsVariantsSection />
+        </View>
+      </ScrollView>
+    </>
   );
 }
