@@ -3,9 +3,9 @@ import { Text, VStack, ZeptoTabs, useTheme } from '@my-ui-lib/core';
 import { StyleSheet, View } from 'react-native';
 
 const zeptoTabs = [
-  { id: 'groceries', label: 'Groceries' },
+  { id: 'groceries', label: 'zepto' },
   { id: 'pharmacy', label: 'Pharmacy' },
-  { id: 'electronics', label: 'Electronics' },
+  { id: 'elect', label: 'Electric' },
   // { id: 'cafe', label: 'Café' },
 ];
 
@@ -44,14 +44,16 @@ export function ZeptoTabsSection() {
 
   return (
     <VStack gap={theme.spacing[2]}>
-      <Text variant="heading" style={{fontSize: theme.fontSizes.lg}}>
-        ZeptoTabs
-      </Text>
-      <Text variant="caption" color={theme.colors.textSecondary}>
-        Horizontally scrollable pill strip with Reanimated background, sliding
-        highlight, and spring scale. Open this screen from the drawer: Tabs &
-        tab bar.
-      </Text>
+      <View style={{ padding: theme.spacing[4] }}>
+        <Text variant="heading" style={{ fontSize: theme.fontSizes.lg }}>
+          ZeptoTabs
+        </Text>
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Pill strip with Reanimated background, sliding highlight, and spring
+          scale; tabs share the row width (no horizontal scroll). Open this screen
+          from the drawer: Tabs & tab bar.
+        </Text>
+      </View>
       <ZeptoTabs
         tabs={zeptoTabs}
         tabBackgroundColors={zeptoColors}
@@ -62,6 +64,8 @@ export function ZeptoTabsSection() {
         searchPlaceholder="Search for “Iphone”"
         style={{ borderRadius: 0 }}
       />
+
+
       <Text variant="caption" color={theme.colors.textSecondary}>
         Controlled with icons
       </Text>
@@ -69,7 +73,7 @@ export function ZeptoTabsSection() {
         tabs={tabsWithIcons}
         tabBackgroundColors={iconTabColors}
         activeIndex={ix}
-        onChange={(index) => setIx(index)}
+        onChange={(index: number) => setIx(index)}
       />
       <Text variant="caption" color={theme.colors.textSecondary}>
         Active: {tabsWithIcons[ix]?.label ?? '—'}

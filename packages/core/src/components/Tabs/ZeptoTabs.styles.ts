@@ -3,13 +3,11 @@ import { Platform, StyleSheet } from 'react-native';
 export const ZEPTO = {
   pillRadius: 22,
   pillHeight: 60,
-  tabPadH: 18,
-  tabPadV: 12,
+  /** Horizontal space between adjacent tab pills. */
   gap: 12,
   scrollPadH: 14,
   scrollPadV: 10,
   fontSize: 16,
-  activeScale: 1.02,
 } as const;
 
 export const zeptoTabsStyles = StyleSheet.create({
@@ -21,22 +19,29 @@ export const zeptoTabsStyles = StyleSheet.create({
   tabsBg: {
     alignSelf: 'stretch',
   },
-  scroll: {
+  /**
+   * Horizontal inset so tabs and the absolute highlight share the same
+   * coordinate space (avoids highlight hugging the screen while tabs are padded).
+   */
+  tabRowOuter: {
+    alignSelf: 'stretch',
     flexGrow: 0,
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    position: 'relative',
     paddingHorizontal: ZEPTO.scrollPadH,
     paddingTop: ZEPTO.scrollPadV,
     paddingBottom: 0,
-    gap: ZEPTO.gap,
+  },
+  /** Track for tabs + sliding pill; no horizontal padding here. */
+  tabRowInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    flexWrap: 'nowrap',
+    minHeight: ZEPTO.pillHeight,
   },
   highlight: {
     position: 'absolute',
     left: 0,
-    top: ZEPTO.scrollPadV,
+    top: 0,
     height: ZEPTO.pillHeight,
     borderTopLeftRadius: ZEPTO.pillRadius,
     borderTopRightRadius: ZEPTO.pillRadius,
@@ -59,6 +64,9 @@ export const zeptoTabsStyles = StyleSheet.create({
   },
   pressable: {
     zIndex: 1,
+    flex: 1,
+    minWidth: 0,
+    height: ZEPTO.pillHeight,
     borderRadius: ZEPTO.pillRadius,
     overflow: 'hidden',
   },
@@ -66,10 +74,9 @@ export const zeptoTabsStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: ZEPTO.pillHeight,
-    paddingHorizontal: ZEPTO.tabPadH,
-    paddingVertical: ZEPTO.tabPadV,
-    // marginBottom: ZEPTO.scrollPadV,
+    width: '100%',
+    height: ZEPTO.pillHeight,
+    paddingHorizontal: 8,
     borderRadius: ZEPTO.pillRadius,
     backgroundColor: 'rgba(0,0,0,0.06)',
   },
@@ -87,6 +94,10 @@ export const zeptoTabsStyles = StyleSheet.create({
   labelInactive: {
     color: '#6B6B70',
     fontWeight: '500',
+  },
+  labelShrink: {
+    flexShrink: 1,
+    minWidth: 0,
   },
   iconWrap: {
     marginRight: 8,

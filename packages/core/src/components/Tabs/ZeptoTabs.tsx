@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
-import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, Text, TextInput, View } from 'react-native';
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
   useSharedValue,
-  withSequence,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import { useControlledState } from '../../hooks/useControlledState';
@@ -115,7 +113,6 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
   const activeProgress = useSharedValue(clampedIndex);
   const pillX = useSharedValue(0);
   const pillW = useSharedValue(0);
-  const pillScale = useSharedValue(1);
 
   useEffect(() => {
     layoutsRef.current = tabs.map(() => ({ x: 0, width: 0 }));
@@ -144,33 +141,12 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
         return;
       }
       const dur = instant || reduceMotion.current ? 0 : 260;
-      // Zepto-style: when the edge tab is active, the highlight becomes edge-to-edge
-      // (no left/right inset from the content padding).
-      const pad = ZEPTO.scrollPadH;
-      let x = L.x;
-      let w = L.width;
-      if (index === 0) {
-        x = 0;
-        w = L.x + L.width; // include the left padding area
-      } else if (index === tabs.length - 1) {
-        w = L.width + pad; // include the right padding area
-      }
-      pillX.value = withTiming(x, { duration: dur });
-      pillW.value = withTiming(w, { duration: dur });
+      // Match each tab’s laid-out frame so active/inactive keep the same side inset.
+      pillX.value = withTiming(L.x, { duration: dur });
+      pillW.value = withTiming(L.width, { duration: dur });
     },
-    [pillW, pillX, reduceMotion, tabs.length]
+    [pillW, pillX, reduceMotion]
   );
-
-  const bumpPillScale = useCallback(() => {
-    if (reduceMotion.current) {
-      pillScale.value = 1;
-      return;
-    }
-    pillScale.value = withSequence(
-      withSpring(ZEPTO.activeScale, { damping: 15, stiffness: 380 }),
-      withSpring(1, { damping: 18, stiffness: 320 })
-    );
-  }, [pillScale, reduceMotion]);
 
   const syncProgress = useCallback(
     (index: number, instant: boolean) => {
@@ -192,8 +168,7 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     }
     syncProgress(clampedIndex, false);
     applyPill(clampedIndex, false);
-    bumpPillScale();
-  }, [clampedIndex, tabs.length, syncProgress, applyPill, bumpPillScale]);
+  }, [clampedIndex, tabs.length, syncProgress, applyPill]);
 
   const onTabLayout = useCallback(
     (index: number) => (e: LayoutChangeEvent) => {
@@ -258,7 +233,7 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
   const highlightAnimatedStyle = useAnimatedStyle(() => {
     return {
       width: pillW.value,
-      transform: [{ translateX: pillX.value }, { scale: pillScale.value }],
+      transform: [{ translateX: pillX.value }],
     };
   });
 
@@ -266,57 +241,70 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     return null;
   }
 
+  const tabRowOuterStyle = [
+    zeptoTabsStyles.tabRowOuter,
+    contentContainerStyle,
+  ];
+
+  const tabRow = (
+    <>
+      <Animated.View
+        pointerEvents="none"
+        style={[
+          zeptoTabsStyles.highlight,
+          highlightAnimatedStyle,
+          highlightBgAnimatedStyle,
+        ]}
+      />
+      {tabs.map((tab, index) => {
+        const active = index === clampedIndex;
+        return (
+          <Pressable
+            key={tab.id}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: active }}
+            onPress={() => selectTab(index)}
+            onLayout={onTabLayout(index)}
+            style={[
+              zeptoTabsStyles.pressable,
+              index < tabs.length - 1 && { marginRight: ZEPTO.gap },
+            ]}
+            collapsable={false}>
+            <View
+              style={[
+                zeptoTabsStyles.tabInner,
+                active && zeptoTabsStyles.tabInnerActive,
+              ]}>
+              {tab.icon != null ? (
+                <View style={zeptoTabsStyles.iconWrap}>{tab.icon}</View>
+              ) : null}
+              <Text
+                numberOfLines={1}
+                ellipsizeMode="tail"
+                style={[
+                  zeptoTabsStyles.label,
+                  zeptoTabsStyles.labelShrink,
+                  active
+                    ? zeptoTabsStyles.labelActive
+                    : zeptoTabsStyles.labelInactive,
+                ]}>
+                {tab.label}
+              </Text>
+            </View>
+          </Pressable>
+        );
+      })}
+    </>
+  );
+
   return (
     <Animated.View
       style={[zeptoTabsStyles.outer, style]}
       testID={testID}>
       <Animated.View style={[zeptoTabsStyles.tabsBg, tabsBgAnimatedStyle]}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={zeptoTabsStyles.scroll}
-          contentContainerStyle={[zeptoTabsStyles.row, contentContainerStyle]}>
-          <Animated.View
-            pointerEvents="none"
-            style={[
-              zeptoTabsStyles.highlight,
-              highlightAnimatedStyle,
-              highlightBgAnimatedStyle,
-            ]}
-          />
-          {tabs.map((tab, index) => {
-            const active = index === clampedIndex;
-            return (
-              <Pressable
-                key={tab.id}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: active }}
-                onPress={() => selectTab(index)}
-                onLayout={onTabLayout(index)}
-                style={zeptoTabsStyles.pressable}
-                collapsable={false}>
-                <View
-                  style={[
-                    zeptoTabsStyles.tabInner,
-                    active && zeptoTabsStyles.tabInnerActive,
-                  ]}>
-                  {tab.icon != null ? (
-                    <View style={zeptoTabsStyles.iconWrap}>{tab.icon}</View>
-                  ) : null}
-                  <Text
-                    style={[
-                      zeptoTabsStyles.label,
-                      active
-                        ? zeptoTabsStyles.labelActive
-                        : zeptoTabsStyles.labelInactive,
-                    ]}>
-                    {tab.label}
-                  </Text>
-                </View>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+        <View style={tabRowOuterStyle}>
+          <View style={zeptoTabsStyles.tabRowInner}>{tabRow}</View>
+        </View>
       </Animated.View>
       {showSearch ? (
         <Animated.View style={[zeptoTabsStyles.searchBg, containerAnimatedStyle]}>
