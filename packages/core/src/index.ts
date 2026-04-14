@@ -79,13 +79,16 @@ export type {
 } from './components/navigation';
 export { Switch } from './components/Switch';
 export type { SwitchProps, SwitchSize, SwitchSlots } from './components/Switch';
-export { TabPanel, Tabs } from './components/Tabs';
+export { TabPanel, Tabs, ZeptoTabs } from './components/Tabs';
 export type {
   TabDef,
   TabPanelProps,
   TabsProps,
   TabsSize,
   TabsSlots,
+  ZeptoTabBackgroundColors,
+  ZeptoTabItem,
+  ZeptoTabsProps,
 } from './components/Tabs';
 export { Toast, ToastProvider, useToast } from './components/Toast';
 export type {

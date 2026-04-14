@@ -6,6 +6,6 @@ export default defineConfig({
   dts: true,
   clean: true,
   sourcemap: true,
-  external: ['react', 'react-native'],
+  external: ['react', 'react-native', 'react-native-reanimated'],
   treeshake: true,
 });

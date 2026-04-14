@@ -8,6 +8,7 @@ import {TabsControlledSection} from './tabsLab/TabsControlledSection';
 import {TabsScrollableSection} from './tabsLab/TabsScrollableSection';
 import {TabsSizesSection} from './tabsLab/TabsSizesSection';
 import {TabsVariantsSection} from './tabsLab/TabsVariantsSection';
+import {ZeptoTabsSection} from './tabsLab/ZeptoTabsSection';
 
 function SectionDivider() {
   const theme = useTheme();
@@ -35,6 +36,8 @@ export function TabsLabScreen() {
       <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
         Planck Tabs and TabBar
       </Text>
+      <ZeptoTabsSection />
+      <SectionDivider />
       <TabsVariantsSection />
       <SectionDivider />
       <TabsSizesSection />

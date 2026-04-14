@@ -1,0 +1,81 @@
+import React, { useState } from 'react';
+import { Text, VStack, ZeptoTabs, useTheme } from '@my-ui-lib/core';
+import { StyleSheet, View } from 'react-native';
+
+const zeptoTabs = [
+  { id: 'groceries', label: 'Groceries' },
+  { id: 'pharmacy', label: 'Pharmacy' },
+  { id: 'electronics', label: 'Electronics' },
+  { id: 'cafe', label: 'Café' },
+];
+
+const zeptoColors: Record<string, string> = {
+  groceries: '#F3E8FF',
+  pharmacy: '#E0F2FE',
+  electronics: '#ECFDF5',
+  cafe: '#FFF7ED',
+};
+
+function DotIcon({ color }: { color: string }) {
+  return (
+    <View
+      style={[
+        styles.dot,
+        {
+          backgroundColor: color,
+        },
+      ]}
+    />
+  );
+}
+
+const tabsWithIcons = [
+  { id: 'all', label: 'All', icon: <DotIcon color="#6366F1" /> },
+  { id: 'veg', label: 'Veg', icon: <DotIcon color="#22C55E" /> },
+  { id: 'nonveg', label: 'Non-veg', icon: <DotIcon color="#F97316" /> },
+];
+
+const iconTabColors = ['#F4F4F5', '#EFF6FF', '#FEF3C7'];
+
+export function ZeptoTabsSection() {
+  const theme = useTheme();
+  const [ix, setIx] = useState(0);
+
+  return (
+    <VStack gap={theme.spacing[2]}>
+      <Text variant="heading" style={{fontSize: theme.fontSizes.lg}}>
+        ZeptoTabs
+      </Text>
+      <Text variant="caption" color={theme.colors.textSecondary}>
+        Horizontally scrollable pill strip with Reanimated background, sliding
+        highlight, and spring scale. Open this screen from the drawer: Tabs &
+        tab bar.
+      </Text>
+      <ZeptoTabs
+        tabs={zeptoTabs}
+        tabBackgroundColors={zeptoColors}
+        defaultActiveIndex={0}
+      />
+      <Text variant="caption" color={theme.colors.textSecondary}>
+        Controlled with icons
+      </Text>
+      <ZeptoTabs
+        tabs={tabsWithIcons}
+        tabBackgroundColors={iconTabColors}
+        activeIndex={ix}
+        onChange={(index) => setIx(index)}
+      />
+      <Text variant="caption" color={theme.colors.textSecondary}>
+        Active: {tabsWithIcons[ix]?.label ?? '—'}
+      </Text>
+    </VStack>
+  );
+}
+
+const styles = StyleSheet.create({
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+});
