@@ -27,6 +27,8 @@ function resolveFromDocs(pkg) {
 
 const reactDir = resolveFromDocs('react');
 const reactDomDir = resolveFromDocs('react-dom');
+/** File path so webpack never treats the alias as a package root that re-resolves to `react-native`. */
+const reactNativeWebEntry = require.resolve('react-native-web', { paths: [__dirname] });
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -34,14 +36,16 @@ const nextConfig = {
   transpilePackages: [
     '@my-ui-lib/core',
     '@my-ui-lib/tokens',
-    'react-native',
+    // Do not list `react-native` — Next/SWC cannot compile RN’s Flow sources.
     'react-native-web',
   ],
   webpack(config) {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
       '@gorhom/bottom-sheet': path.join(__dirname, 'mocks/gorhom-bottom-sheet.js'),
-      'react-native$': 'react-native-web',
+      '@gorhom/portal': path.join(__dirname, 'mocks/gorhom-portal.js'),
+      'react-native$': reactNativeWebEntry,
+      'react-native': reactNativeWebEntry,
       react: reactDir,
       'react-dom': reactDomDir,
       'react/jsx-runtime': path.join(reactDir, 'jsx-runtime.js'),

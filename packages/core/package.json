@@ -9,6 +9,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js"
+    },
+    "./zepto-tabs": {
+      "types": "./dist/zepto-tabs.d.ts",
+      "import": "./dist/zepto-tabs.mjs",
+      "require": "./dist/zepto-tabs.js"
     }
   },
   "scripts": {

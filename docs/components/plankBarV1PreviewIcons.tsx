@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from 'react-native';
+import { Image } from 'react-native-web';
 
 /**
  * Lightweight SVG-as-data-URI icons for the docs site (react-native-web + Next).

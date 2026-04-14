@@ -1,7 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 
 export const ZEPTO = {
-  pillRadius: 22,
+  pillRadius: 14,
   pillHeight: 60,
   /** Horizontal space between adjacent tab pills. */
   gap: 12,
@@ -75,7 +75,7 @@ export const zeptoTabsStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: ZEPTO.pillHeight,
+    height: ZEPTO.pillHeight-10,
     paddingHorizontal: 8,
     borderRadius: ZEPTO.pillRadius,
     backgroundColor: 'rgba(0,0,0,0.06)',
@@ -83,6 +83,7 @@ export const zeptoTabsStyles = StyleSheet.create({
   tabInnerActive: {
     backgroundColor: 'transparent',
     marginBottom: 0,
+    height: ZEPTO.pillHeight,
   },
   label: {
     fontSize: ZEPTO.fontSize,

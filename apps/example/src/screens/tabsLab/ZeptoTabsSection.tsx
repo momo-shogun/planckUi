@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Text, VStack, ZeptoTabs, useTheme } from '@my-ui-lib/core';
+import { Text, VStack, useTheme } from '@my-ui-lib/core';
+import { ZeptoTabs } from '@my-ui-lib/core/zepto-tabs';
 import { StyleSheet, View } from 'react-native';
 
 const zeptoTabs = [

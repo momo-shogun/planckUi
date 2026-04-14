@@ -1,6 +1,6 @@
 'use strict';
 const React = require('react');
-const { View } = require('react-native');
+const { View } = require('react-native-web');
 
 const BottomSheetModal = React.forwardRef((props, ref) =>
   React.createElement(View, { testID: 'bottom-sheet-modal-stub' }, props.children)

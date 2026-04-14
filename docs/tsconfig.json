@@ -15,6 +15,7 @@
   },
   "include": [
     "next-env.d.ts",
+    "react-native-web.d.ts",
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"

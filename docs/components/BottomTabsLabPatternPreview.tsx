@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { View } from 'react-native';
+import { View } from 'react-native-web';
 import { TabBar, useTheme } from '@my-ui-lib/core';
 import { getPlankBarV1Chrome } from '@my-ui-lib/tokens';
 import { Preview } from './Preview';
