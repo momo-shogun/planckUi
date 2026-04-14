@@ -33,9 +33,6 @@ export function TabsLabScreen() {
           backgroundColor: theme.colors.background,
           paddingBottom: theme.spacing[12],
         }}>
-        {/* <Text variant="heading" style={{ marginBottom: theme.spacing[3] }}>
-          Planck Tabs and TabBar
-        </Text> */}
         <ZeptoTabsSection />
 
         <SectionDivider />

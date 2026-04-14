@@ -6,7 +6,7 @@ const zeptoTabs = [
   { id: 'groceries', label: 'Groceries' },
   { id: 'pharmacy', label: 'Pharmacy' },
   { id: 'electronics', label: 'Electronics' },
-  { id: 'cafe', label: 'Café' },
+  // { id: 'cafe', label: 'Café' },
 ];
 
 const zeptoColors: Record<string, string> = {
@@ -60,6 +60,7 @@ export function ZeptoTabsSection() {
         searchValue={q}
         onSearchChange={setQ}
         searchPlaceholder="Search for “Iphone”"
+        style={{ borderRadius: 0 }}
       />
       <Text variant="caption" color={theme.colors.textSecondary}>
         Controlled with icons

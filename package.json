@@ -15,7 +15,8 @@
     "generate": "plop",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "turbo run build && changeset publish"
+    "release": "turbo run build && changeset publish",
+    "buildCore" : "pnpm --filter @my-ui-lib/core build"
   },
   "pnpm": {
     "overrides": {
