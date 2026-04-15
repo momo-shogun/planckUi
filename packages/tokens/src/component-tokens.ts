@@ -152,6 +152,45 @@ export function getInputTokens(theme: SemanticTokens): {
   };
 }
 
+export function getComposerInputTokens(theme: SemanticTokens): {
+  shellBg: string;
+  shellBorder: string;
+  shellBorderFocus: string;
+  text: string;
+  placeholder: string;
+  iconFg: string;
+  iconBg: string;
+  iconBgHover: string;
+  chipBg: string;
+  chipBorder: string;
+  chipText: string;
+  chipCountText: string;
+  sendBg: string;
+  sendFg: string;
+  sendBgDisabled: string;
+  sendFgDisabled: string;
+} {
+  const { colors } = theme;
+  return {
+    shellBg: colors.surface,
+    shellBorder: colors.border,
+    shellBorderFocus: colors.borderFocus,
+    text: colors.textPrimary,
+    placeholder: colors.textDisabled,
+    iconFg: colors.textPrimary,
+    iconBg: colorWithOpacity(colors.textPrimary, 0.06),
+    iconBgHover: colorWithOpacity(colors.textPrimary, 0.10),
+    chipBg: colors.surfaceRaised,
+    chipBorder: colors.border,
+    chipText: colors.textPrimary,
+    chipCountText: colors.textSecondary,
+    sendBg: colors.surfaceRaised,
+    sendFg: colors.textPrimary,
+    sendBgDisabled: colorWithOpacity(colors.textPrimary, 0.06),
+    sendFgDisabled: colors.textDisabled,
+  };
+}
+
 export function getDropdownMenuTokens(theme: SemanticTokens): {
   overlay: string;
   /** Light scrim for anchored dropdown (non-modal); keeps focus on the list. */

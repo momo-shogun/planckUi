@@ -185,7 +185,9 @@ function CopyButton({ text, label = 'Copy' }: { text: string; label?: string }) 
       await navigator.clipboard.writeText(text);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 2000);
-    } catch {}
+    } catch {
+      // ignore clipboard failures (unsupported / denied)
+    }
   }, [text]);
 
   return (

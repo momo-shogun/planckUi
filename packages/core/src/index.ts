@@ -33,6 +33,8 @@ export type {
 } from './components/DropdownMenu';
 export { Input } from './components/Input';
 export type { InputProps } from './components/Input';
+export { ComposerInput } from './components/Input';
+export type { ComposerChip, ComposerInputProps } from './components/Input';
 export {
   Modal,
   ModalBody,
