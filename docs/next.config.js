@@ -44,6 +44,9 @@ const nextConfig = {
       ...(config.resolve.alias || {}),
       '@gorhom/bottom-sheet': path.join(__dirname, 'mocks/gorhom-bottom-sheet.js'),
       '@gorhom/portal': path.join(__dirname, 'mocks/gorhom-portal.js'),
+      // Docs-only: allow rendering components that depend on Reanimated on web.
+      // The mock is sufficient for our preview widgets (no worklets).
+      'react-native-reanimated': path.join(__dirname, 'mocks/react-native-reanimated.js'),
       'react-native$': reactNativeWebEntry,
       'react-native': reactNativeWebEntry,
       react: reactDir,

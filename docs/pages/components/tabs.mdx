@@ -2,34 +2,21 @@
 title: Tabs
 ---
 
-import { Preview } from '../../components/Preview';
-import { TabPanel, Tabs, Text } from '@my-ui-lib/core';
+import { TabsTabsSection } from '../../components/TabsTabsSection';
+import { ZeptoTabsTabsSection } from '../../components/ZeptoTabsTabsSection';
 
 # Tabs
 
-Horizontal **Tabs** with **`TabPanel`** children, **Animated** indicator (**spring**), variants **underline \| pill \| bordered**, optional horizontal **ScrollView**.
+Planck ships **two tab systems**:
 
-## Preview
+1. **`Tabs` + `TabPanel`** — token-driven bar from `@my-ui-lib/core`, with **`variant`**: **`underline` \| `pill` \| `bordered`**, optional **`scrollable`**, and **`size`**: **`sm` \| `md` \| `lg`**.
+2. **`ZeptoTabs`** — separate entry **`@my-ui-lib/core/zepto-tabs`**, pill strip with **Reanimated** color transitions and optional search row (see below).
 
-<Preview minHeight={200}>
-  <Tabs
-    tabs={[
-      { key: '1', label: 'First' },
-      { key: '2', label: 'Second', badge: 5 },
-    ]}
-    defaultActiveKey="1"
-    variant="underline"
-  >
-    <TabPanel tabKey="1">
-      <Text variant="body">First panel</Text>
-    </TabPanel>
-    <TabPanel tabKey="2">
-      <Text variant="body">Second panel</Text>
-    </TabPanel>
-  </Tabs>
-</Preview>
+## Preview, code, and install (`Tabs`)
 
-## Props
+<TabsTabsSection />
+
+## `Tabs` props
 
 | Prop | Type | Description |
 |------|------|-------------|
@@ -37,14 +24,47 @@ Horizontal **Tabs** with **`TabPanel`** children, **Animated** indicator (**spri
 | activeKey | string | Controlled selection |
 | defaultActiveKey | string | Uncontrolled |
 | onChange | (key: string) => void | Selection change |
-| variant | underline \| pill \| bordered | Style |
+| variant | underline \| pill \| bordered | Visual variant (`TabsVariant` in tokens) |
 | size | sm \| md \| lg | Scale |
-| scrollable | boolean | Horizontal scroll row |
+| scrollable | boolean | Horizontal `ScrollView` for the tab row |
 | unstyled | boolean | Plain layout |
 | slots | TabsSlots | Includes `indicator` |
 
-## Install
+---
+
+## Zepto tabs (`ZeptoTabs`)
+
+Pill-style tabs with **animated track colors** and an optional **search** field. Lives in a **separate bundle entry** so apps that do not use it (for example **Next.js** docs without Reanimated) avoid pulling **Reanimated** from the main `@my-ui-lib/core` import.
+
+## Preview, code, and install
+
+<ZeptoTabsTabsSection />
+
+### `ZeptoTabs` props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| tabs | ZeptoTabItem[] | `id`, `label`, optional `icon` |
+| activeIndex | number | Controlled index |
+| defaultActiveIndex | number | Uncontrolled index |
+| onChange | (index, tab) => void | Selection change |
+| tabBackgroundColors | `string[]` or `Record<string, string>` | Per-tab track colors (array order or keyed by `id`) |
+| showSearch | boolean | Search row under tabs |
+| searchPlaceholder | string | |
+| searchValue | string | Controlled search text |
+| onSearchChange | (text: string) => void | |
+| testID | string | |
+| style | View style | Root |
+| contentContainerStyle | View style | Padding around tab row |
+
+### Install (`ZeptoTabs`)
+
+Use the same **`@my-ui-lib/core`** package; import the **subpath** above. Your app must already satisfy [**Reanimated**](https://docs.swmansion.com/react-native-reanimated/) (Babel plugin last) like other Planck surfaces that use worklets.
 
 ```bash
-npx my-ui-lib add tabs
+pnpm add @my-ui-lib/core @my-ui-lib/tokens react-native-reanimated
+```
+
+```bash
+npx my-ui-lib add zepto-tabs
 ```

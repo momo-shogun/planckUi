@@ -16,6 +16,7 @@ const REGISTRY: Record<string, { deps: string[] }> = {
   switch: { deps: ['@my-ui-lib/core'] },
   'tab-bar': { deps: ['@my-ui-lib/core'] },
   tabs: { deps: ['@my-ui-lib/core'] },
+  'zepto-tabs': { deps: ['@my-ui-lib/core', 'react-native-reanimated'] },
   toast: { deps: ['@my-ui-lib/core', '@gorhom/portal'] },
 };
 
