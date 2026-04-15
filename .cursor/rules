@@ -1,6 +1,7 @@
-This is **planckUi**, a headless React Native UI library shipped as a **pnpm monorepo** with **Turborepo**. The codebase enforces token-driven styling, fixed component file layout, and strict lint rules. Before implementing a new component, read `.cursor/skills/build-component.md`. Before adding a named theme to the token pipeline, read `.cursor/skills/add-theme.md`. Before adding a hook under `packages/core`, read `.cursor/skills/add-hook.md`. Before authoring or updating Nextra docs, read `.cursor/skills/write-docs-page.md`.
+This is **planckUi**, a headless React Native UI library shipped as a **pnpm monorepo** with **Turborepo**. The codebase enforces token-driven styling, fixed component file layout, and strict lint rules. For new core UI components, use `pnpm generate` (Plop) and follow **Component colocation** below. Before adding a named theme to the token pipeline, read `.cursor/skills/add-theme.md`. Before adding a hook under `packages/core`, read `.cursor/skills/add-hook.md`. Before authoring or updating Nextra docs, read `.cursor/skills/write-docs-page.md`.
 
 Hard rules:
+- Colocate UI: follow **Component colocation** in this file for `packages/core` components and mirror the same folder-per-feature pattern in `apps/example` and `docs` when adding or substantially editing UI.
 - Never hardcode hex, `rgb()`, `hsl()`, or named CSS colors in `packages/core` (use `get{Name}Tokens` + theme scales only).
 - Never use Expo, NativeWind, or Tailwind in this library.
 - Never use the `any` type.
@@ -28,3 +29,30 @@ Key paths:
 - Docs MDX → `docs/pages/`
 - Docs live preview shell → `docs/components/Preview.tsx`
 - Plop templates → `plop-templates/`
+
+## Component colocation (required)
+
+Apply this layout everywhere new UI is added so each feature owns its styles, types, and tests in one place.
+
+### `packages/core/src/components/`
+
+- **Single public component** (e.g. `Avatar`): one folder `ComponentName/` containing:
+  - `ComponentName.tsx` — implementation
+  - `ComponentName.styles.ts` — `StyleSheet` / style helpers (token-driven; no stray hex in core)
+  - `ComponentName.types.ts` — props and public types
+  - `ComponentName.test.tsx` — tests next to the component
+  - `index.ts` — **only** re-exports the public API (`export { … } from './ComponentName'`, `export type { … } from './ComponentName.types'` or from `./ComponentName` if types are re-exported there)
+- **Implementation-only helpers** that exist solely for that component stay inside the same folder (extra `*.ts` / `*.tsx` files are fine if names are clear, e.g. split render modules).
+- **Multiple related public components** under one product area (e.g. classic tabs vs Zepto tabs): use a **parent folder** (`Tabs/`) with:
+  - `index.ts` — re-exports the family API consumed by `packages/core/src/index.ts` (or separate entry files)
+  - **one subfolder per variant**, each subfolder repeating the same five-file pattern (`Tabs/Tabs/…`, `Tabs/ZeptoTabs/…`). Do not leave sibling `*.styles.ts` files loose at the parent root unless they are truly shared; prefer a shared `Tabs/shared/` only when needed.
+
+### `apps/example`, `docs/`, and other packages
+
+- Mirror the same habit: **one folder per screen, lab, or preview**; colocate `*.styles.ts`, `*.types.ts`, and tests with the main `*.tsx` instead of scattering files at package root.
+- Prefer named files over dumping everything into a single huge component file when styles or types grow.
+
+### Refactors and reviews
+
+- When touching a component that predates this layout, **move it into the structure above** if the change is already editing that area (do not expand scope purely to reformat unrelated code).
+- New work must not introduce parallel flat files (e.g. `Foo.tsx` next to `Foo/` without migrating).
