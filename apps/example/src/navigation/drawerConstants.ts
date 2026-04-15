@@ -9,6 +9,7 @@ export const DRAWER_ITEMS = [
   {key: 'ModalLab', label: 'Modal'},
   {key: 'SheetLab', label: 'Bottom sheet'},
   {key: 'ToastLab', label: 'Toasts'},
+  {key: 'InputLab', label: 'Input'},
   {key: 'TabsLab', label: 'Tabs & tab bar'},
   {key: 'BottomTabsLab', label: 'Bottom tabs lab'},
 ] as const;
@@ -20,6 +21,7 @@ export type RootDrawerParamList = {
   ModalLab: undefined;
   SheetLab: undefined;
   ToastLab: undefined;
+  InputLab: undefined;
   TabsLab: undefined;
   BottomTabsLab: NavigatorScreenParams<BottomTabsLabStackParamList> | undefined;
 };

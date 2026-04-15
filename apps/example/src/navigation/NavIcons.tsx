@@ -36,3 +36,8 @@ export function BottomTabsIcon({color, size = 16}: IconProps) {
 export function TabsIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />;
 }
+
+/** Text field — "Input" */
+export function InputIcon({color, size = 16}: IconProps) {
+  return <MaterialCommunityIcons name="form-textbox" color={color} size={size} />;
+}

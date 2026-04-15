@@ -9,6 +9,7 @@ import {DRAWER_ITEMS, type DrawerRoute} from './drawerConstants';
 import {
   BottomTabsIcon,
   GridIcon,
+  InputIcon,
   ModalIcon,
   SheetIcon,
   TabsIcon,
@@ -31,6 +32,7 @@ function iconForRoute(key: DrawerRoute, color: string): React.ReactNode {
     case 'ModalLab':    return <ModalIcon color={color} size={16} />;
     case 'SheetLab':    return <SheetIcon color={color} size={16} />;
     case 'ToastLab':    return <ToastIcon color={color} size={16} />;
+    case 'InputLab':    return <InputIcon color={color} size={16} />;
     case 'TabsLab':        return <TabsIcon       color={color} size={16} />;
     case 'BottomTabsLab':  return <BottomTabsIcon color={color} size={16} />;
   }

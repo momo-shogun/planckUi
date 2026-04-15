@@ -169,6 +169,10 @@ export function getComposerInputTokens(theme: SemanticTokens): {
   sendFg: string;
   sendBgDisabled: string;
   sendFgDisabled: string;
+  gmailRed: string;
+  gmailYellow: string;
+  gmailGreen: string;
+  gmailBlue: string;
 } {
   const { colors } = theme;
   return {
@@ -188,6 +192,10 @@ export function getComposerInputTokens(theme: SemanticTokens): {
     sendFg: colors.textPrimary,
     sendBgDisabled: colorWithOpacity(colors.textPrimary, 0.06),
     sendFgDisabled: colors.textDisabled,
+    gmailRed: colors.destructive,
+    gmailYellow: colors.warning,
+    gmailGreen: colors.success,
+    gmailBlue: colors.primary,
   };
 }
 
