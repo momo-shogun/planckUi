@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { fireEvent, render } from '@testing-library/react-native';
-import { ThemeProvider } from '../../system/ThemeProvider';
+import { ThemeProvider } from '../../../system/ThemeProvider';
 import { TabPanel, Tabs } from './Tabs';
 
 const ThemeWrapper = ({ children }: { children: React.ReactNode }) => (

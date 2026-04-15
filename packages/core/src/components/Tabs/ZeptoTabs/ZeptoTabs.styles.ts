@@ -75,7 +75,7 @@ export const zeptoTabsStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',
-    height: ZEPTO.pillHeight-10,
+    height: ZEPTO.pillHeight - 10,
     paddingHorizontal: 8,
     borderRadius: ZEPTO.pillRadius,
     backgroundColor: 'rgba(0,0,0,0.06)',

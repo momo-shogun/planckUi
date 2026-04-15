@@ -47,6 +47,42 @@ for (const name of [
  * with Node so subpath imports like `react-native-vector-icons/MaterialCommunityIcons`
  * always map to a concrete path.
  */
+/**
+ * Metro does not apply `package.json` `exports` for arbitrary subpaths like
+ * `@my-ui-lib/core/zepto-tabs`. Map it to the built file (or source fallback).
+ */
+function resolveMyUiLibCoreZeptoTabs() {
+  const distJs = path.join(
+    workspaceRoot,
+    'packages',
+    'core',
+    'dist',
+    'zepto-tabs.js',
+  );
+  if (fs.existsSync(distJs)) {
+    try {
+      return fs.realpathSync(distJs);
+    } catch {
+      return distJs;
+    }
+  }
+  const srcEntry = path.join(
+    workspaceRoot,
+    'packages',
+    'core',
+    'src',
+    'zepto-tabs.ts',
+  );
+  if (fs.existsSync(srcEntry)) {
+    try {
+      return fs.realpathSync(srcEntry);
+    } catch {
+      return srcEntry;
+    }
+  }
+  return null;
+}
+
 function resolveReactNativeVectorIconsFile(moduleName) {
   if (!moduleName.startsWith('react-native-vector-icons/')) {
     return null;
@@ -111,6 +147,12 @@ const config = {
       ? {extraNodeModules}
       : {}),
     resolveRequest(context, moduleName, platform) {
+      if (moduleName === '@my-ui-lib/core/zepto-tabs') {
+        const filePath = resolveMyUiLibCoreZeptoTabs();
+        if (filePath) {
+          return {type: 'sourceFile', filePath};
+        }
+      }
       const direct = resolveReactNativeVectorIconsFile(moduleName);
       if (direct) {
         return {type: 'sourceFile', filePath: direct};

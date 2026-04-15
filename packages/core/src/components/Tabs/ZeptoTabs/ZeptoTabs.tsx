@@ -7,8 +7,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { useControlledState } from '../../hooks/useControlledState';
-import { useReducedMotionRef } from '../../hooks/useReducedMotion';
+import { useControlledState } from '../../../hooks/useControlledState';
+import { useReducedMotionRef } from '../../../hooks/useReducedMotion';
 import { ZEPTO, zeptoTabsStyles } from './ZeptoTabs.styles';
 import type { ZeptoTabsProps } from './ZeptoTabs.types';
 

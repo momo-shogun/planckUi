@@ -5,4 +5,4 @@ export type {
   TabsProps,
   TabsSize,
   TabsSlots,
-} from './Tabs';
+} from './Tabs.types';

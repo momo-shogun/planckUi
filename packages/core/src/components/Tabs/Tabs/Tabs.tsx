@@ -13,9 +13,9 @@ import {
   View,
 } from 'react-native';
 import { getTabsTokens } from '@my-ui-lib/tokens';
-import { useControlledState } from '../../hooks/useControlledState';
-import { useReducedMotionRef } from '../../hooks/useReducedMotion';
-import { useTheme } from '../../system/ThemeContext';
+import { useControlledState } from '../../../hooks/useControlledState';
+import { useReducedMotionRef } from '../../../hooks/useReducedMotion';
+import { useTheme } from '../../../system/ThemeContext';
 import { createTabsStyles } from './Tabs.styles';
 import type { TabPanelProps, TabsProps } from './Tabs.types';
 

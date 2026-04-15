@@ -7,4 +7,4 @@ export type {
   ZeptoTabBackgroundColors,
   ZeptoTabItem,
   ZeptoTabsProps,
-} from './components/Tabs/ZeptoTabs.types';
+} from './components/Tabs/ZeptoTabs';
