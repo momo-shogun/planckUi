@@ -2,77 +2,74 @@
 title: Button
 ---
 
-import { Preview } from '../../components/Preview';
-import { Button } from '@my-ui-lib/core';
+import { ButtonDocsTabsSection } from '../../components/ButtonDocsTabsSection';
 
 # Button
 
-## Preview
+Planck ships **three button surfaces** from `@my-ui-lib/core`:
 
-<Preview>
-  <Button variant="primary"  onPress={() => {}}>Primary</Button>
-  <Button variant="outline"  onPress={() => {}}>Outline</Button>
-  <Button variant="ghost"    onPress={() => {}}>Ghost</Button>
-</Preview>
+1. **`PillButtonV1`** — shadcn-style pill (`default` gradient, `secondary`, `outline`, `ghost`), sizes, loading. Also exported as **`Button`** (same implementation).
+2. **`ButtonIconOnly`** — circular icon actions with variants and optional `active` styling.
+3. **`MarqueeButton`** — pill with **Reanimated** horizontal scrolling text (native apps; docs use a web mock).
 
-## Sizes
+## Preview, code, and install
 
-<Preview themeSwitcher={false}>
-  <Button size="sm" variant="primary" onPress={() => {}}>Small</Button>
-  <Button size="md" variant="primary" onPress={() => {}}>Medium</Button>
-  <Button size="lg" variant="primary" onPress={() => {}}>Large</Button>
-</Preview>
+<ButtonDocsTabsSection />
 
-## States
+---
 
-<Preview themeSwitcher={false}>
-  <Button variant="primary" loading  onPress={() => {}}>Loading</Button>
-  <Button variant="primary" disabled onPress={() => {}}>Disabled</Button>
-</Preview>
-
-## Props table
+## `PillButtonV1` / `Button` props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| variant | 'primary' \| 'outline' \| 'ghost' | 'primary' | Visual style |
-| size | 'sm' \| 'md' \| 'lg' | 'md' | Padding and radius |
+| variant | default \| secondary \| outline \| ghost | default | Visual style (`default` uses SVG gradient) |
+| size | sm \| md \| lg | md | Height and typography |
+| backgroundGradientColors | readonly [string, string] | solid dark | Gradient stops for `default` |
+| textColor | string | — | Label color override |
 | loading | boolean | false | Shows spinner |
-| disabled | boolean | false | Disables interaction |
-| unstyled | boolean | false | Strips all styles |
-| slots.root | ViewStyle | — | Container override |
-| slots.text | TextStyle | — | Label override |
-| slots.loader | ViewStyle | — | Spinner override |
+| disabled | boolean | false | Disables press |
+| unstyled | boolean | false | Raw `Pressable` + children |
+| slots | `{ root?, text? }` | — | Style overrides |
 | onPress | () => void | — | Press handler |
+| children | ReactNode | — | Label (string/number → `Text`) |
 
-## Slots override example
+## `ButtonIconOnly` props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| icon | ReactNode | (required) | Center icon |
+| variant | ghost \| soft \| outline \| solid | ghost | |
+| size | sm \| md \| lg | md | Hit target |
+| active | boolean | false | Controlled pressed/active look |
+| backgroundColor / pressedBackgroundColor / activeBackgroundColor | string | — | Overrides |
+| disabled | boolean | false | |
+| slots | `{ root? }` | — | |
+| onPress | () => void | — | |
+
+## `MarqueeButton` props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| text | string | (required) | Marquee content |
+| size | sm \| md \| lg | md | |
+| direction | left \| right | left | Scroll direction |
+| alwaysMarquee | boolean | true | Scroll even when text fits |
+| speedPxPerSec | number | 60 | Speed |
+| gapPx | number | 32 | Gap between repeated runs |
+| backgroundColor / textColor | string | — | |
+| left / right | ReactNode | — | Fixed adornments |
+| disabled | boolean | false | |
+| slots | `{ root?, text? }` | — | |
+
+## Usage snippets
 
 ```tsx
-<Button
-  variant="primary"
-  onPress={() => {}}
-  slots={{
-    root: { borderRadius: 0 },
-    text: { letterSpacing: 2, textTransform: 'uppercase' },
-  }}
->
-  Custom label
-</Button>
-```
+import { Button, PillButtonV1, ButtonIconOnly, MarqueeButton } from '@my-ui-lib/core';
 
-## Unstyled example
+<PillButtonV1 variant="outline" onPress={() => {}}>Save</PillButtonV1>
+<Button variant="default" onPress={() => {}}>Alias</Button>
 
-```tsx
-import { View, Text } from 'react-native';
-import { Button } from '@my-ui-lib/core';
+<ButtonIconOnly accessibilityLabel="Close" variant="soft" icon={<Icon />} onPress={() => {}} />
 
-<Button unstyled onPress={() => {}}>
-  <View style={{ padding: 12, backgroundColor: '#eee' }}>
-    <Text>Custom layout</Text>
-  </View>
-</Button>
-```
-
-## Install
-```bash
-npx my-ui-lib add button
+<MarqueeButton text="Ships today · Free delivery" onPress={() => {}} />
 ```

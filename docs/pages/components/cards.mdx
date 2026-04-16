@@ -1,0 +1,48 @@
+---
+title: Cards (MPCard)
+---
+
+import { CardDocsTabsSection } from '../../components/CardDocsTabsSection';
+
+# Cards — `MPCard`
+
+Profile-style **match card**: avatar, name, subtitle, **match rate** progress, and **icon actions** (implemented with `ButtonIconOnly`). Background uses an **SVG linear gradient**.
+
+## Preview, code, and install
+
+<CardDocsTabsSection />
+
+## `MPCard` props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| avatar | ReactNode | (required) | Top-left (e.g. `Avatar`) |
+| name | string | (required) | Primary title |
+| subtitle | string | — | Secondary line |
+| matchRatePct | number | 0 | 0–100 for bar + label |
+| onPress | () => void | — | Whole card press |
+| onPressTopRight / topRightIcon | | — | External / open control |
+| onPressChat / chatIcon | | — | Chat action |
+| onPressCall / callIcon | | — | Call action |
+| backgroundGradientColors | readonly [string, string] | warm white | Card gradient |
+| backgroundColor | string | — | Solid fallback |
+| textColor / mutedTextColor | string | theme | |
+| progressColor / progressTrackColor | string | — | Bar colors |
+| disabled | boolean | false | |
+| unstyled | boolean | false | |
+| slots | name, title, meta, progressTrack, progressFill, iconButton, root | — | |
+
+## Example
+
+```tsx
+import { MPCard, Avatar } from '@my-ui-lib/core';
+
+<MPCard
+  avatar={<Avatar fallback="Ada Lovelace" size="md" variant="circle" />}
+  name="Ada Lovelace"
+  subtitle="Engineer"
+  matchRatePct={88}
+  chatIcon={<ChatIcon />}
+  onPressChat={() => {}}
+/>
+```

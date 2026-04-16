@@ -6,6 +6,7 @@ const REGISTRY: Record<string, { deps: string[] }> = {
   'back-button': { deps: ['@my-ui-lib/core'] },
   'bottom-sheet': { deps: ['@my-ui-lib/core', '@gorhom/bottom-sheet'] },
   button: { deps: ['@my-ui-lib/core'] },
+  mpcard: { deps: ['@my-ui-lib/core', 'react-native-svg'] },
   checkbox: { deps: ['@my-ui-lib/core'] },
   'drawer-content': { deps: ['@my-ui-lib/core'] },
   'dropdown-menu': { deps: ['@my-ui-lib/core'] },

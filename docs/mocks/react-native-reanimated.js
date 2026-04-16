@@ -7,7 +7,7 @@
  * implementation relies on JSI/worklets and breaks SSR/bundling.
  */
 const React = require('react');
-const { View } = require('react-native-web');
+const { View, ScrollView } = require('react-native-web');
 
 /**
  * Minimal API surface used by `packages/core` ZeptoTabs.
@@ -62,17 +62,27 @@ function createAnimatedComponent(Component) {
   return Component;
 }
 
+function useFrameCallback(_cb, _active = true) {
+  // Docs web preview: no per-frame worklet runner (MarqueeButton / similar).
+}
+
 // Reanimated's default export behaves like a namespace and includes `.View`.
-const AnimatedNamespace = { View, createAnimatedComponent };
+const AnimatedNamespace = {
+  View,
+  ScrollView,
+  createAnimatedComponent,
+};
 
 module.exports = {
   __esModule: true,
   default: AnimatedNamespace,
   View,
+  ScrollView,
   createAnimatedComponent,
   useSharedValue,
   withTiming,
   useAnimatedStyle,
+  useFrameCallback,
   interpolateColor,
   // Common no-op exports some libs probe for
   runOnJS: (fn) => fn,

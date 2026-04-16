@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate:sources": "node scripts/sync-bottom-tabs-lab-sources.mjs",
+    "generate:sources": "node scripts/sync-bottom-tabs-lab-sources.mjs && node scripts/sync-button-card-sources.mjs",
     "predev": "pnpm run generate:sources",
     "prebuild": "pnpm run generate:sources",
     "dev": "next dev -p 3001",
