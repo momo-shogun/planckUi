@@ -51,14 +51,15 @@ export function ButtonVariantsSection() {
         backgroundColor: theme.colors.background,
         paddingBottom: theme.spacing[12],
       }}>
-      <SectionTitle
-        title="Button"
-        subtitle="Pill button (v1). Gradient background is customizable."
-      />
+      <SectionTitle subtitle="Pill button (v1). Gradient background is customizable." title="Examples" />
 
       <View style={{paddingHorizontal: theme.spacing[4]}}>
         <VStack gap={theme.spacing[3]}>
           <Button onPress={() => {}}>Pay Now</Button>
+
+          <Button variant="secondary" onPress={() => {}}>
+            Secondary
+          </Button>
 
           <PillButtonV1
             onPress={() => {}}
@@ -67,12 +68,13 @@ export function ButtonVariantsSection() {
             Pay Now
           </PillButtonV1>
 
-          <PillButtonV1
-            onPress={() => {}}
-            backgroundGradientColors={['#7c3aed', '#2563eb']}
-          >
-            Pay Now
-          </PillButtonV1>
+          <Button variant="outline" onPress={() => {}}>
+            Outline
+          </Button>
+
+          <Button variant="ghost" onPress={() => {}}>
+            Ghost
+          </Button>
 
           <PillButtonV1 disabled onPress={() => {}}>
             Pay Now
@@ -92,20 +94,14 @@ export function ButtonVariantsSection() {
       />
       <View style={{paddingHorizontal: theme.spacing[4]}}>
         <VStack gap={theme.spacing[3]}>
-          <PillButtonV1
+          <Button
+            variant="outline"
+            size="sm"
             onPress={() => {}}
-            backgroundGradientColors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)']}
-            textColor={theme.colors.textPrimary}
-            slots={{
-              root: {
-                borderWidth: 1,
-                borderColor: theme.colors.border,
-                shadowOpacity: 0,
-                elevation: 0,
-              },
-            }}>
-            Outline
-          </PillButtonV1>
+            slots={{ root: { minHeight: 36, paddingHorizontal: theme.spacing[4] } }}
+          >
+            Small (outline)
+          </Button>
         </VStack>
       </View>
     </ScrollView>

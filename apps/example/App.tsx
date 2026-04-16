@@ -46,10 +46,10 @@ import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsL
 import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
 import type {RootDrawerParamList} from './src/navigation/drawerConstants';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
-import {ButtonLabScreen} from './src/screens/ButtonLabScreen';
 import {InputLabScreen} from './src/screens/InputLabScreen';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
 import {HeaderLabNavigator} from './src/navigation/headerLab/HeaderLabNavigator';
+import {ButtonLabNavigator} from './src/navigation/buttonLab/ButtonLabNavigator';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
 
@@ -335,7 +335,11 @@ function RootDrawer({
         <Drawer.Screen name="ModalLab" component={ModalLabScreen} />
         <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
         <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
-        <Drawer.Screen name="ButtonLab" component={ButtonLabScreen} />
+        <Drawer.Screen
+          name="ButtonLab"
+          component={ButtonLabNavigator}
+          options={{ headerShown: false }}
+        />
         <Drawer.Screen name="InputLab" component={InputLabScreen} />
         <Drawer.Screen
           name="HeaderLab"

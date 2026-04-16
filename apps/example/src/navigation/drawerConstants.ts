@@ -1,6 +1,7 @@
 import type {NavigatorScreenParams} from '@react-navigation/native';
 import type {BottomTabsLabStackParamList} from './bottomTabsLab/types';
 import type {HeaderLabStackParamList} from './headerLab/types';
+import type {ButtonLabStackParamList} from './buttonLab/types';
 
 /**
  * Single source for drawer route keys used with React Navigation and Planck DrawerContent.
@@ -24,7 +25,7 @@ export type RootDrawerParamList = {
   ModalLab: undefined;
   SheetLab: undefined;
   ToastLab: undefined;
-  ButtonLab: undefined;
+  ButtonLab: NavigatorScreenParams<ButtonLabStackParamList> | undefined;
   InputLab: undefined;
   HeaderLab: NavigatorScreenParams<HeaderLabStackParamList> | undefined;
   TabsLab: undefined;

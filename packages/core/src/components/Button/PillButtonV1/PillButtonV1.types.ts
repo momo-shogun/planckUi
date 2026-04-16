@@ -15,6 +15,15 @@ export interface PillButtonV1Props extends PressablePassthrough {
   testID?: string;
   accessibilityLabel?: string;
   /**
+   * shadcn-like variants.
+   * - default: solid/gradient pill
+   * - secondary: muted solid pill
+   * - outline: transparent with border
+   * - ghost: transparent, no border
+   */
+  variant?: 'default' | 'secondary' | 'outline' | 'ghost';
+  size?: 'sm' | 'md' | 'lg';
+  /**
    * Background gradient colors.
    * Defaults to a solid black pill (same color twice).
    */

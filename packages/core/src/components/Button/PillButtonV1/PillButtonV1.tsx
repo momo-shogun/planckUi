@@ -11,8 +11,10 @@ const DEFAULT_BG = ['#0b0b0d', '#0b0b0d'] as const;
 
 export function PillButtonV1(props: PillButtonV1Props) {
   const {
+    variant = 'default',
+    size = 'md',
     backgroundGradientColors = DEFAULT_BG,
-    textColor = '#ffffff',
+    textColor,
     disabled = false,
     loading = false,
     unstyled = false,
@@ -39,7 +41,17 @@ export function PillButtonV1(props: PillButtonV1Props) {
   }
 
   const theme = useTheme();
-  const styles = createPillButtonV1Styles(theme);
+  const styles = createPillButtonV1Styles(theme, { size, variant });
+
+  const resolvedTextColor =
+    textColor ??
+    (variant === 'default'
+      ? '#ffffff'
+      : variant === 'secondary'
+        ? theme.colors.textPrimary
+        : theme.colors.textPrimary);
+
+  const showGradient = variant === 'default';
 
   return (
     <Pressable
@@ -50,22 +62,24 @@ export function PillButtonV1(props: PillButtonV1Props) {
       slots={{ root: slots.root ? [styles.root, slots.root] : styles.root }}
       {...rest}
     >
-      <View style={styles.gradientContainer} pointerEvents="none">
-        <Svg width="100%" height="100%" style={styles.gradientSvg}>
-          <Defs>
-            <SvgLinearGradient id="pillButtonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <Stop offset="0%" stopColor={backgroundGradientColors[0]} stopOpacity="1" />
-              <Stop offset="100%" stopColor={backgroundGradientColors[1]} stopOpacity="1" />
-            </SvgLinearGradient>
-          </Defs>
-          <Rect width="100%" height="100%" fill="url(#pillButtonGradient)" />
-        </Svg>
-      </View>
+      {showGradient ? (
+        <View style={styles.gradientContainer} pointerEvents="none">
+          <Svg width="100%" height="100%" style={styles.gradientSvg}>
+            <Defs>
+              <SvgLinearGradient id="pillButtonGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <Stop offset="0%" stopColor={backgroundGradientColors[0]} stopOpacity="1" />
+                <Stop offset="100%" stopColor={backgroundGradientColors[1]} stopOpacity="1" />
+              </SvgLinearGradient>
+            </Defs>
+            <Rect width="100%" height="100%" fill="url(#pillButtonGradient)" />
+          </Svg>
+        </View>
+      ) : null}
 
       {loading ? (
-        <ActivityIndicator color={textColor} />
+        <ActivityIndicator color={resolvedTextColor} />
       ) : typeof children === 'string' || typeof children === 'number' ? (
-        <Text style={[styles.text, { color: textColor }, slots.text]}>{children}</Text>
+        <Text style={[styles.text, { color: resolvedTextColor }, slots.text]}>{children}</Text>
       ) : (
         children
       )}
