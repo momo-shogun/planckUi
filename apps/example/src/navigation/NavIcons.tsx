@@ -27,6 +27,11 @@ export function ToastIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="bell-outline" color={color} size={size} />;
 }
 
+/** Button — "Button" */
+export function ButtonIcon({color, size = 16}: IconProps) {
+  return <MaterialCommunityIcons name="gesture-tap-button" color={color} size={size} />;
+}
+
 /** Composite layout — React Navigation bottom tabs */
 export function BottomTabsIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="view-carousel-outline" color={color} size={size} />;
@@ -40,4 +45,9 @@ export function TabsIcon({color, size = 16}: IconProps) {
 /** Text field — "Input" */
 export function InputIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="form-textbox" color={color} size={size} />;
+}
+
+/** Top app bar — "Header" */
+export function HeaderIcon({color, size = 16}: IconProps) {
+  return <MaterialCommunityIcons name="page-layout-header" color={color} size={size} />;
 }

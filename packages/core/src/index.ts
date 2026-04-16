@@ -16,6 +16,8 @@ export type {
 } from './components/BottomSheet';
 export { Button } from './components/Button';
 export type { ButtonProps } from './components/Button';
+export { PillButtonV1 } from './components/Button';
+export type { PillButtonV1Props, PillButtonV1Slots } from './components/Button';
 export { Checkbox } from './components/Checkbox';
 export type {
   CheckboxProps,
@@ -63,6 +65,7 @@ export {
   BackButton,
   DrawerContent,
   Header,
+  PlanckH1V1,
   PLANK_BAR_V1,
   TabBar,
 } from './components/navigation';
@@ -75,6 +78,8 @@ export type {
   DrawerItem,
   HeaderProps,
   HeaderSlots,
+  PlanckH1V1Props,
+  PlanckH1V1Slots,
   TabBarItem,
   TabBarProps,
   TabBarSlots,

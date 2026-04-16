@@ -10,7 +10,9 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 describe('Button', () => {
   it('renders without crashing', () => {
     const { getByTestId } = render(
-      <Button testID="Button-root">Label</Button>,
+      <Button testID="Button-root" onPress={() => {}}>
+        Pay Now
+      </Button>,
       { wrapper }
     );
     expect(getByTestId('Button-root')).toBeTruthy();
@@ -18,7 +20,7 @@ describe('Button', () => {
 
   it('renders unstyled when unstyled=true', () => {
     const { getByTestId } = render(
-      <Button testID="Button-root" unstyled>
+      <Button testID="Button-root" unstyled onPress={() => {}}>
         Child
       </Button>,
       { wrapper }

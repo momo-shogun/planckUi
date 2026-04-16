@@ -46,8 +46,10 @@ import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsL
 import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
 import type {RootDrawerParamList} from './src/navigation/drawerConstants';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
+import {ButtonLabScreen} from './src/screens/ButtonLabScreen';
 import {InputLabScreen} from './src/screens/InputLabScreen';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
+import {HeaderLabNavigator} from './src/navigation/headerLab/HeaderLabNavigator';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
 
@@ -92,9 +94,26 @@ function ThemeSwitcher({
       {keys.map(key => (
         <Button
           key={key}
-          size="sm"
-          variant={active === key ? 'primary' : 'outline'}
-          onPress={() => onSelect(key)}>
+          onPress={() => onSelect(key)}
+          backgroundGradientColors={
+            active === key
+              ? [theme.colors.textPrimary, theme.colors.textPrimary]
+              : [theme.colors.surfaceRaised, theme.colors.surfaceRaised]
+          }
+          textColor={active === key ? theme.colors.primaryForeground : theme.colors.textPrimary}
+          slots={{
+            root:
+              active === key
+                ? {minHeight: 36, paddingHorizontal: theme.spacing[4]}
+                : {
+                    minHeight: 36,
+                    paddingHorizontal: theme.spacing[4],
+                    borderWidth: 1,
+                    borderColor: theme.colors.border,
+                    shadowOpacity: 0,
+                    elevation: 0,
+                  },
+          }}>
           {key}
         </Button>
       ))}
@@ -191,7 +210,18 @@ function ModalLabScreen() {
           </Text>
         </ModalBody>
         <ModalFooter>
-          <Button variant="outline" onPress={() => setVisible(false)}>
+          <Button
+            onPress={() => setVisible(false)}
+            backgroundGradientColors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)']}
+            textColor={theme.colors.textPrimary}
+            slots={{
+              root: {
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+                shadowOpacity: 0,
+                elevation: 0,
+              },
+            }}>
             Close
           </Button>
         </ModalFooter>
@@ -305,7 +335,13 @@ function RootDrawer({
         <Drawer.Screen name="ModalLab" component={ModalLabScreen} />
         <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
         <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
+        <Drawer.Screen name="ButtonLab" component={ButtonLabScreen} />
         <Drawer.Screen name="InputLab" component={InputLabScreen} />
+        <Drawer.Screen
+          name="HeaderLab"
+          component={HeaderLabNavigator}
+          options={{ headerShown: false }}
+        />
         <Drawer.Screen name="TabsLab" component={TabsLabScreen} />
         <Drawer.Screen
           name="BottomTabsLab"
