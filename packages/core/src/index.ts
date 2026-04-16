@@ -22,6 +22,8 @@ export { ButtonIconOnly } from './components/Button';
 export type { ButtonIconOnlyProps, ButtonIconOnlySlots } from './components/Button';
 export { MarqueeButton } from './components/Button';
 export type { MarqueeButtonProps, MarqueeButtonSlots } from './components/Button';
+export { MPCard } from './components/Cards';
+export type { MPCardProps, MPCardSlots } from './components/Cards';
 export { Checkbox } from './components/Checkbox';
 export type {
   CheckboxProps,

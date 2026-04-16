@@ -13,16 +13,16 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
       backgroundColor: tokens.bg,
       borderRightWidth: StyleSheet.hairlineWidth,
       borderColor: tokens.border,
-      paddingHorizontal: spacing[3],
-      paddingTop: spacing[4],
-      paddingBottom: spacing[6],
+      paddingHorizontal: spacing[2],
+      paddingTop: spacing[3],
+      paddingBottom: spacing[4],
     },
 
     // ─── Header (brand area) ─────────────────────────────────────────────────
     header: {
       paddingHorizontal: spacing[1],
-      paddingBottom: spacing[4],
-      marginBottom: spacing[2],
+      paddingBottom: spacing[3],
+      marginBottom: spacing[1],
       borderBottomWidth: StyleSheet.hairlineWidth,
       borderBottomColor: tokens.border,
     },
@@ -32,13 +32,13 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
       flexDirection: 'row',
       alignItems: 'center',
       gap: spacing[3],
-      paddingVertical: spacing[3],
+      paddingVertical: spacing[2],
       paddingLeft: spacing[2] + 3, // 3 = activeBar width so label stays aligned
-      paddingRight: spacing[3],
+      paddingRight: spacing[2],
       borderRadius: radii.lg,
       backgroundColor: tokens.itemBg,
       marginBottom: spacing[1],
-      minHeight: 48,
+      minHeight: 44,
     },
     itemActive: {
       backgroundColor: tokens.itemBgActive,
@@ -48,8 +48,8 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
     activeBar: {
       position: 'absolute',
       left: 0,
-      top: 10,
-      bottom: 10,
+      top: 8,
+      bottom: 8,
       width: 3,
       borderRadius: 2,
       backgroundColor: tokens.activeBar,
@@ -57,8 +57,8 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
 
     // ─── Icon container ───────────────────────────────────────────────────────
     iconContainer: {
-      width: 36,
-      height: 36,
+      width: 34,
+      height: 34,
       borderRadius: radii.md,
       backgroundColor: colorWithOpacity(theme.colors.textSecondary, 0.06),
       justifyContent: 'center',
@@ -98,9 +98,14 @@ export function createDrawerContentStyles(tokens: Tokens, theme: SemanticTokens)
     // ─── Footer ───────────────────────────────────────────────────────────────
     footer: {
       marginTop: 'auto',
-      paddingTop: spacing[4],
+      paddingTop: spacing[3],
       borderTopWidth: StyleSheet.hairlineWidth,
       borderTopColor: tokens.border,
+    },
+
+    // Content wrapper for the scrollable list
+    itemsContentContainer: {
+      flexGrow: 1,
     },
   });
 }

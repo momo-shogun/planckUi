@@ -51,3 +51,8 @@ export function InputIcon({color, size = 16}: IconProps) {
 export function HeaderIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="page-layout-header" color={color} size={size} />;
 }
+
+/** Cards — "MPCard" */
+export function CardsIcon({color, size = 16}: IconProps) {
+  return <MaterialCommunityIcons name="cards-outline" color={color} size={size} />;
+}

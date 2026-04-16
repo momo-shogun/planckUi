@@ -2,6 +2,26 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/_fraunces.zip",
+      "sha1": "f90588b19d70b79ded69f767e47f5b6aeb7aa0dd"
+    },
+    {
+      "path": "assets/fonts/Fraunces-SemiBold.ttf",
+      "sha1": "dfeb8d43d99c267fcf4764f3b216b1afde53066c"
+    },
+    {
+      "path": "assets/fonts/Montserrat-Medium.ttf",
+      "sha1": "321d56022fc72f5e35decbc8e97442116a96908e"
+    },
+    {
+      "path": "assets/fonts/Montserrat-Regular.ttf",
+      "sha1": "7a56bc06d2b862fb6d070dfc77e8ac366e2942b2"
+    },
+    {
+      "path": "assets/fonts/Montserrat-SemiBold.ttf",
+      "sha1": "3db04f05d6ea9c594e32567b3e846efe66e8d47e"
+    },
+    {
       "path": "node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
       "sha1": "4e77868439280fb434d4697c7b911271406c81f3"
     },

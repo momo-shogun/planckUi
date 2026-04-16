@@ -50,6 +50,7 @@ import {InputLabScreen} from './src/screens/InputLabScreen';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
 import {HeaderLabNavigator} from './src/navigation/headerLab/HeaderLabNavigator';
 import {ButtonLabNavigator} from './src/navigation/buttonLab/ButtonLabNavigator';
+import {CardsLabNavigator} from './src/navigation/cardsLab/CardsLabNavigator';
 
 type ThemeName = 'default' | 'ocean' | 'midnight' | 'rose';
 
@@ -311,7 +312,7 @@ function RootDrawer({
   const {width: windowWidth} = useWindowDimensions();
   const statusBarStyle =
     themeName === 'midnight' ? 'light-content' : 'dark-content';
-  const drawerWidth = Math.min(320, Math.round(windowWidth * 0.86));
+  const drawerWidth = Math.min(260, Math.round(windowWidth * 0.72));
 
   const drawerScreenOptions = useMemo(
     () =>
@@ -338,6 +339,11 @@ function RootDrawer({
         <Drawer.Screen
           name="ButtonLab"
           component={ButtonLabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Drawer.Screen
+          name="CardsLab"
+          component={CardsLabNavigator}
           options={{ headerShown: false }}
         />
         <Drawer.Screen name="InputLab" component={InputLabScreen} />
