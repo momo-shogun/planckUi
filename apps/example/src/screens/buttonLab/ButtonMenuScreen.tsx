@@ -17,6 +17,11 @@ const VARIANTS = [
     title: 'ButtonIconOnly',
     subtitle: 'Round icon button. Soft hover/press feel + optional active state.',
   },
+  {
+    key: 'MarqueeButton' as const,
+    title: 'MarqueeButton',
+    subtitle: 'Pill button with scrolling text. Direction + colors are customizable.',
+  },
 ];
 
 export function ButtonMenuScreen({ navigation }: Props) {

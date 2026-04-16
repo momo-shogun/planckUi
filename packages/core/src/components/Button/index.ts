@@ -4,3 +4,5 @@ export { PillButtonV1 } from './PillButtonV1';
 export type { PillButtonV1Props, PillButtonV1Slots } from './PillButtonV1';
 export { ButtonIconOnly } from './ButtonIconOnly';
 export type { ButtonIconOnlyProps, ButtonIconOnlySlots } from './ButtonIconOnly';
+export { MarqueeButton } from './MarqueeButton';
+export type { MarqueeButtonProps, MarqueeButtonSlots } from './MarqueeButton';

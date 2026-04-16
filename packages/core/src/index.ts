@@ -20,6 +20,8 @@ export { PillButtonV1 } from './components/Button';
 export type { PillButtonV1Props, PillButtonV1Slots } from './components/Button';
 export { ButtonIconOnly } from './components/Button';
 export type { ButtonIconOnlyProps, ButtonIconOnlySlots } from './components/Button';
+export { MarqueeButton } from './components/Button';
+export type { MarqueeButtonProps, MarqueeButtonSlots } from './components/Button';
 export { Checkbox } from './components/Checkbox';
 export type {
   CheckboxProps,
