@@ -12,6 +12,11 @@ const VARIANTS = [
     title: 'PillButtonV1',
     subtitle: 'Pill CTA button (Pay Now). Gradient is customizable.',
   },
+  {
+    key: 'ButtonIconOnly' as const,
+    title: 'ButtonIconOnly',
+    subtitle: 'Round icon button. Soft hover/press feel + optional active state.',
+  },
 ];
 
 export function ButtonMenuScreen({ navigation }: Props) {
