@@ -11,6 +11,8 @@ import { darkenHex, ZEPTO_TABS_TRACK_DARKEN } from '../../../utils/darkenHex';
 //
 // Top row (ZeptoTabs): each tab id has `topTabsBackground` → `ZeptoTabs`
 //   `tabBackgroundColors` (animated tab strip + search section tint).
+//   `tabLabelColor` → `ZeptoTabs` `tabLabelColors` (per tab). Inactive tiles use
+//   `ZEPTO_HS_INACTIVE_TAB_TILE_BG` via `inactiveTabTileBackgroundColor`.
 //
 // For the *active* top category only:
 //   `ZeptoHeaderV1` `backgroundColor` → same as ZeptoTabs row behind tabs:
@@ -31,22 +33,38 @@ type ZeptoHSShellColors = {
   topTabsBackground: string;
   /** `ZeptoTabC` bar while this category is selected */
   categoryStripBackground: string;
+  /** `ZeptoTabs` label color for this tab id */
+  tabLabelColor: string;
 };
 
-function uniformShell(bg: string): ZeptoHSShellColors {
+function uniformShell(fallbackBackground: string): ZeptoHSShellColors {
   return {
-    headerBackground: bg,
-    topTabsBackground: bg,
-    categoryStripBackground: bg,
+    headerBackground: fallbackBackground,
+    topTabsBackground: fallbackBackground,
+    categoryStripBackground: fallbackBackground,
+    tabLabelColor: '#0A0A0A',
   };
 }
 
-/** Per top-category `id` — edit here to change header / tabs / strip together or per layer */
+/** One row in `ZEPTO_HS_SHELL_BY_CATEGORY_ID` — tweak bg vs label independently */
+function shell(topTabsBackground: string, tabLabelColor: string): ZeptoHSShellColors {
+  return {
+    headerBackground: topTabsBackground,
+    topTabsBackground,
+    categoryStripBackground: topTabsBackground,
+    tabLabelColor,
+  };
+}
+
+/** Inactive ZeptoTabs tile fill (active tile stays transparent over the sliding highlight). */
+const ZEPTO_HS_INACTIVE_TAB_TILE_BG = '#FFFFFF';
+
+/** Per top-category `id` — edit here to change header / tabs / strip / tab labels */
 const ZEPTO_HS_SHELL_BY_CATEGORY_ID: Record<string, ZeptoHSShellColors> = {
-  groceries: uniformShell('#E6C8A4'),
-  pharmacy: uniformShell('#E0F2FE'),
-  elect: uniformShell('#ECFDF5'),
-  cafe: uniformShell('#FFF7ED'),
+  groceries: shell('#E6C8A4', '#9333EA'),
+  pharmacy: shell('#E0F2FE', '#5B21B6'),
+  elect: shell('#ECFDF5', '#0A0A0A'),
+  cafe: shell('#FFF7ED', '#0A0A0A'),
 };
 
 /** Top `ZeptoTabs` categories (`id` must exist as a key in `ZEPTO_HS_SHELL_BY_CATEGORY_ID` for themed colors) */
@@ -77,8 +95,17 @@ export function ZeptoHS(props: ZeptoHSProps) {
   const topTabsTabBackgroundColors = useMemo(() => {
     const byId: Record<string, string> = {};
     for (const tab of ZEPTO_HS_TOP_CATEGORY_TABS) {
-      const shell = resolveZeptoHSShellColors(tab.id, header.backgroundColor);
-      byId[tab.id] = shell.topTabsBackground;
+      const row = resolveZeptoHSShellColors(tab.id, header.backgroundColor);
+      byId[tab.id] = row.topTabsBackground;
+    }
+    return byId;
+  }, [header.backgroundColor]);
+
+  const topTabsTabLabelColors = useMemo(() => {
+    const byId: Record<string, string> = {};
+    for (const tab of ZEPTO_HS_TOP_CATEGORY_TABS) {
+      const row = resolveZeptoHSShellColors(tab.id, header.backgroundColor);
+      byId[tab.id] = row.tabLabelColor;
     }
     return byId;
   }, [header.backgroundColor]);
@@ -99,6 +126,8 @@ export function ZeptoHS(props: ZeptoHSProps) {
       <ZeptoTabs
         tabs={ZEPTO_HS_TOP_CATEGORY_TABS}
         tabBackgroundColors={zeptoTabsTabBackgroundColors}
+        tabLabelColors={topTabsTabLabelColors}
+        inactiveTabTileBackgroundColor={ZEPTO_HS_INACTIVE_TAB_TILE_BG}
         activeIndex={activeTopCategoryIndex}
         defaultActiveIndex={0}
         onChange={(index) => setActiveTopCategoryIndex(index)}

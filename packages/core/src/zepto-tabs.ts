@@ -6,5 +6,6 @@ export { ZeptoTabs } from './components/Tabs/ZeptoTabs';
 export type {
   ZeptoTabBackgroundColors,
   ZeptoTabItem,
+  ZeptoTabLabelColors,
   ZeptoTabsProps,
 } from './components/Tabs/ZeptoTabs';

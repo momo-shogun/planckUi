@@ -35,6 +35,8 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     defaultActiveIndex = 0,
     onChange,
     tabBackgroundColors,
+    tabLabelColors,
+    inactiveTabTileBackgroundColor,
     showSearch = false,
     searchPlaceholder = 'Search for “Iphone”',
     searchValue,
@@ -56,6 +58,16 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
     // Slightly darker strip behind the tab tiles (like the reference UI)
     return resolvedColors.map((c) => darkenHex(c, ZEPTO_TABS_TRACK_DARKEN));
   }, [resolvedColors]);
+
+  const resolvedLabelColors = useMemo(() => {
+    if (!tabLabelColors) {
+      return null;
+    }
+    const fallback = '#141414';
+    return tabs.length
+      ? resolveTabColors(tabs, tabLabelColors, fallback)
+      : null;
+  }, [tabs, tabLabelColors]);
 
   const maxIndex = tabs.length > 0 ? tabs.length - 1 : 0;
   const safeDefault = Math.min(Math.max(0, defaultActiveIndex), maxIndex);
@@ -255,6 +267,8 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
             <View
               style={[
                 zeptoTabsStyles.tabInner,
+                inactiveTabTileBackgroundColor != null &&
+                  !active && { backgroundColor: inactiveTabTileBackgroundColor },
                 active && zeptoTabsStyles.tabInnerActive,
               ]}>
               {tab.icon != null ? (
@@ -269,6 +283,9 @@ export function ZeptoTabs(props: ZeptoTabsProps) {
                   active
                     ? zeptoTabsStyles.labelActive
                     : zeptoTabsStyles.labelInactive,
+                  resolvedLabelColors != null
+                    ? { color: resolvedLabelColors[index] ?? '#141414' }
+                    : null,
                 ]}>
                 {tab.label}
               </Text>
