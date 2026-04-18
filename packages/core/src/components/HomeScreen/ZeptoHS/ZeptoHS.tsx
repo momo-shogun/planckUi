@@ -4,6 +4,7 @@ import { ZeptoHeaderV1 } from '../../navigation/Header/ZeptoHeaderV1';
 import { ZeptoTabC } from '../../Tabs/ZeptoTabC';
 import type { ZeptoHSProps } from './ZeptoHS.types';
 import { ZeptoTabs } from '../../Tabs/ZeptoTabs';
+import { darkenHex, ZEPTO_TABS_TRACK_DARKEN } from '../../../utils/darkenHex';
 
 // ---------------------------------------------------------------------------
 // ZeptoHS shell — single place for category-driven colors
@@ -12,7 +13,8 @@ import { ZeptoTabs } from '../../Tabs/ZeptoTabs';
 //   `tabBackgroundColors` (animated tab strip + search section tint).
 //
 // For the *active* top category only:
-//   `headerBackground`  → `ZeptoHeaderV1` `backgroundColor`
+//   `ZeptoHeaderV1` `backgroundColor` → same as ZeptoTabs row behind tabs:
+//   darkenHex(`topTabsBackground`, ZEPTO_TABS_TRACK_DARKEN) (see `ZeptoTabs` `tabsBg`).
 //   `categoryStripBackground` → `ZeptoTabC` `backgroundColor`
 //
 // Unknown tab id or missing entry: all three fall back to `header.backgroundColor`
@@ -20,9 +22,12 @@ import { ZeptoTabs } from '../../Tabs/ZeptoTabs';
 // ---------------------------------------------------------------------------
 
 type ZeptoHSShellColors = {
-  /** `ZeptoHeaderV1` bar while this category is selected */
+  /**
+   * Header-adjacent base (keep aligned with `topTabsBackground` when using `uniformShell`).
+   * The real header bar uses the darkened tab-track color — see `headerBackgroundColor` below.
+   */
   headerBackground: string;
-  /** `ZeptoTabs` `tabBackgroundColors` entry for this tab id */
+  /** `ZeptoTabs` `tabBackgroundColors` entry for this tab id (and source for header darken) */
   topTabsBackground: string;
   /** `ZeptoTabC` bar while this category is selected */
   categoryStripBackground: string;
@@ -81,7 +86,10 @@ export function ZeptoHS(props: ZeptoHSProps) {
   const activeShell = resolveZeptoHSShellColors(activeTopCategoryId, header.backgroundColor);
 
   // Explicit names at the call site (maps 1:1 to component props below)
-  const headerBackgroundColor = activeShell.headerBackground;
+  const headerBackgroundColor = useMemo(
+    () => darkenHex(activeShell.topTabsBackground, ZEPTO_TABS_TRACK_DARKEN),
+    [activeShell.topTabsBackground]
+  );
   const zeptoTabsTabBackgroundColors = topTabsTabBackgroundColors;
   const zeptoTabCStripBackgroundColor = activeShell.categoryStripBackground;
 
