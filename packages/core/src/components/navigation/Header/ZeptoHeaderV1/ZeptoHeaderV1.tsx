@@ -51,7 +51,7 @@ export function ZeptoHeaderV1(props: ZeptoHeaderV1Props) {
   const theme = useTheme();
   const styles = createZeptoHeaderV1Styles(theme);
 
-  const etaIcon = slots.etaIcon ?? <ZeptoLightningIcon color={foregroundColor} size={14} />;
+  const etaIcon = slots.etaIcon ?? <ZeptoLightningIcon color={foregroundColor} size={18} />;
   const addressTrail =
     slots.addressTrailingIcon ?? <ZeptoChevronDownIcon color={foregroundColor} size={14} />;
   const walletGlyph = slots.walletIcon ?? <ZeptoWalletIcon color={walletAccentColor} size={18} />;
