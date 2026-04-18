@@ -2,20 +2,19 @@ import React, { useMemo } from 'react';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { Text, useTheme } from '@my-ui-lib/core';
-import type { HeaderLabStackParamList } from '../../navigation/headerLab/types';
+import type { HomeScreenLabStackParamList } from '../../navigation/homeLab/types';
 
-type Props = NativeStackScreenProps<HeaderLabStackParamList, 'HeaderMenu'>;
+type Props = NativeStackScreenProps<HomeScreenLabStackParamList, 'HomeMenu'>;
 
 const VARIANTS = [
-  { key: 'PlanckH1V1' as const, title: 'PlanckH1V1', subtitle: 'Logo + search + notifications' },
   {
-    key: 'ZeptoHeaderV1' as const,
-    title: 'ZeptoHeaderV1',
-    subtitle: 'ETA + address · wallet pill + profile',
+    key: 'ZeptoHS' as const,
+    title: 'ZeptoHS',
+    subtitle: 'ZeptoHeaderV1 + ZeptoTabC preset',
   },
 ];
 
-export function HeaderMenuScreen({ navigation }: Props) {
+export function HomeMenuScreen({ navigation }: Props) {
   const theme = useTheme();
 
   const styles = useMemo(
@@ -53,10 +52,10 @@ export function HeaderMenuScreen({ navigation }: Props) {
     <ScrollView contentContainerStyle={styles.root}>
       <View>
         <Text variant="heading" style={{ fontSize: theme.fontSizes.xl }}>
-          Header
+          Home screens
         </Text>
         <Text variant="caption" color={theme.colors.textSecondary} style={{ marginTop: theme.spacing[1] }}>
-          Tap a variant to preview it.
+          Tap a preset to preview it.
         </Text>
       </View>
 
@@ -78,4 +77,3 @@ export function HeaderMenuScreen({ navigation }: Props) {
     </ScrollView>
   );
 }
-

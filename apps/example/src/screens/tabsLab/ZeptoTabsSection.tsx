@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Text, VStack, useTheme } from '@my-ui-lib/core';
+import React, { useMemo, useState } from 'react';
+import { Text, VStack, ZeptoTabC, useTheme } from '@my-ui-lib/core';
 import { ZeptoTabs } from '@my-ui-lib/core/zepto-tabs';
 import { StyleSheet, View } from 'react-native';
+import { getZeptoTabCShowcaseItems } from '../../showcase/zeptoTabCShowcaseItems';
 
 const zeptoTabs = [
   { id: 'groceries', label: 'zepto' },
@@ -42,6 +43,9 @@ export function ZeptoTabsSection() {
   const theme = useTheme();
   const [ix, setIx] = useState(0);
   const [q, setQ] = useState('');
+  const [zeptoTabCIx, setZeptoTabCIx] = useState(0);
+
+  const zeptoTabCItems = useMemo(() => getZeptoTabCShowcaseItems(), []);
 
   return (
     <VStack gap={theme.spacing[2]}>
@@ -78,6 +82,24 @@ export function ZeptoTabsSection() {
       />
       <Text variant="caption" color={theme.colors.textSecondary}>
         Active: {tabsWithIcons[ix]?.label ?? '—'}
+      </Text>
+
+      <View style={{ paddingHorizontal: theme.spacing[4], paddingTop: theme.spacing[4] }}>
+        <Text variant="heading" style={{ fontSize: theme.fontSizes.lg }}>
+          ZeptoTabC
+        </Text>
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Scrollable category strip: icon above label, bold + black underline when active. Icons are
+          MaterialCommunityIcons in this demo.
+        </Text>
+      </View>
+      <ZeptoTabC
+        tabs={zeptoTabCItems}
+        activeIndex={zeptoTabCIx}
+        onChange={(index) => setZeptoTabCIx(index)}
+      />
+      <Text variant="caption" color={theme.colors.textSecondary} style={{ paddingHorizontal: theme.spacing[4] }}>
+        Active: {zeptoTabCItems[zeptoTabCIx]?.label ?? '—'}
       </Text>
     </VStack>
   );

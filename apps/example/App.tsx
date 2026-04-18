@@ -48,6 +48,7 @@ import type {RootDrawerParamList} from './src/navigation/drawerConstants';
 import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
 import {InputLabScreen} from './src/screens/InputLabScreen';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
+import {HomeScreenLabNavigator} from './src/navigation/homeLab/HomeScreenLabNavigator';
 import {HeaderLabNavigator} from './src/navigation/headerLab/HeaderLabNavigator';
 import {ButtonLabNavigator} from './src/navigation/buttonLab/ButtonLabNavigator';
 import {CardsLabNavigator} from './src/navigation/cardsLab/CardsLabNavigator';
@@ -350,6 +351,11 @@ function RootDrawer({
         <Drawer.Screen
           name="HeaderLab"
           component={HeaderLabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Drawer.Screen
+          name="HomeScreenLab"
+          component={HomeScreenLabNavigator}
           options={{ headerShown: false }}
         />
         <Drawer.Screen name="TabsLab" component={TabsLabScreen} />

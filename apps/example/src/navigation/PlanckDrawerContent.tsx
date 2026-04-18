@@ -12,6 +12,7 @@ import {
   BottomTabsIcon,
   GridIcon,
   HeaderIcon,
+  HomeScreenIcon,
   InputIcon,
   ModalIcon,
   SheetIcon,
@@ -39,6 +40,7 @@ function iconForRoute(key: DrawerRoute, color: string): React.ReactNode {
     case 'CardsLab':    return <CardsIcon color={color} size={16} />;
     case 'InputLab':    return <InputIcon color={color} size={16} />;
     case 'HeaderLab':   return <HeaderIcon color={color} size={16} />;
+    case 'HomeScreenLab': return <HomeScreenIcon color={color} size={16} />;
     case 'TabsLab':        return <TabsIcon       color={color} size={16} />;
     case 'BottomTabsLab':  return <BottomTabsIcon color={color} size={16} />;
   }

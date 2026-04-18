@@ -24,6 +24,8 @@ export { MarqueeButton } from './components/Button';
 export type { MarqueeButtonProps, MarqueeButtonSlots } from './components/Button';
 export { MPCard } from './components/Cards';
 export type { MPCardProps, MPCardSlots } from './components/Cards';
+export { ZeptoHS } from './components/HomeScreen';
+export type { ZeptoHSProps } from './components/HomeScreen';
 export { Checkbox } from './components/Checkbox';
 export type {
   CheckboxProps,
@@ -72,6 +74,7 @@ export {
   DrawerContent,
   Header,
   PlanckH1V1,
+  ZeptoHeaderV1,
   PLANK_BAR_V1,
   TabBar,
 } from './components/navigation';
@@ -86,19 +89,25 @@ export type {
   HeaderSlots,
   PlanckH1V1Props,
   PlanckH1V1Slots,
+  ZeptoHeaderV1Props,
+  ZeptoHeaderV1Slots,
   TabBarItem,
   TabBarProps,
   TabBarSlots,
 } from './components/navigation';
 export { Switch } from './components/Switch';
 export type { SwitchProps, SwitchSize, SwitchSlots } from './components/Switch';
-export { TabPanel, Tabs } from './components/Tabs';
+export { TabPanel, Tabs, ZeptoTabC } from './components/Tabs';
 export type {
   TabDef,
   TabPanelProps,
   TabsProps,
   TabsSize,
   TabsSlots,
+  ZeptoTabCBadge,
+  ZeptoTabCBadgeVariant,
+  ZeptoTabCItem,
+  ZeptoTabCProps,
 } from './components/Tabs';
 export { Toast, ToastProvider, useToast } from './components/Toast';
 export type {

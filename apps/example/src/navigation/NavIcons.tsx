@@ -52,6 +52,11 @@ export function HeaderIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="page-layout-header" color={color} size={size} />;
 }
 
+/** Home / preset screens showcase */
+export function HomeScreenIcon({color, size = 16}: IconProps) {
+  return <MaterialCommunityIcons name="home-variant-outline" color={color} size={size} />;
+}
+
 /** Cards — "MPCard" */
 export function CardsIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="cards-outline" color={color} size={size} />;
