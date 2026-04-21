@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate:sources": "node scripts/sync-bottom-tabs-lab-sources.mjs && node scripts/sync-button-card-sources.mjs",
+    "generate:sources": "node scripts/sync-bottom-tabs-lab-sources.mjs && node scripts/sync-button-card-sources.mjs && node scripts/sync-header-sources.mjs",
     "predev": "pnpm run generate:sources",
     "prebuild": "pnpm run generate:sources",
     "dev": "next dev -p 3001",
@@ -19,6 +19,7 @@
     "next": "^14.2.0",
     "nextra": "^2.13.0",
     "nextra-theme-docs": "^2.13.0",
+    "prop-types": "^15.8.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "react-native": "npm:react-native-web@^0.19.0",

@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { Avatar, MPCard, Text, VStack, useTheme } from '@my-ui-lib/core';
 import { Preview } from './Preview';
 

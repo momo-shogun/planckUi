@@ -24,6 +24,8 @@ export { MarqueeButton } from './components/Button';
 export type { MarqueeButtonProps, MarqueeButtonSlots } from './components/Button';
 export { MPCard } from './components/Cards';
 export type { MPCardProps, MPCardSlots } from './components/Cards';
+export { CoffeeInviteCard } from './components/Cards';
+export type { CoffeeInviteCardProps, CoffeeInviteCardSlots } from './components/Cards';
 export { ZeptoHS } from './components/HomeScreen';
 export type { ZeptoHSProps } from './components/HomeScreen';
 export { Checkbox } from './components/Checkbox';

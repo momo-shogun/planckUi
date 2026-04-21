@@ -61,3 +61,19 @@ export function HomeScreenIcon({color, size = 16}: IconProps) {
 export function CardsIcon({color, size = 16}: IconProps) {
   return <MaterialCommunityIcons name="cards-outline" color={color} size={size} />;
 }
+
+const NavIcons = {
+  GridIcon,
+  ModalIcon,
+  SheetIcon,
+  ToastIcon,
+  ButtonIcon,
+  BottomTabsIcon,
+  TabsIcon,
+  InputIcon,
+  HeaderIcon,
+  HomeScreenIcon,
+  CardsIcon,
+};
+
+export default NavIcons;

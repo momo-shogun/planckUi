@@ -12,6 +12,11 @@ const VARIANTS = [
     title: 'MPCard',
     subtitle: 'Match Profile card (avatar + progress + actions).',
   },
+  {
+    key: 'CoffeeInviteCard' as const,
+    title: 'CoffeeInviteCard',
+    subtitle: 'Coffee invite card (profile + mutuals + CTA).',
+  },
 ];
 
 export function CardsMenuScreen({ navigation }: Props) {

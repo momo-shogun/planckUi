@@ -29,10 +29,17 @@ const reactDir = resolveFromDocs('react');
 const reactDomDir = resolveFromDocs('react-dom');
 /** File path so webpack never treats the alias as a package root that re-resolves to `react-native`. */
 const reactNativeWebEntry = require.resolve('react-native-web', { paths: [__dirname] });
+/** CJS shim so SSR never loads real `react-native-svg` (Fabric / wrong `react-native` resolution). */
+const reactNativeSvgDocsMock = path.join(__dirname, 'mocks/react-native-svg.js');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Bundle node_modules into Pages Router server chunks so `react-native-svg` is not
+  // `require`d at runtime (which bypasses webpack aliases and breaks SSR).
+  experimental: {
+    bundlePagesExternals: true,
+  },
   transpilePackages: [
     '@my-ui-lib/core',
     '@my-ui-lib/tokens',
@@ -49,6 +56,7 @@ const nextConfig = {
       'react-native-reanimated': path.join(__dirname, 'mocks/react-native-reanimated.js'),
       'react-native$': reactNativeWebEntry,
       'react-native': reactNativeWebEntry,
+      'react-native-svg': reactNativeSvgDocsMock,
       react: reactDir,
       'react-dom': reactDomDir,
       'react/jsx-runtime': path.join(reactDir, 'jsx-runtime.js'),
