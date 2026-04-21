@@ -24,6 +24,20 @@ export interface CoffeeInviteCardProps {
    */
   mutualAvatarSrcs?: string[];
 
+  /**
+   * Visual customization (all optional).
+   */
+  cardBackgroundColor?: string;
+  cardBorderColor?: string;
+  avatarWrapBackgroundColor?: string;
+  nameColor?: string;
+  roleColor?: string;
+  handleColor?: string;
+  mutualTextColor?: string;
+  primaryButtonBorderColor?: string;
+  primaryButtonTextColor?: string;
+  secondaryTextColor?: string;
+
   primaryLabel?: string;
   onPressPrimary?: () => void;
 

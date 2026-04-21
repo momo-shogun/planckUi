@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 import { useTheme } from '../../../system/ThemeContext';
 import { Avatar } from '../../Avatar';
 import { Button } from '../../Button';
@@ -27,6 +27,16 @@ export function CoffeeInviteCard(props: CoffeeInviteCardProps) {
     handle = '@Asana',
     mutualCount = 4,
     mutualAvatarSrcs,
+    cardBackgroundColor,
+    cardBorderColor,
+    avatarWrapBackgroundColor,
+    nameColor,
+    roleColor,
+    handleColor,
+    mutualTextColor,
+    primaryButtonBorderColor,
+    primaryButtonTextColor,
+    secondaryTextColor,
     primaryLabel = 'Grab a coffee',
     onPressPrimary,
     secondaryLabel = 'Not interested',
@@ -47,7 +57,34 @@ export function CoffeeInviteCard(props: CoffeeInviteCardProps) {
   }
 
   const theme = useTheme();
-  const styles = useMemo(() => createCoffeeInviteCardStyles(theme), [theme]);
+  const styles = useMemo(
+    () =>
+      createCoffeeInviteCardStyles(theme, {
+        cardBackgroundColor,
+        cardBorderColor,
+        avatarWrapBackgroundColor,
+        nameColor,
+        roleColor,
+        handleColor,
+        mutualTextColor,
+        primaryButtonBorderColor,
+        primaryButtonTextColor,
+        secondaryTextColor,
+      }),
+    [
+      theme,
+      cardBackgroundColor,
+      cardBorderColor,
+      avatarWrapBackgroundColor,
+      nameColor,
+      roleColor,
+      handleColor,
+      mutualTextColor,
+      primaryButtonBorderColor,
+      primaryButtonTextColor,
+      secondaryTextColor,
+    ],
+  );
 
   const mutuals = (mutualAvatarSrcs?.filter(Boolean) ?? [...DEFAULT_MUTUALS]).slice(0, 4);
   const rootStyle = StyleSheet.flatten([styles.root, slots.root]);
@@ -59,13 +96,24 @@ export function CoffeeInviteCard(props: CoffeeInviteCardProps) {
   return (
     <View testID={testID} style={rootStyle}>
       <View style={avatarWrapStyle}>
-        <Avatar
-          src={avatarSrc}
-          alt={`${name} profile`}
-          fallback={name}
-          size="xl"
-          slots={{ root: { width: 92, height: 92 } }}
-        />
+        <View
+          accessible
+          accessibilityLabel={`${name} profile`}
+          style={{
+            width: 76,
+            height: 76,
+            borderRadius: 38,
+            overflow: 'hidden',
+            alignSelf: 'center',
+          }}
+        >
+          <Image
+            accessibilityIgnoresInvertColors
+            source={{ uri: avatarSrc }}
+            resizeMode="cover"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </View>
       </View>
 
       <VStack align="center">
@@ -105,7 +153,12 @@ export function CoffeeInviteCard(props: CoffeeInviteCardProps) {
       >
         <HStack align="center" gap={8}>
           <Text style={styles.primaryButtonText}>{primaryLabel}</Text>
-          <Text style={[styles.primaryButtonText, { fontSize: theme.fontSizes.sm }]}>
+          <Text
+            style={[
+              styles.primaryButtonText,
+              { fontSize: theme.fontSizes.sm, lineHeight: theme.fontSizes.sm + 2 },
+            ]}
+          >
             ☕
           </Text>
         </HStack>

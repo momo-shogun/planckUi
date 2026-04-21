@@ -26,6 +26,8 @@ export { MPCard } from './components/Cards';
 export type { MPCardProps, MPCardSlots } from './components/Cards';
 export { CoffeeInviteCard } from './components/Cards';
 export type { CoffeeInviteCardProps, CoffeeInviteCardSlots } from './components/Cards';
+export { PlankImgBgV1 } from './components/Cards';
+export type { PlankImgBgV1Props, PlankImgBgV1Slots, PlankImgBgV1Tag } from './components/Cards';
 export { ZeptoHS } from './components/HomeScreen';
 export type { ZeptoHSProps } from './components/HomeScreen';
 export { Checkbox } from './components/Checkbox';

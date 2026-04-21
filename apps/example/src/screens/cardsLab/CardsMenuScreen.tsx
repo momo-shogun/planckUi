@@ -17,6 +17,11 @@ const VARIANTS = [
     title: 'CoffeeInviteCard',
     subtitle: 'Coffee invite card (profile + mutuals + CTA).',
   },
+  {
+    key: 'PlankImgBgV1' as const,
+    title: 'PlankImgBgV1',
+    subtitle: 'Image background event card (tags + avatars + footer).',
+  },
 ];
 
 export function CardsMenuScreen({ navigation }: Props) {
