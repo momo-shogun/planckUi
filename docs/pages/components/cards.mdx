@@ -16,7 +16,7 @@ Profile-style **match card**: avatar, name, subtitle, **match rate** progress, a
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| avatar | ReactNode | (required) | Top-left (e.g. `Avatar`) |
+| avatar | ReactNode | (required) | Top-left (e.g. `Text` or an image view) |
 | name | string | (required) | Primary title |
 | subtitle | string | — | Secondary line |
 | matchRatePct | number | 0 | 0–100 for bar + label |
@@ -35,10 +35,10 @@ Profile-style **match card**: avatar, name, subtitle, **match rate** progress, a
 ## Example
 
 ```tsx
-import { MPCard, Avatar } from '@my-ui-lib/core';
+import { MPCard, Text } from '@my-ui-lib/core';
 
 <MPCard
-  avatar={<Avatar fallback="Ada Lovelace" size="md" variant="circle" />}
+  avatar={<Text style={{ width: 44, height: 44, borderRadius: 9999 }}>AL</Text>}
   name="Ada Lovelace"
   subtitle="Engineer"
   matchRatePct={88}

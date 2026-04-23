@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { Avatar, MPCard, Text, Pressable, useTheme } from '@my-ui-lib/core';
+import { MPCard, Text, Pressable, useTheme } from '@my-ui-lib/core';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import type { CardsLabStackParamList } from '../../navigation/cardsLab/types';
 
@@ -53,6 +53,23 @@ function TopBar({ title, onBack }: { title: string; onBack: () => void }) {
 
 export function MPCardScreen({ navigation }: Props) {
   const theme = useTheme();
+  const avatarPlaceholder = (
+    <Text
+      style={{
+        width: 44,
+        height: 44,
+        borderRadius: 9999,
+        backgroundColor: theme.colors.surfaceRaised,
+        color: theme.colors.textSecondary,
+        textAlign: 'center',
+        lineHeight: 44,
+        fontWeight: '600' as const,
+      }}
+      accessibilityLabel="Avatar placeholder"
+    >
+      KF
+    </Text>
+  );
 
   return (
     <View style={{ flex: 1 }}>
@@ -71,12 +88,12 @@ export function MPCardScreen({ navigation }: Props) {
             MPCard (match profile)
           </Text>
           <Text variant="caption" color={theme.colors.textSecondary} style={{ marginTop: 2 }}>
-            Avatar, match rate progress, and action icons.
+            Match rate progress, and action icons.
           </Text>
         </View>
 
         <MPCard
-          avatar={<Avatar fallback="Katy Fuller" size="md" variant="circle" />}
+          avatar={avatarPlaceholder}
           name="Whereas disregard and contempt"
           subtitle="Fullstack Engineer"
           matchRatePct={94}

@@ -2,17 +2,15 @@
 title: Header
 ---
 
-# Header & back button
+# Header
 
 **`Header`** supports **`default`**, **`transparent`**, and **`blurred`** (semi-opaque surface via tokens — no extra native blur dependency in core). Pass **`left`** / **`right`** slots for actions.
-
-**`BackButton`** draws a chevron from two **`View`** strokes; use **`onPress={() => navigation.goBack()}`** on stack screens.
 
 ## Stack example
 
 ```tsx
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { BackButton, Header } from '@my-ui-lib/core';
+import { Pressable, Text } from '@my-ui-lib/core';
 
 <Stack.Screen
   name="Detail"
@@ -21,7 +19,11 @@ import { BackButton, Header } from '@my-ui-lib/core';
     header: () => (
       <Header
         title="Detail"
-        left={<BackButton onPress={() => navigation.goBack()} />}
+        left={
+          <Pressable accessibilityLabel="Back" onPress={() => navigation.goBack()}>
+            <Text>Back</Text>
+          </Pressable>
+        }
       />
     ),
   })}
@@ -32,5 +34,4 @@ import { BackButton, Header } from '@my-ui-lib/core';
 
 ```bash
 npx my-ui-lib add header
-npx my-ui-lib add back-button
 ```

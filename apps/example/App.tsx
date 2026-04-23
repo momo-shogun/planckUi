@@ -1,13 +1,12 @@
 import React, {useMemo, useState} from 'react';
-import {ScrollView, StatusBar, StyleSheet, useWindowDimensions, View} from 'react-native';
+import {Pressable, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import type {DrawerScreenProps} from '@react-navigation/drawer';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   defaultTheme,
   midnightTheme,
@@ -15,37 +14,19 @@ import {
   roseTheme,
 } from '@my-ui-lib/tokens';
 import {
-  Avatar,
-  Badge,
-  BottomSheet,
-  BottomSheetProvider,
   Button,
-  Checkbox,
-  Dropdown,
-  DropdownMenu,
   Input,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  MultiSelect,
   PortalProvider,
-  Switch,
   Text,
   ThemeProvider,
-  ToastProvider,
   VStack,
   useTheme,
-  useToast,
 } from '@my-ui-lib/core';
 import {
   BottomTabsLabDrawerHeaderLeft,
   bottomTabsLabDrawerTitle,
 } from './src/navigation/bottomTabsLab/bottomTabsLabDrawerChrome';
 import {BottomTabsLabNavigator} from './src/navigation/bottomTabsLab/BottomTabsLabNavigator';
-import {createRootDrawerScreenOptions} from './src/navigation/createRootDrawerScreenOptions';
-import type {RootDrawerParamList} from './src/navigation/drawerConstants';
-import {PlanckDrawerContent} from './src/navigation/PlanckDrawerContent';
 import {InputLabScreen} from './src/screens/InputLabScreen';
 import {TabsLabScreen} from './src/screens/TabsLabScreen';
 import {HomeScreenLabNavigator} from './src/navigation/homeLab/HomeScreenLabNavigator';
@@ -62,11 +43,18 @@ const themeMap = {
   rose: roseTheme,
 } as const;
 
-const dropdownItems = [
-  {id: 'one', label: 'First option'},
-  {id: 'two', label: 'Second option'},
-  {id: 'three', label: 'Third option'},
-];
+type RootStackParamList = {
+  Home: undefined;
+  ButtonLab: undefined;
+  CardsLab: undefined;
+  InputLab: undefined;
+  HeaderLab: undefined;
+  HomeScreenLab: undefined;
+  TabsLab: undefined;
+  BottomTabsLab: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function ThemeSwitcher({
   active,
@@ -123,17 +111,16 @@ function ThemeSwitcher({
   );
 }
 
-function ShowcaseScreen({
+function HomeScreen({
   themeName,
   onTheme,
+  navigation,
 }: {
   themeName: ThemeName;
   onTheme: (n: ThemeName) => void;
+  navigation: any;
 }) {
   const theme = useTheme();
-  const [checked, setChecked] = useState(false);
-  const [sw, setSw] = useState(false);
-  const [multi, setMulti] = useState<string[]>([]);
   const styles = useMemo(
     () =>
       StyleSheet.create({
@@ -143,165 +130,67 @@ function ShowcaseScreen({
           padding: theme.spacing[4],
         },
         block: {marginBottom: theme.spacing[4]},
+        linkCard: {
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: theme.colors.border,
+          backgroundColor: theme.colors.surface,
+          borderRadius: theme.radii.lg,
+          padding: theme.spacing[4],
+        },
+        linkTitle: {
+          fontSize: theme.fontSizes.lg,
+          fontWeight: theme.fontWeights.semibold as '600',
+          color: theme.colors.textPrimary,
+        },
+        linkSubtitle: {
+          marginTop: 2,
+          fontSize: theme.fontSizes.sm,
+          color: theme.colors.textSecondary,
+        },
       }),
     [theme],
   );
 
+  const links = [
+    { key: 'ButtonLab', title: 'Button', subtitle: 'Variants, icon button, marquee' },
+    { key: 'CardsLab', title: 'Cards (MPCard)', subtitle: 'Profile/match card' },
+    { key: 'InputLab', title: 'Input', subtitle: 'Input + ComposerInput' },
+    { key: 'HeaderLab', title: 'Header', subtitle: 'PlanckH1V1 + ZeptoHeaderV1' },
+    { key: 'HomeScreenLab', title: 'Home screens', subtitle: 'ZeptoHS presets' },
+    { key: 'TabsLab', title: 'Tabs', subtitle: 'Tabs + TabBar' },
+    { key: 'BottomTabsLab', title: 'Bottom tabs lab', subtitle: 'PlankBar V1/V2 presets' },
+  ] as const;
+
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <VStack gap={theme.spacing[3]}>
-        <Text variant="heading">Showcase</Text>
+        <Text variant="heading">Planck UI example</Text>
         <ThemeSwitcher active={themeName} onSelect={onTheme} />
-        <View style={styles.block}>
-          <Text variant="label">Badge</Text>
-          <View style={{flexDirection: 'row', gap: 8, flexWrap: 'wrap'}}>
-            <Badge label="Default" />
-            <Badge label="OK" intent="success" />
-            <Badge dot intent="error" />
-          </View>
-        </View>
-        <View style={styles.block}>
-          <Text variant="label">Avatar</Text>
-          <View style={{flexDirection: 'row', gap: 12}}>
-            <Avatar fallback="Ada Lovelace" size="md" />
-            <Avatar fallback="X" size="sm" badge="online" />
-          </View>
-        </View>
-        <Checkbox
-          checked={checked}
-          onChange={setChecked}
-          label="Checkbox"
-        />
-        <Switch checked={sw} onChange={setSw} label="Switch" />
-        <Input label="Input" placeholder="Themed field" />
-        <Dropdown
-          items={dropdownItems}
-          placeholder="Dropdown"
-          testID="showcase-dd"
-        />
-        <DropdownMenu items={dropdownItems} placeholder="DropdownMenu" />
-        <MultiSelect
-          items={dropdownItems}
-          value={multi}
-          onValueChange={setMulti}
-          placeholder="MultiSelect"
-        />
+        <Text variant="caption" color={theme.colors.textSecondary}>
+          Only the components you kept are showcased here.
+        </Text>
+
+        {links.map((l) => (
+          <Pressable
+            key={l.key}
+            accessibilityRole="button"
+            accessibilityLabel={`Open ${l.title}`}
+            onPress={() => navigation.navigate(l.key)}
+            style={({ pressed }) => [
+              styles.linkCard,
+              pressed && { opacity: 0.75, transform: [{ scale: 0.99 }] },
+            ]}
+          >
+            <Text style={styles.linkTitle}>{l.title}</Text>
+            <Text style={styles.linkSubtitle}>{l.subtitle}</Text>
+          </Pressable>
+        ))}
       </VStack>
     </ScrollView>
   );
 }
 
-function ModalLabScreen() {
-  const theme = useTheme();
-  const [visible, setVisible] = useState(false);
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: theme.spacing[4],
-        backgroundColor: theme.colors.background,
-      }}>
-      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
-        Modal (portal)
-      </Text>
-      <Button onPress={() => setVisible(true)}>Open modal</Button>
-      <Modal visible={visible} onClose={() => setVisible(false)} size="md">
-        <ModalHeader>Example</ModalHeader>
-        <ModalBody>
-          <Text variant="body" color={theme.colors.textSecondary}>
-            Uses visible, onClose, and optional header slots.
-          </Text>
-        </ModalBody>
-        <ModalFooter>
-          <Button
-            onPress={() => setVisible(false)}
-            backgroundGradientColors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)']}
-            textColor={theme.colors.textPrimary}
-            slots={{
-              root: {
-                borderWidth: 1,
-                borderColor: theme.colors.border,
-                shadowOpacity: 0,
-                elevation: 0,
-              },
-            }}>
-            Close
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </ScrollView>
-  );
-}
-
-function SheetLabScreen() {
-  const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: theme.spacing[4],
-        backgroundColor: theme.colors.background,
-      }}>
-      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
-        Bottom sheet
-      </Text>
-      <Button onPress={() => setOpen(true)}>Open sheet</Button>
-      <BottomSheet
-        visible={open}
-        onClose={() => setOpen(false)}
-        title="Sheet title"
-        snapPoints={['40%', '70%']}>
-        <Text color={theme.colors.textSecondary}>
-          Host apps need Reanimated + Gesture Handler (see docs).
-        </Text>
-      </BottomSheet>
-    </ScrollView>
-  );
-}
-
-function ToastLabScreen() {
-  const theme = useTheme();
-  const {showToast} = useToast();
-  return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: theme.spacing[4],
-        backgroundColor: theme.colors.background,
-        gap: theme.spacing[2],
-      }}>
-      <Text variant="heading" style={{marginBottom: theme.spacing[3]}}>
-        Toasts (max 3)
-      </Text>
-      <Button
-        onPress={() =>
-          showToast({title: 'Saved', description: 'Default intent', intent: 'default'})
-        }>
-        Default
-      </Button>
-      <Button
-        onPress={() =>
-          showToast({title: 'Done', description: 'Success', intent: 'success'})
-        }>
-        Success
-      </Button>
-      <Button
-        onPress={() =>
-          showToast({title: 'Heads up', description: 'Warning', intent: 'warning'})
-        }>
-        Warning
-      </Button>
-      <Button
-        onPress={() =>
-          showToast({title: 'Error', description: 'Something failed', intent: 'error'})
-        }>
-        Error
-      </Button>
-    </ScrollView>
-  );
-}
-
-const Drawer = createDrawerNavigator<RootDrawerParamList>();
-
-function RootDrawer({
+function RootStack({
   themeName,
   onTheme,
 }: {
@@ -310,62 +199,42 @@ function RootDrawer({
 }) {
   const theme = useTheme();
   const insets = useSafeAreaInsets();
-  const {width: windowWidth} = useWindowDimensions();
   const statusBarStyle =
     themeName === 'midnight' ? 'light-content' : 'dark-content';
-  const drawerWidth = Math.min(260, Math.round(windowWidth * 0.72));
-
-  const drawerScreenOptions = useMemo(
-    () =>
-      createRootDrawerScreenOptions({
-        theme,
-        insets,
-        drawerWidth,
-      }),
-    [drawerWidth, insets, theme],
-  );
 
   return (
     <>
       <StatusBar barStyle={statusBarStyle} />
-      <Drawer.Navigator
-        screenOptions={drawerScreenOptions}
-        drawerContent={PlanckDrawerContent}>
-        <Drawer.Screen name="Showcase">
-          {() => <ShowcaseScreen themeName={themeName} onTheme={onTheme} />}
-        </Drawer.Screen>
-        <Drawer.Screen name="ModalLab" component={ModalLabScreen} />
-        <Drawer.Screen name="SheetLab" component={SheetLabScreen} />
-        <Drawer.Screen name="ToastLab" component={ToastLabScreen} />
-        <Drawer.Screen
-          name="ButtonLab"
-          component={ButtonLabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Drawer.Screen
-          name="CardsLab"
-          component={CardsLabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Drawer.Screen name="InputLab" component={InputLabScreen} />
-        <Drawer.Screen
-          name="HeaderLab"
-          component={HeaderLabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Drawer.Screen
-          name="HomeScreenLab"
-          component={HomeScreenLabNavigator}
-          options={{ headerShown: false }}
-        />
-        <Drawer.Screen name="TabsLab" component={TabsLabScreen} />
-        <Drawer.Screen
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{
+          headerStyle: { backgroundColor: theme.colors.background },
+          headerTitleStyle: { color: theme.colors.textPrimary },
+          headerTintColor: theme.colors.textPrimary,
+          contentStyle: { backgroundColor: theme.colors.background },
+          headerShadowVisible: false,
+        }}
+      >
+        <Stack.Screen name="Home" options={{ title: 'Planck UI' }}>
+          {({ navigation }) => (
+            <HomeScreen
+              navigation={navigation}
+              themeName={themeName}
+              onTheme={onTheme}
+            />
+          )}
+        </Stack.Screen>
+
+        <Stack.Screen name="ButtonLab" component={ButtonLabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="CardsLab" component={CardsLabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="InputLab" component={InputLabScreen} options={{ title: 'Input' }} />
+        <Stack.Screen name="HeaderLab" component={HeaderLabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="HomeScreenLab" component={HomeScreenLabNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="TabsLab" component={TabsLabScreen} options={{ title: 'Tabs' }} />
+        <Stack.Screen
           name="BottomTabsLab"
           component={BottomTabsLabNavigator}
-          options={({
-            route,
-            navigation,
-          }: DrawerScreenProps<RootDrawerParamList, 'BottomTabsLab'>) => ({
+          options={({ route, navigation }: any) => ({
             title: bottomTabsLabDrawerTitle(route),
             headerLeft: () => (
               <BottomTabsLabDrawerHeaderLeft
@@ -376,7 +245,7 @@ function RootDrawer({
             ),
           })}
         />
-      </Drawer.Navigator>
+      </Stack.Navigator>
     </>
   );
 }
@@ -386,11 +255,9 @@ function ThemedAppTree() {
 
   return (
     <ThemeProvider theme={themeMap[themeName]}>
-      <ToastProvider>
-        <NavigationContainer>
-          <RootDrawer themeName={themeName} onTheme={setThemeName} />
-        </NavigationContainer>
-      </ToastProvider>
+      <NavigationContainer>
+        <RootStack themeName={themeName} onTheme={setThemeName} />
+      </NavigationContainer>
     </ThemeProvider>
   );
 }
@@ -399,11 +266,9 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <SafeAreaProvider>
-        <BottomSheetProvider>
-          <PortalProvider>
-            <ThemedAppTree />
-          </PortalProvider>
-        </BottomSheetProvider>
+        <PortalProvider>
+          <ThemedAppTree />
+        </PortalProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

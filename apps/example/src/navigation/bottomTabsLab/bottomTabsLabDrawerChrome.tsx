@@ -1,9 +1,10 @@
 import type {NavigationProp, RouteProp} from '@react-navigation/native';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
-import type {RootDrawerParamList} from '../drawerConstants';
-import {DrawerMenuButton} from '../DrawerMenuButton';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
+type RootDrawerParamList = {
+  BottomTabsLab: { screen?: string } | undefined;
+};
 import {bottomTabsLabDrawerTitles} from './presets/registry';
 import type {BottomTabsLabStackParamList} from './types';
 
@@ -48,7 +49,8 @@ export function BottomTabsLabDrawerHeaderLeft({
     );
   }
 
-  return <DrawerMenuButton barColor={barColor} />;
+  // We removed the app-wide drawer chrome. Keep headerLeft spacing stable.
+  return <View style={{ width: 44, height: 44 }} />;
 }
 
 const styles = StyleSheet.create({

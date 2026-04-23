@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, MPCard, Text, VStack, useTheme } from '@my-ui-lib/core';
+import { MPCard, Text, VStack, useTheme } from '@my-ui-lib/core';
 import { Preview } from './Preview';
 
 function Glyph({ children, color }: { children: string; color: string }) {
@@ -12,6 +12,23 @@ function Glyph({ children, color }: { children: string; color: string }) {
 
 export function MPCardDocPreview() {
   const theme = useTheme();
+  const avatarPlaceholder = (
+    <Text
+      style={{
+        width: 44,
+        height: 44,
+        borderRadius: 9999,
+        backgroundColor: theme.colors.surfaceRaised,
+        color: theme.colors.textSecondary,
+        textAlign: 'center',
+        lineHeight: 44,
+        fontWeight: '600' as const,
+      }}
+      accessibilityLabel="Avatar placeholder"
+    >
+      KF
+    </Text>
+  );
   return (
     <Preview minHeight={260} themeSwitcher>
       <VStack gap={theme.spacing[3]} style={{ alignSelf: 'stretch', maxWidth: 400 }}>
@@ -20,7 +37,7 @@ export function MPCardDocPreview() {
           ).
         </Text>
         <MPCard
-          avatar={<Avatar fallback="Katy Fuller" size="md" variant="circle" />}
+          avatar={avatarPlaceholder}
           name="Katy Fuller"
           subtitle="Fullstack Engineer"
           matchRatePct={94}
