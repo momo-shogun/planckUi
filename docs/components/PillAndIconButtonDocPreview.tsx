@@ -24,7 +24,8 @@ export function PillButtonDocPreview() {
         <Text variant="caption" color={theme.colors.textSecondary}>
           <code>PillButtonV1</code> — same component is exported as <code>Button</code>.
         </Text>
-        <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap' }}>
+        <View style={{ alignSelf: 'stretch' }}>
+          <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap' }}>
           <PillButtonV1 variant="default" onPress={() => {}}>
             Default
           </PillButtonV1>
@@ -37,8 +38,10 @@ export function PillButtonDocPreview() {
           <PillButtonV1 variant="ghost" onPress={() => {}}>
             Ghost
           </PillButtonV1>
-        </HStack>
-        <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap', alignItems: 'center' }}>
+          </HStack>
+        </View>
+        <View style={{ alignSelf: 'stretch' }}>
+          <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="default" size="sm" onPress={() => {}}>
             Button alias (sm)
           </Button>
@@ -48,7 +51,8 @@ export function PillButtonDocPreview() {
           <PillButtonV1 variant="default" disabled onPress={() => {}}>
             Disabled
           </PillButtonV1>
-        </HStack>
+          </HStack>
+        </View>
       </VStack>
     </Preview>
   );
@@ -62,7 +66,8 @@ export function ButtonIconOnlyDocPreview() {
         <Text variant="caption" color={theme.colors.textSecondary}>
           Icon slot + variants (ghost, soft, outline, solid) and sizes.
         </Text>
-        <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap', alignItems: 'center' }}>
+        <View style={{ alignSelf: 'stretch' }}>
+          <HStack gap={theme.spacing[2]} style={{ flexWrap: 'wrap', alignItems: 'center' }}>
           <ButtonIconOnly
             accessibilityLabel="Ghost"
             variant="ghost"
@@ -87,12 +92,15 @@ export function ButtonIconOnlyDocPreview() {
             icon={<DotIcon color="#ffffff" />}
             onPress={() => {}}
           />
-        </HStack>
-        <HStack gap={theme.spacing[2]} style={{ alignItems: 'center' }}>
+          </HStack>
+        </View>
+        <View style={{ alignSelf: 'stretch' }}>
+          <HStack gap={theme.spacing[2]} style={{ alignItems: 'center' }}>
           <ButtonIconOnly size="sm" variant="soft" icon={<DotIcon color="#111" />} onPress={() => {}} />
           <ButtonIconOnly size="md" variant="soft" icon={<DotIcon color="#111" />} onPress={() => {}} />
           <ButtonIconOnly size="lg" variant="soft" icon={<DotIcon color="#111" />} onPress={() => {}} />
-        </HStack>
+          </HStack>
+        </View>
       </VStack>
     </Preview>
   );

@@ -113,10 +113,9 @@ export function Preview({
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: 12,
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+          flexWrap: 'nowrap',
           padding: 24,
           minHeight,
           backgroundColor: theme.colors.background,
@@ -124,7 +123,9 @@ export function Preview({
       >
         <PortalProvider>
           <ThemeProvider theme={theme}>
-            {children}
+            <div style={{ width: '100%', maxWidth: 720 }}>
+              {children}
+            </div>
           </ThemeProvider>
         </PortalProvider>
       </div>

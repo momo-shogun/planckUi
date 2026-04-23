@@ -12,7 +12,7 @@ export function MarqueeButtonDocPreview() {
           Uses <strong>Reanimated</strong> in native apps; this docs preview uses a web mock (motion
           may differ).
         </Text>
-        <View style={{ maxWidth: 320, alignSelf: 'flex-start' }}>
+        <View style={{ maxWidth: 360, width: '100%', alignSelf: 'stretch' }}>
           <MarqueeButton
             text="Long label that scrolls inside the pill — tap to trigger onPress"
             onPress={() => {}}

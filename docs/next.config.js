@@ -46,6 +46,17 @@ const nextConfig = {
     // Do not list `react-native` — Next/SWC cannot compile RN’s Flow sources.
     'react-native-web',
   ],
+  async redirects() {
+    return [
+      // Components → long-term folders
+      { source: '/components/button', destination: '/components/surfaces/button', permanent: true },
+      { source: '/components/cards', destination: '/components/surfaces/cards', permanent: true },
+      { source: '/components/text', destination: '/components/primitives/text', permanent: true },
+      { source: '/components/stack', destination: '/components/primitives/stack', permanent: true },
+      { source: '/components/pressable', destination: '/components/primitives/pressable', permanent: true },
+      { source: '/components/input', destination: '/components/forms/input', permanent: true },
+    ];
+  },
   webpack(config) {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

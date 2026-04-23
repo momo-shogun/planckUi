@@ -18,6 +18,23 @@ const MarqueeButtonDocPreview = dynamic(
   }
 );
 
+function ClientOnlyPreview({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="nx-text-sm nx-text-gray-600 dark:nx-text-gray-400">
+        Loading preview…
+      </div>
+    );
+  }
+
+  return <>{children}</>;
+}
+
 const INSTALL_PILL = [
   'pnpm add @my-ui-lib/core @my-ui-lib/tokens',
   '',
@@ -109,7 +126,9 @@ function MarqueeTriple() {
     <Tabs items={['Preview', 'Code', 'Install']}>
       <Tab>
         <div>
-          <MarqueeButtonDocPreview />
+          <ClientOnlyPreview>
+            <MarqueeButtonDocPreview />
+          </ClientOnlyPreview>
           <div className="nx-mt-4 nx-text-sm nx-text-gray-600 dark:nx-text-gray-400">
             Infinite horizontal text with <code>useFrameCallback</code> on native; docs use a
             Reanimated mock on web.
@@ -128,16 +147,19 @@ function MarqueeTriple() {
 
 export function ButtonDocsTabsSection() {
   return (
-    <Tabs items={['PillButtonV1 (`Button`)', 'ButtonIconOnly', 'MarqueeButton']}>
-      <Tab>
+    <div className="nx-space-y-8">
+      <div>
+        <div className="nx-mb-2 nx-text-sm nx-font-semibold">PillButtonV1 (`Button`)</div>
         <PillTriple />
-      </Tab>
-      <Tab>
+      </div>
+      <div>
+        <div className="nx-mb-2 nx-text-sm nx-font-semibold">ButtonIconOnly</div>
         <IconTriple />
-      </Tab>
-      <Tab>
+      </div>
+      <div>
+        <div className="nx-mb-2 nx-text-sm nx-font-semibold">MarqueeButton</div>
         <MarqueeTriple />
-      </Tab>
-    </Tabs>
+      </div>
+    </div>
   );
 }
