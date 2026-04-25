@@ -3,6 +3,7 @@ import type {DrawerContentComponentProps} from '@react-navigation/drawer';
 import {
   Animated,
   Dimensions,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -223,23 +224,6 @@ function HomeScreen({
           padding: theme.spacing[4],
         },
         block: {marginBottom: theme.spacing[4]},
-        linkCard: {
-          borderWidth: StyleSheet.hairlineWidth,
-          borderColor: theme.colors.border,
-          backgroundColor: theme.colors.surface,
-          borderRadius: theme.radii.lg,
-          padding: theme.spacing[4],
-        },
-        linkTitle: {
-          fontSize: theme.fontSizes.lg,
-          fontWeight: theme.fontWeights.semibold as '600',
-          color: theme.colors.textPrimary,
-        },
-        linkSubtitle: {
-          marginTop: 2,
-          fontSize: theme.fontSizes.sm,
-          color: theme.colors.textSecondary,
-        },
       }),
     [theme],
   );
@@ -247,29 +231,121 @@ function HomeScreen({
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <VStack gap={theme.spacing[3]}>
-        <Text variant="heading">Planck UI example</Text>
-        <ThemeSwitcher active={themeName} onSelect={onTheme} />
+        <Text variant="heading">Planck UI</Text>
         <Text variant="caption" color={theme.colors.textSecondary}>
-          Only the components you kept are showcased here.
+          Theme: {themeName}. Use the palette icon in the header to switch.
         </Text>
-
-        {HOME_LINKS.map((l) => (
-          <Pressable
-            key={l.key}
-            accessibilityRole="button"
-            accessibilityLabel={`Open ${l.title}`}
-            onPress={() => navigation.navigate(l.key)}
-            style={({ pressed }) => [
-              styles.linkCard,
-              pressed && { opacity: 0.75, transform: [{ scale: 0.99 }] },
-            ]}
-          >
-            <Text style={styles.linkTitle}>{l.title}</Text>
-            <Text style={styles.linkSubtitle}>{l.subtitle}</Text>
-          </Pressable>
-        ))}
       </VStack>
     </ScrollView>
+  );
+}
+
+function ThemePickerDropdown({
+  visible,
+  active,
+  onClose,
+  onSelect,
+}: {
+  visible: boolean;
+  active: ThemeName;
+  onClose: () => void;
+  onSelect: (t: ThemeName) => void;
+}) {
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
+
+  const styles = useMemo(
+    () =>
+      StyleSheet.create({
+        overlay: {
+          flex: 1,
+          backgroundColor: 'rgba(2,6,23,0.22)',
+        },
+        card: {
+          position: 'absolute',
+          top: insets.top + 54,
+          right: 12,
+          width: 220,
+          borderRadius: 16,
+          backgroundColor: '#FFFFFF',
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: 'rgba(15,23,42,0.10)',
+          overflow: 'hidden',
+          ...Platform.select({
+            ios: {
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 10 },
+              shadowOpacity: 0.12,
+              shadowRadius: 24,
+            },
+            default: { elevation: 6 },
+          }),
+        },
+        head: {
+          paddingHorizontal: 12,
+          paddingVertical: 12,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+          borderBottomColor: 'rgba(15,23,42,0.08)',
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        headText: {
+          marginLeft: 8,
+          fontSize: 12,
+          fontWeight: '800',
+          letterSpacing: 1.1,
+          color: 'rgba(17,24,39,0.65)',
+          textTransform: 'uppercase',
+        },
+        row: {
+          paddingHorizontal: 12,
+          paddingVertical: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        },
+        rowPressed: { backgroundColor: 'rgba(37,99,235,0.07)' },
+        label: {
+          fontSize: 14,
+          fontWeight: '700',
+          color: '#0F172A',
+        },
+      }),
+    [insets.top],
+  );
+
+  const keys = Object.keys(themeMap) as ThemeName[];
+
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <Pressable style={styles.overlay} onPress={onClose}>
+        <View style={styles.card}>
+          <View style={styles.head}>
+            <MaterialCommunityIcons name="palette-outline" size={16} color="#0F172A" />
+            <Text style={styles.headText}>Theme</Text>
+          </View>
+          {keys.map((k) => (
+            <Pressable
+              key={k}
+              accessibilityRole="button"
+              accessibilityLabel={`Select theme ${k}`}
+              onPress={() => {
+                onSelect(k);
+                onClose();
+              }}
+              style={({ pressed }) => [styles.row, pressed && styles.rowPressed]}
+            >
+              <Text style={styles.label}>{k}</Text>
+              {active === k ? (
+                <MaterialCommunityIcons name="check" size={18} color={theme.colors.success} />
+              ) : (
+                <View style={{ width: 18, height: 18 }} />
+              )}
+            </Pressable>
+          ))}
+        </View>
+      </Pressable>
+    </Modal>
   );
 }
 
@@ -668,12 +744,19 @@ function RootStack({
   onTheme: (n: ThemeName) => void;
 }) {
   const theme = useTheme();
+  const [themePickerOpen, setThemePickerOpen] = useState(false);
   const statusBarStyle =
     themeName === 'midnight' ? 'light-content' : 'dark-content';
 
   return (
     <>
       <StatusBar barStyle={statusBarStyle} />
+      <ThemePickerDropdown
+        visible={themePickerOpen}
+        active={themeName}
+        onClose={() => setThemePickerOpen(false)}
+        onSelect={onTheme}
+      />
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -682,6 +765,21 @@ function RootStack({
           headerTintColor: theme.colors.textPrimary,
           contentStyle: { backgroundColor: theme.colors.background },
           headerShadowVisible: false,
+          headerRight: () => (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Change theme"
+              onPress={() => setThemePickerOpen(true)}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
+            >
+              <MaterialCommunityIcons
+                name="palette-outline"
+                size={22}
+                color={theme.colors.textPrimary}
+              />
+            </Pressable>
+          ),
         }}
       >
         <Stack.Screen
