@@ -48,13 +48,10 @@ const nextConfig = {
   ],
   async redirects() {
     return [
-      // Components → long-term folders
-      { source: '/components/button', destination: '/components/surfaces/button', permanent: true },
-      { source: '/components/cards', destination: '/components/surfaces/cards', permanent: true },
-      { source: '/components/text', destination: '/components/primitives/text', permanent: true },
-      { source: '/components/stack', destination: '/components/primitives/stack', permanent: true },
-      { source: '/components/pressable', destination: '/components/primitives/pressable', permanent: true },
-      { source: '/components/input', destination: '/components/forms/input', permanent: true },
+      // Legacy folder routes → current top-level component pages
+      { source: '/components/surfaces/button', destination: '/components/button', permanent: true },
+      { source: '/components/surfaces/cards', destination: '/components/cards', permanent: true },
+      { source: '/components/forms/input', destination: '/components/input', permanent: true },
     ];
   },
   webpack(config) {

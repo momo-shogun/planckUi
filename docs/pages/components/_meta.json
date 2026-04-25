@@ -1,8 +1,8 @@
 {
   "index": "Overview",
-  "primitives": "Primitives",
-  "forms": "Forms",
-  "surfaces": "Surfaces",
+  "button": "Button",
+  "cards": "Cards (MPCard)",
+  "input": "Input",
   "bottom-tabs-navigator": "Bottom Tabs Navigator",
   "tabs": "Tabs",
   "navigation": "Navigation"

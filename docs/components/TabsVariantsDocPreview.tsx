@@ -49,7 +49,7 @@ function VariantChips({
         <Button
           key={id}
           size="sm"
-          variant={active === id ? 'primary' : 'outline'}
+          variant={active === id ? 'default' : 'outline'}
           onPress={() => onSelect(id)}>
           {label}
         </Button>
