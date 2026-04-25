@@ -49,6 +49,10 @@ const nextConfig = {
   ],
   async redirects() {
     return [
+      // If the docs app is deployed standalone (its own Vercel URL),
+      // redirect "/" → "/docs" because this app uses basePath.
+      { source: '/', destination: '/docs', basePath: false, permanent: false },
+
       // Legacy folder routes → current top-level component pages
       { source: '/components/surfaces/button', destination: '/components/button', permanent: true },
       { source: '/components/surfaces/cards', destination: '/components/cards', permanent: true },
