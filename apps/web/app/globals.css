@@ -80,3 +80,18 @@ body {
     sans-serif;
 }
 
+.font-geist-mono {
+  font-family:
+    "Geist Mono",
+    GeistMono,
+    ui-monospace,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace;
+}
+
