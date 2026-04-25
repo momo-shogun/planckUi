@@ -35,6 +35,7 @@ const reactNativeSvgDocsMock = path.join(__dirname, 'mocks/react-native-svg.js')
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  basePath: '/docs',
   // Bundle node_modules into Pages Router server chunks so `react-native-svg` is not
   // `require`d at runtime (which bypasses webpack aliases and breaks SSR).
   experimental: {
