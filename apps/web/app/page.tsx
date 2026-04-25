@@ -1,6 +1,6 @@
 import { Navbar } from '../components/shared/Navbar';
-import { Footer } from '../components/shared/Footer';
 import { GlowyWavesHero } from '../components/ui/glowy-waves-hero-shadcnui';
+import { CinematicFooter } from '../components/ui/motion-footer';
 import { Hero } from '../components/landing/Hero';
 import { Showcase } from '../components/landing/Showcase';
 import { HowItWorks } from '../components/landing/HowItWorks';
@@ -17,7 +17,7 @@ export default function HomePage(): JSX.Element {
         <Showcase />
         <HowItWorks />
         <Pricing />
-        <Footer />
+        <CinematicFooter />
       </div>
     </main>
   );

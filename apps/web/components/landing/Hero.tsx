@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { Section } from '../shared/Section';
 
 export function Hero(): JSX.Element {
