@@ -1,5 +1,16 @@
-import React, {useMemo, useState} from 'react';
-import {Pressable, ScrollView, StatusBar, StyleSheet, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import type {DrawerContentComponentProps} from '@react-navigation/drawer';
+import {
+  Animated,
+  Dimensions,
+  Platform,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  View,
+} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
   SafeAreaProvider,
@@ -67,14 +78,76 @@ type RootDrawerParamList = {
 const Drawer = createDrawerNavigator<RootDrawerParamList>();
 
 const HOME_LINKS = [
-  { key: 'ButtonLab', title: 'Button', subtitle: 'Variants, icon button, marquee' },
-  { key: 'CardsLab', title: 'Cards (MPCard)', subtitle: 'Profile/match card' },
-  { key: 'InputLab', title: 'Input', subtitle: 'Input + ComposerInput' },
-  { key: 'HeaderLab', title: 'Header', subtitle: 'PlanckH1V1 + ZeptoHeaderV1' },
-  { key: 'HomeScreenLab', title: 'Home screens', subtitle: 'ZeptoHS presets' },
-  { key: 'TabsLab', title: 'Tabs', subtitle: 'Tabs + TabBar' },
-  { key: 'BottomTabsLab', title: 'Bottom tabs lab', subtitle: 'PlankBar V1/V2 presets' },
+  {
+    key: 'ButtonLab',
+    title: 'Button',
+    drawerTitle: 'Button',
+    subtitle: 'Variants, icon button, marquee',
+    icon: 'gesture-tap-button',
+  },
+  {
+    key: 'CardsLab',
+    title: 'Cards (MPCard)',
+    drawerTitle: 'Cards',
+    subtitle: 'Profile/match card',
+    icon: 'card-text-outline',
+  },
+  {
+    key: 'InputLab',
+    title: 'Input',
+    drawerTitle: 'Input',
+    subtitle: 'Input + ComposerInput',
+    icon: 'form-textbox',
+  },
+  {
+    key: 'HeaderLab',
+    title: 'Header',
+    drawerTitle: 'Header',
+    subtitle: 'PlanckH1V1 + ZeptoHeaderV1',
+    icon: 'page-layout-header',
+  },
+  {
+    key: 'HomeScreenLab',
+    title: 'Home screens',
+    drawerTitle: 'Home',
+    subtitle: 'ZeptoHS presets',
+    icon: 'storefront-outline',
+  },
+  {
+    key: 'TabsLab',
+    title: 'Tabs',
+    drawerTitle: 'Tabs',
+    subtitle: 'Tabs + TabBar',
+    icon: 'tab',
+  },
+  {
+    key: 'BottomTabsLab',
+    title: 'Bottom tabs lab',
+    drawerTitle: 'Dock',
+    subtitle: 'PlankBar V1/V2 presets',
+    icon: 'dock-bottom',
+  },
 ] as const;
+
+const HOME_DRAWER_ITEM = {
+  key: 'Home' as const,
+  title: 'Home',
+  drawerTitle: 'Home',
+  subtitle: 'Overview & theme switcher',
+  icon: 'home-variant-outline',
+};
+
+type HomeLinkKey = (typeof HOME_LINKS)[number]['key'];
+type DrawerNavKey = HomeLinkKey | typeof HOME_DRAWER_ITEM.key;
+
+const DRAWER_SECTIONS: Array<{
+  title: string;
+  items: readonly DrawerNavKey[];
+}> = [
+  { title: 'Explore', items: ['Home'] as const },
+  { title: 'Components', items: ['ButtonLab', 'InputLab', 'CardsLab', 'HeaderLab'] as const },
+  { title: 'Labs', items: ['HomeScreenLab', 'TabsLab', 'BottomTabsLab'] as const },
+];
 
 function ThemeSwitcher({
   active,
@@ -200,65 +273,376 @@ function HomeScreen({
   );
 }
 
-function AppDrawerContent({ navigation }: { navigation: any }) {
+const DRAWER_WIDTH = Math.min(
+  Math.round(Dimensions.get('window').width * 0.82),
+  304,
+);
+
+const PREMIUM_DRAWER = {
+  /** Soft neutral canvas behind everything */
+  canvas: '#F0F2F5',
+  /** Card surface */
+  surface: '#FFFFFF',
+  /** Dark premium header */
+  header: '#0B0B0B',
+  headerText: '#FFFFFF',
+  /** Controlled accent */
+  accent: '#22C55E',
+  /** Typography */
+  title: '#111827',
+  subtitle: 'rgba(17, 24, 39, 0.55)',
+  /** Strokes */
+  stroke: 'rgba(15, 23, 42, 0.08)',
+  edge: 'rgba(0, 0, 0, 0.06)',
+  /** States */
+  activeTint: 'rgba(34, 197, 94, 0.12)',
+  pressTint: 'rgba(37, 99, 235, 0.09)',
+  /** Misc */
+  chevron: 'rgba(0, 0, 0, 0.22)',
+  scrim: 'rgba(8, 10, 16, 0.45)',
+} as const;
+
+/** Category-style icon tiles (minutes / aisle cues). */
+const ECOMM_ROW_ICON_TINT: {bg: string; fg: string}[] = [
+  {bg: '#E3F2FD', fg: '#1565C0'},
+  {bg: '#E8F5E9', fg: '#2E7D32'},
+  {bg: '#F3E5F5', fg: '#6A1B9A'},
+  {bg: '#FFF3E0', fg: '#E65100'},
+  {bg: '#E0F7FA', fg: '#00838F'},
+  {bg: '#FFF8E1', fg: '#F57F17'},
+  {bg: '#ECEFF1', fg: '#37474F'},
+];
+
+function getFocusedStackRouteName(props: DrawerContentComponentProps): string {
+  const main = props.state.routes.find(r => r.name === 'Main') as any;
+  const nested = main?.state;
+  if (nested?.routes?.length && typeof nested.index === 'number') {
+    return nested.routes[nested.index]?.name ?? 'Home';
+  }
+  return 'Home';
+}
+
+function resolveLinkByKey(key: DrawerNavKey) {
+  if (key === 'Home') return HOME_DRAWER_ITEM;
+  return HOME_LINKS.find(l => l.key === key)!;
+}
+
+function AppDrawerContent(props: DrawerContentComponentProps) {
+  const { navigation } = props;
   const theme = useTheme();
+  const insets = useSafeAreaInsets();
+  const focusedRouteName = getFocusedStackRouteName(props);
+
+  const itemsFlat = useMemo(() => {
+    const out: Array<
+      | { kind: 'section'; id: string; title: string }
+      | { kind: 'item'; id: string; routeKey: DrawerNavKey }
+    > = [];
+    for (const section of DRAWER_SECTIONS) {
+      out.push({ kind: 'section', id: `section-${section.title}`, title: section.title });
+      for (const k of section.items) {
+        out.push({ kind: 'item', id: `item-${k}`, routeKey: k as DrawerNavKey });
+      }
+    }
+    return out;
+  }, []);
+
+  const entryAnims = useRef(itemsFlat.map(() => new Animated.Value(0))).current;
+
+  useEffect(() => {
+    const anims = entryAnims.map((v, i) =>
+      Animated.timing(v, {
+        toValue: 1,
+        duration: 260,
+        delay: 40 + i * 18,
+        useNativeDriver: true,
+      })
+    );
+    Animated.stagger(16, anims).start();
+  }, [entryAnims]);
+
   const styles = useMemo(
     () =>
       StyleSheet.create({
-        scroll: {
+        scrollContent: {
           flexGrow: 1,
-          backgroundColor: theme.colors.background,
-          padding: theme.spacing[4],
+          paddingBottom: insets.bottom + theme.spacing[3],
         },
-        linkCard: {
+        shell: {
+          flex: 1,
+          backgroundColor: PREMIUM_DRAWER.canvas,
+          borderTopRightRadius: 24,
+          borderBottomRightRadius: 24,
+          overflow: 'hidden',
+          borderRightWidth: StyleSheet.hairlineWidth,
+          borderColor: PREMIUM_DRAWER.edge,
+          ...Platform.select({
+            ios: {
+              shadowColor: '#0f172a',
+              shadowOffset: {width: 6, height: 0},
+              shadowOpacity: 0.07,
+              shadowRadius: 18,
+            },
+            default: {elevation: 4},
+          }),
+        },
+        header: {
+          backgroundColor: PREMIUM_DRAWER.header,
+          paddingTop: insets.top + theme.spacing[2],
+          paddingBottom: theme.spacing[3],
+          paddingHorizontal: theme.spacing[4],
+          borderTopRightRadius: 24,
+        },
+        headerRow: {
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        avatar: {
+          width: 44,
+          height: 44,
+          borderRadius: 16,
+          backgroundColor: 'rgba(255,255,255,0.12)',
           borderWidth: StyleSheet.hairlineWidth,
-          borderColor: theme.colors.border,
-          backgroundColor: theme.colors.surface,
-          borderRadius: theme.radii.lg,
-          padding: theme.spacing[4],
-          marginBottom: theme.spacing[3],
+          borderColor: 'rgba(255,255,255,0.18)',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: theme.spacing[3],
         },
-        linkTitle: {
-          fontSize: theme.fontSizes.lg,
-          fontWeight: theme.fontWeights.semibold as '600',
-          color: theme.colors.textPrimary,
+        headerTextCol: { flex: 1, minWidth: 0 },
+        greeting: {
+          fontSize: 13,
+          fontWeight: '700',
+          color: 'rgba(255,255,255,0.75)',
+          marginBottom: 2,
+          letterSpacing: 0.2,
         },
-        linkSubtitle: {
+        brand: {
+          fontSize: 20,
+          fontWeight: '900',
+          letterSpacing: -0.4,
+          color: PREMIUM_DRAWER.headerText,
+        },
+        headerSub: {
+          marginTop: theme.spacing[2],
+          flexDirection: 'row',
+          alignItems: 'center',
+        },
+        pill: {
+          height: 28,
+          paddingHorizontal: 10,
+          borderRadius: 14,
+          backgroundColor: 'rgba(34, 197, 94, 0.16)',
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: 'rgba(34, 197, 94, 0.25)',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 8,
+        },
+        pillText: {
+          fontSize: 12,
+          fontWeight: '700',
+          color: '#D1FAE5',
+          letterSpacing: 0.1,
+        },
+        fade: {
+          height: 14,
+          backgroundColor: PREMIUM_DRAWER.canvas,
+        },
+        list: {
+          paddingHorizontal: theme.spacing[3],
+          paddingTop: theme.spacing[3],
+          paddingBottom: theme.spacing[4],
+          gap: theme.spacing[2],
+        },
+        sectionLabel: {
+          marginTop: theme.spacing[1],
+          marginBottom: theme.spacing[1],
+          paddingHorizontal: theme.spacing[1],
+          fontSize: 11,
+          fontWeight: '800',
+          letterSpacing: 1.1,
+          color: 'rgba(17, 24, 39, 0.55)',
+          textTransform: 'uppercase',
+        },
+        tile: {
+          borderRadius: 18,
+          backgroundColor: PREMIUM_DRAWER.surface,
+          borderWidth: StyleSheet.hairlineWidth,
+          borderColor: PREMIUM_DRAWER.stroke,
+          overflow: 'hidden',
+          ...Platform.select({
+            ios: {
+              shadowColor: '#000',
+              shadowOffset: {width: 0, height: 3},
+              shadowOpacity: 0.06,
+              shadowRadius: 14,
+            },
+            default: {elevation: 1},
+          }),
+        },
+        tileActive: {
+          borderColor: 'rgba(34, 197, 94, 0.22)',
+        },
+        tileInner: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          minHeight: 60,
+          paddingHorizontal: theme.spacing[3],
+          paddingVertical: theme.spacing[2],
+        },
+        activeBar: {
+          position: 'absolute',
+          left: 0,
+          top: 10,
+          bottom: 10,
+          width: 4,
+          borderRadius: 4,
+          backgroundColor: PREMIUM_DRAWER.accent,
+        },
+        iconWrap: {
+          width: 42,
+          height: 42,
+          borderRadius: 16,
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginRight: theme.spacing[3],
+        },
+        textCol: { flex: 1, minWidth: 0 },
+        title: {
+          fontSize: 15,
+          fontWeight: '800',
+          letterSpacing: -0.2,
+          color: PREMIUM_DRAWER.title,
+        },
+        subtitle: {
           marginTop: 2,
-          fontSize: theme.fontSizes.sm,
-          color: theme.colors.textSecondary,
+          fontSize: 12,
+          fontWeight: '600',
+          color: PREMIUM_DRAWER.subtitle,
+        },
+        chevron: {
+          marginLeft: theme.spacing[2],
+        },
+        pressed: {
+          opacity: 0.96,
         },
       }),
-    [theme]
+    [insets.bottom, insets.top, theme],
   );
 
   return (
-    <DrawerContentScrollView
-      contentContainerStyle={styles.scroll}
-      alwaysBounceVertical={false}
-    >
-      <Text variant="heading" style={{ marginBottom: theme.spacing[3] }}>
-        Components
-      </Text>
-      {HOME_LINKS.map((l) => (
-        <Pressable
-          key={l.key}
-          accessibilityRole="button"
-          accessibilityLabel={`Open ${l.title}`}
-          onPress={() => {
-            navigation.closeDrawer();
-            navigation.navigate('Main', { screen: l.key });
-          }}
-          style={({ pressed }) => [
-            styles.linkCard,
-            pressed && { opacity: 0.75, transform: [{ scale: 0.99 }] },
-          ]}
-        >
-          <Text style={styles.linkTitle}>{l.title}</Text>
-          <Text style={styles.linkSubtitle}>{l.subtitle}</Text>
-        </Pressable>
-      ))}
-    </DrawerContentScrollView>
+    <View style={[styles.shell, {width: DRAWER_WIDTH}]}>
+      <DrawerContentScrollView
+        contentContainerStyle={styles.scrollContent}
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <View style={styles.headerRow}>
+            <View style={styles.avatar}>
+              <MaterialCommunityIcons name="account" size={22} color="rgba(255,255,255,0.9)" />
+            </View>
+            <View style={styles.headerTextCol}>
+              <Text style={styles.greeting}>Hey</Text>
+              <Text style={styles.brand}>Planck UI</Text>
+            </View>
+            <MaterialCommunityIcons name="cog-outline" size={20} color="rgba(255,255,255,0.75)" />
+          </View>
+          <View style={styles.headerSub}>
+            <View style={styles.pill}>
+              <MaterialCommunityIcons name="lightning-bolt" size={14} color="#86EFAC" />
+              <Text style={styles.pillText}>Fast demos</Text>
+            </View>
+          </View>
+        </View>
+        <View style={styles.fade} />
+
+        <View style={styles.list}>
+          {itemsFlat.map((row, idx) => {
+            const a = entryAnims[idx]!;
+            if (row.kind === 'section') {
+              return (
+                <Animated.View
+                  key={row.id}
+                  style={{
+                    opacity: a,
+                    transform: [
+                      {
+                        translateY: a.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [6, 0],
+                        }),
+                      },
+                    ],
+                  }}
+                >
+                  <Text style={styles.sectionLabel}>{row.title}</Text>
+                </Animated.View>
+              );
+            }
+
+            const link = resolveLinkByKey(row.routeKey as DrawerNavKey);
+            const isActive = focusedRouteName === row.routeKey;
+            const tint = ECOMM_ROW_ICON_TINT[idx % ECOMM_ROW_ICON_TINT.length]!;
+
+            return (
+              <Animated.View
+                key={row.id}
+                style={{
+                  opacity: a,
+                  transform: [
+                    {
+                      translateY: a.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [10, 0],
+                      }),
+                    },
+                  ],
+                }}
+              >
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`Open ${link.title}`}
+                  android_ripple={{ color: PREMIUM_DRAWER.pressTint }}
+                  onPress={() => {
+                    navigation.closeDrawer();
+                    navigation.navigate('Main', { screen: row.routeKey });
+                  }}
+                  style={({ pressed }) => [
+                    styles.tile,
+                    isActive && styles.tileActive,
+                    pressed && styles.pressed,
+                    pressed && { transform: [{ scale: 0.985 }] },
+                  ]}
+                >
+                  {isActive ? <View style={styles.activeBar} /> : null}
+                  <View
+                    style={[
+                      styles.tileInner,
+                      isActive && { backgroundColor: PREMIUM_DRAWER.activeTint },
+                    ]}
+                  >
+                    <View style={[styles.iconWrap, { backgroundColor: tint.bg }]}>
+                      <MaterialCommunityIcons name={link.icon} size={22} color={tint.fg} />
+                    </View>
+                    <View style={styles.textCol}>
+                      <Text style={styles.title}>{link.drawerTitle}</Text>
+                      <Text style={styles.subtitle}>{link.subtitle}</Text>
+                    </View>
+                    <MaterialCommunityIcons
+                      name="chevron-right"
+                      size={22}
+                      color={PREMIUM_DRAWER.chevron}
+                      style={styles.chevron}
+                    />
+                  </View>
+                </Pressable>
+              </Animated.View>
+            );
+          })}
+        </View>
+      </DrawerContentScrollView>
+    </View>
   );
 }
 
@@ -271,21 +655,7 @@ function HeaderHamburger({ onPress, color }: { onPress: () => void; color: strin
       hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
       style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
     >
-      <Text style={{ color, fontSize: 22, fontWeight: '800' }}>≡</Text>
-    </Pressable>
-  );
-}
-
-function HeaderClose({ onPress, color }: { onPress: () => void; color: string }) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel="Close menu"
-      onPress={onPress}
-      hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-      style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}
-    >
-      <Text style={{ color, fontSize: 22, fontWeight: '800' }}>×</Text>
+      <MaterialCommunityIcons name="menu" size={24} color={color} />
     </Pressable>
   );
 }
@@ -298,7 +668,6 @@ function RootStack({
   onTheme: (n: ThemeName) => void;
 }) {
   const theme = useTheme();
-  const insets = useSafeAreaInsets();
   const statusBarStyle =
     themeName === 'midnight' ? 'light-content' : 'dark-content';
 
@@ -371,7 +740,12 @@ function ThemedAppTree() {
           screenOptions={{
             headerShown: false,
             drawerType: 'front',
-            drawerStyle: { backgroundColor: 'transparent' },
+            drawerStyle: {
+              width: DRAWER_WIDTH,
+              backgroundColor: 'transparent',
+            },
+            overlayColor: PREMIUM_DRAWER.scrim,
+            sceneContainerStyle: {backgroundColor: 'transparent'},
           }}
           drawerContent={(props) => <AppDrawerContent {...props} />}
         >
