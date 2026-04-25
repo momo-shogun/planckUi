@@ -9,6 +9,9 @@ src/generated/
 # Next.js
 docs/.next/
 docs/out/
+apps/web/.next/
+apps/web/node_modules/
+
 
 # Local Cursor skill (do not push)
 .cursor/skills/build-component.md
