@@ -21,6 +21,7 @@ export function ZeptoHeaderV1Screen({ navigation }: Props) {
           etaLabel="6 minutes"
           addressLabel="Home - 1/36, 1/32, Krishna Vihar Colon..."
           walletLabel="₹0"
+          onMenuPress={() => navigation.goBack()}
           onAddressPress={() => navigation.goBack()}
           onWalletPress={() => navigation.goBack()}
           onProfilePress={() => navigation.goBack()}

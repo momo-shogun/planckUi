@@ -28,6 +28,17 @@ export function ZeptoChevronDownIcon({ color, size = 14 }: IconProps) {
   );
 }
 
+export function ZeptoMenuIcon({ color, size = 22 }: IconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" accessibilityElementsHidden>
+      <Path
+        d="M4 7.25c0-.69.56-1.25 1.25-1.25h13.5a1.25 1.25 0 010 2.5H5.25C4.56 8.5 4 7.94 4 7.25zm0 4.75c0-.69.56-1.25 1.25-1.25h13.5a1.25 1.25 0 010 2.5H5.25C4.56 13.25 4 12.69 4 12zm0 4.75c0-.69.56-1.25 1.25-1.25h13.5a1.25 1.25 0 010 2.5H5.25C4.56 18.75 4 18.19 4 17.5z"
+        fill={color}
+      />
+    </Svg>
+  );
+}
+
 export function ZeptoWalletIcon({ color, size = 18 }: IconProps) {
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24" accessibilityElementsHidden>

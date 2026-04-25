@@ -5,6 +5,8 @@ export interface ZeptoHeaderV1Slots {
   root?: ViewStyle;
   left?: ViewStyle;
   right?: ViewStyle;
+  /** Replaces the default hamburger/menu glyph (shown only when `onMenuPress` is provided). */
+  menuIcon?: ReactNode;
   /** Replaces the default lightning icon in the ETA row. */
   etaIcon?: ReactNode;
   /** Replaces the default chevron on the address row. */
@@ -27,6 +29,8 @@ export interface ZeptoHeaderV1Props {
   addressLabel: string;
   /** Wallet amount label, e.g. "₹0". */
   walletLabel: string;
+  /** Optional left-most hamburger/menu action (only renders when provided). */
+  onMenuPress?: () => void;
   onAddressPress?: () => void;
   onWalletPress?: () => void;
   onProfilePress?: () => void;

@@ -6,6 +6,7 @@ import { useTheme } from '../../../../system/ThemeContext';
 import {
   ZeptoChevronDownIcon,
   ZeptoLightningIcon,
+  ZeptoMenuIcon,
   ZeptoProfileIcon,
   ZeptoWalletIcon,
 } from './ZeptoHeaderV1.icons';
@@ -22,6 +23,7 @@ export function ZeptoHeaderV1(props: ZeptoHeaderV1Props) {
     etaLabel,
     addressLabel,
     walletLabel,
+    onMenuPress,
     onAddressPress,
     onWalletPress,
     onProfilePress,
@@ -36,6 +38,11 @@ export function ZeptoHeaderV1(props: ZeptoHeaderV1Props) {
   if (unstyled) {
     return (
       <View testID={testID} accessibilityLabel="Zepto style header">
+        {onMenuPress ? (
+          <Pressable accessibilityRole="button" accessibilityLabel="Menu" onPress={onMenuPress}>
+            <Text>Menu</Text>
+          </Pressable>
+        ) : null}
         <Text>{etaLabel}</Text>
         <Text>{addressLabel}</Text>
         <Pressable accessibilityRole="button" onPress={onWalletPress}>
@@ -51,6 +58,7 @@ export function ZeptoHeaderV1(props: ZeptoHeaderV1Props) {
   const theme = useTheme();
   const styles = createZeptoHeaderV1Styles(theme);
 
+  const menuGlyph = slots.menuIcon ?? <ZeptoMenuIcon color={foregroundColor} size={22} />;
   const etaIcon = slots.etaIcon ?? <ZeptoLightningIcon color={foregroundColor} size={18} />;
   const addressTrail =
     slots.addressTrailingIcon ?? <ZeptoChevronDownIcon color={foregroundColor} size={14} />;
@@ -60,6 +68,21 @@ export function ZeptoHeaderV1(props: ZeptoHeaderV1Props) {
   return (
     <View style={[styles.root, { backgroundColor }, slots.root]} testID={testID}>
       <View style={[styles.row]}>
+        {onMenuPress ? (
+          <ButtonIconOnly
+            variant="ghost"
+            size="sm"
+            onPress={onMenuPress}
+            accessibilityLabel="Menu"
+            icon={menuGlyph}
+            slots={{
+              root: {
+                width: 36,
+                height: 36,
+              },
+            }}
+          />
+        ) : null}
         <VStack style={[styles.left, slots.left]}>
           <HStack style={styles.etaRow} align="center">
             {etaIcon}
