@@ -1,7 +1,6 @@
 {
-  "buildCommand": "cd ../.. && pnpm turbo run build --filter=@planckui/docs...",
+  "buildCommand": "pnpm turbo run build --filter=@planckui/docs...",
   "outputDirectory": "docs/.next",
   "installCommand": "pnpm install",
-  "framework": "nextjs",
-  "rootDirectory": "docs"
+  "framework": "nextjs"
 }
